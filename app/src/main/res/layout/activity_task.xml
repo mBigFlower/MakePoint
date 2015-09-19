@@ -1,12 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.flowerfat.makepoint.activity.TaskActivity">
 
     <com.flowerfat.makepoint.view.RevealBackgroundView
         android:id="@+id/animBack"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/task_toolbar"
@@ -15,12 +18,41 @@
         android:background="#0000"
         android:theme="@style/ThemeToolbar" />
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world"
-        android:textColor="#fff"
-        android:layout_centerInParent="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/task_toolbar"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="编辑文字"
+            android:background="#1444"
+            android:layout_margin="12dp"
+            android:padding="12dp"
+            android:textColor="#fff" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="#fff" />
+
+        <com.flowerfat.makepoint.view.DrawBoard2
+            android:id="@+id/task_board"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:gravity="center"
+            android:layout_margin="12dp"
+            android:padding="12dp" />
+
+    </LinearLayout>
+
 
 </RelativeLayout>

@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="#000"
+        android:background="?attr/colorPrimary"
         android:theme="@style/ThemeToolbar" />
 
     <android.support.percent.PercentRelativeLayout
@@ -78,6 +78,7 @@
             app:layout_widthPercent="50%" />
 
         <View
+            android:id="@+id/view_hline"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="#fff"
@@ -85,6 +86,7 @@
             app:layout_marginRightPercent="27%"
             android:layout_centerVertical="true"/>
         <View
+            android:id="@+id/view_vline"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:background="#fff"

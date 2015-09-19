@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.flowerfat.makepoint.activity.PhotoTakeActivity">
+
+    <ImageView
+        android:id="@+id/photoImg"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"/>
+
+    <Button
+        android:id="@+id/photoTake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="take photo"
+        android:layout_below="@+id/photoImg"/>
+
+    <Button
+        android:id="@+id/photoFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="find photo"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/photoTake"/>
+
+</RelativeLayout>

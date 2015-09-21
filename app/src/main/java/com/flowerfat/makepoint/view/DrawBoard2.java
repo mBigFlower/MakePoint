@@ -24,7 +24,7 @@ public class DrawBoard2 extends SurfaceView implements SurfaceHolder.Callback, V
 
     private Paint mPaint = new Paint();
     private Path mPath = new Path();
-    private List<Path> pathList = new ArrayList<Path>() ;
+    private List<Path> pathList = new ArrayList<Path>();
 
     public DrawBoard2(Context context) {
         super(context);
@@ -35,6 +35,7 @@ public class DrawBoard2 extends SurfaceView implements SurfaceHolder.Callback, V
 
         mPaint.setColor(Color.WHITE);
         mPaint.setStrokeWidth(10);
+        mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.STROKE);
 
         setZOrderOnTop(true);//设置画布  背景透明
@@ -75,14 +76,23 @@ public class DrawBoard2 extends SurfaceView implements SurfaceHolder.Callback, V
     /**
      * 撤销功能
      */
-    public void toLastPath(){
-        int length = pathList.size() - 1 ;
-        Log.i("xixixi", length +"  ");
-        if(length >= 0){
-            pathList.remove(length--);
-            mPath = pathList.get(length);
-            draw();
-        }
+    public void toLastPath() {
+//        int lastIndex = pathList.size() - 1;
+//        if (lastIndex >=  0) {
+//            clear();
+//            pathList.remove(lastIndex);
+//            lastIndex = lastIndex - 1 ;
+//            mPath = pathList.get(lastIndex);
+//            draw();
+//        }
+    }
+
+    /**
+     * 清屏
+     */
+    public void clear() {
+        mPath.reset();
+        draw();
     }
 
     @Override
@@ -100,6 +110,7 @@ public class DrawBoard2 extends SurfaceView implements SurfaceHolder.Callback, V
                 break;
             case MotionEvent.ACTION_UP:
                 pathList.add(mPath);
+                Log.i("xixixi", pathList.size() +"--数组的大小");
                 break;
         }
         return true;

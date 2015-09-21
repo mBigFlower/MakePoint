@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
@@ -22,7 +23,7 @@ import butterknife.OnClick;
 
 public class TaskActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
 
-    public static final int ANIM_DELAY_TOOLBAR = 400 ;
+    public static final int ANIM_DELAY_TOOLBAR = 400;
 
     public static final String ARG_REVEAL_START_LOCATION = "reveal_start_location";
 
@@ -31,11 +32,14 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     @Bind(R.id.animBack)
     RevealBackgroundView vRevealBackground;
 
-    @Bind(R.id.content)
-    TextView tvContent;
+    @Bind(R.id.task_edit)
+    TextView etContent;
 
     @Bind(R.id.task_toolbar)
     Toolbar toolbar;
+
+    @Bind(R.id.task_hline)
+    View viewHline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +72,7 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
 
     /**
      * 变化的圆的动画控制
+     *
      * @param savedInstanceState
      */
     private void setupRevealBackground(Bundle savedInstanceState) {
@@ -93,34 +98,39 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     /**
      * toolbar的入场动画，右侧进入
      */
-    private void animToolbarIn(){
+    private void animToolbarIn() {
         toolbar.setAlpha(0);
         toolbar.setTranslationX(ScreenUtil.getScreenSize(this)[0] / 2);
 
         toolbar.animate().translationX(0).alpha(1).setDuration(ANIM_DELAY_TOOLBAR);
     }
+
     /**
      * toolbar 的退出动画
      */
-    private void animToolbarExit(){
+    private void animToolbarExit() {
         toolbar.animate().translationX(ScreenUtil.getScreenSize(this)[0] / 2).setDuration(ANIM_DELAY_TOOLBAR);
     }
 
     /**
      * 根据动画圆的状态来判断：主页面内容的显示与否
+     *
      * @param state
      */
     @Override
     public void onStateChange(int state) {
         if (RevealBackgroundView.STATE_FINISHED == state) {
-            tvContent.setVisibility(View.VISIBLE);
+            etContent.setVisibility(View.VISIBLE);
+            viewHline.setVisibility(View.VISIBLE);
         } else {
-            tvContent.setVisibility(View.INVISIBLE);
+            etContent.setVisibility(View.INVISIBLE);
+            viewHline.setVisibility(View.INVISIBLE);
         }
     }
 
     /**
      * 其他activity打开这个activity所调用的方法
+     *
      * @param startingLocation
      * @param color
      * @param startingActivity
@@ -134,9 +144,10 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     }
 
     @Bind(R.id.task_board)
-    DrawBoard2 tesxt ;
-    @OnClick(R.id.content)
-    void tesxt(){
+    DrawBoard2 tesxt;
+
+    @OnClick(R.id.task_edit)
+    void tesxt() {
         tesxt.toLastPath();
     }
 }

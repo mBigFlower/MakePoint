@@ -21,22 +21,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/task_toolbar"
+        android:layout_below="@+id/task_toolbar"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/content"
+            android:id="@+id/task_edit"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="3"
+            android:background="#1444"
             android:gravity="center"
             android:text="编辑文字"
-            android:background="#1444"
             android:layout_margin="12dp"
             android:padding="12dp"
             android:textColor="#fff" />
 
         <View
+            android:id="@+id/task_hline"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginLeft="12dp"
@@ -47,9 +48,9 @@
             android:id="@+id/task_board"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="12dp"
             android:layout_weight="7"
             android:gravity="center"
-            android:layout_margin="12dp"
             android:padding="12dp" />
 
     </LinearLayout>

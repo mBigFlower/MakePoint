@@ -6,8 +6,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 明明大美女 on 2015/9/19.
@@ -16,6 +20,7 @@ public class DrawBoard extends View implements View.OnTouchListener{
 
     private Paint mPaint = new Paint();
     private Path mPath = new Path();
+    private List<Path> pathList = new ArrayList<Path>();
 
     public DrawBoard(Context context) {
         super(context);
@@ -60,8 +65,34 @@ public class DrawBoard extends View implements View.OnTouchListener{
                 mPath.lineTo(event.getX(), event.getY());
                 invalidate();
                 break;
+
+            case MotionEvent.ACTION_UP:
+                pathList.add(mPath);
+                break;
         }
 
         return true;
+    }
+
+    /**
+     * 撤销功能
+     */
+    public void toLastPath(){
+        int length = pathList.size() - 1 ;
+        Log.i("xixixi", length + "  ");
+        if(length >= 0){
+            clear();
+            pathList.remove(length--);
+            mPath = pathList.get(length);
+            invalidate();
+        }
+    }
+
+    /**
+     * 清屏
+     */
+    public void clear(){
+        mPath.reset();
+        invalidate();
     }
 }

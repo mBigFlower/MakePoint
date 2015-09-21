@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/BoardView_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_alignParentRight="true"
+        android:src="@mipmap/icon_close" />
+
+    <ImageView
+        android:id="@+id/BoardView_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_toLeftOf="@+id/BoardView_close"
+        android:src="@mipmap/icon_save" />
+
+    <ImageView
+        android:id="@+id/BoardView_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_toLeftOf="@+id/BoardView_save"
+        android:src="@mipmap/icon_setting" />
+
+    <com.flowerfat.makepoint.view.DrawBoard
+        android:id="@+id/BoardView_drawBoard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="12dp"
+        android:layout_below="@id/BoardView_setting"
+        android:padding="12dp" />
+
+</RelativeLayout>

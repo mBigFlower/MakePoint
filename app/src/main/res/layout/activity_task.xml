@@ -44,6 +44,14 @@
             android:layout_marginRight="12dp"
             android:background="#fff" />
 
+        <com.flowerfat.makepoint.view.DrawBoardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="12dp"
+            android:layout_weight="7">
+
+        </com.flowerfat.makepoint.view.DrawBoardView>
+
         <com.flowerfat.makepoint.view.DrawBoard2
             android:id="@+id/task_board"
             android:layout_width="match_parent"
@@ -51,7 +59,8 @@
             android:layout_margin="12dp"
             android:layout_weight="7"
             android:gravity="center"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

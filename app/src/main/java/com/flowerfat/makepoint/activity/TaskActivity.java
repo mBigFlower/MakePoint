@@ -1,25 +1,33 @@
 package com.flowerfat.makepoint.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
+import com.flowerfat.makepoint.Utils.FilePlusUtil;
+import com.flowerfat.makepoint.Utils.FileUtil;
 import com.flowerfat.makepoint.Utils.ScreenUtil;
-import com.flowerfat.makepoint.view.DrawBoard2;
+import com.flowerfat.makepoint.entity.Point;
+import com.flowerfat.makepoint.entity.Points;
+import com.flowerfat.makepoint.view.DrawBoardView;
 import com.flowerfat.makepoint.view.RevealBackgroundView;
+import com.google.gson.Gson;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class TaskActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
 
@@ -33,13 +41,16 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     RevealBackgroundView vRevealBackground;
 
     @Bind(R.id.task_edit)
-    TextView etContent;
+    EditText etContent;
 
     @Bind(R.id.task_toolbar)
     Toolbar toolbar;
 
     @Bind(R.id.task_hline)
     View viewHline;
+
+    @Bind(R.id.task_board)
+    DrawBoardView mBoardView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +62,9 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
 
         initToolBar();
         setupRevealBackground(savedInstanceState);
+
     }
+
 
     /**
      * 天真的以为这个是沉浸式状态栏
@@ -68,7 +81,15 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     private void initToolBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.i("lalala", "onMenuItemClick");
+                return false;
+            }
+        });
     }
+
 
     /**
      * 变化的圆的动画控制
@@ -86,7 +107,7 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
                     vRevealBackground.getViewTreeObserver().removeOnPreDrawListener(this);
                     vRevealBackground.startFromLocation(startingLocation);
                     // toolbar动画
-                    animToolbarIn();
+                    animIn();
                     return true;
                 }
             });
@@ -98,11 +119,13 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     /**
      * toolbar的入场动画，右侧进入
      */
-    private void animToolbarIn() {
+    private void animIn() {
         toolbar.setAlpha(0);
         toolbar.setTranslationX(ScreenUtil.getScreenSize(this)[0] / 2);
-
         toolbar.animate().translationX(0).alpha(1).setDuration(ANIM_DELAY_TOOLBAR);
+
+        mBoardView.setBoardColor(fillColor);
+        mBoardView.show();
     }
 
     /**
@@ -122,9 +145,11 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         if (RevealBackgroundView.STATE_FINISHED == state) {
             etContent.setVisibility(View.VISIBLE);
             viewHline.setVisibility(View.VISIBLE);
+            mBoardView.setVisibility(View.VISIBLE);
         } else {
             etContent.setVisibility(View.INVISIBLE);
             viewHline.setVisibility(View.INVISIBLE);
+            mBoardView.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -143,11 +168,51 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         fillColor = color;
     }
 
-    @Bind(R.id.task_board)
-    DrawBoard2 tesxt;
+    private void savePoint(String text) {
+        Point point = new Point();
+        point.setText(text);
+        Points a = new Points();
+        a.setPoint1(point);
+        FileUtil.write(new Gson().toJson(a), FilePlusUtil.FILEPATH_POINTS);
+    }
 
-    @OnClick(R.id.task_edit)
-    void tesxt() {
-        tesxt.toLastPath();
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.i("Task", "onKeyDown");
+        final String editContent = etContent.getText().toString().trim();
+        if (editContent == null || editContent.equals("")) {
+            finish();
+            return false;
+        }
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            AlertDialog.Builder build = new AlertDialog.Builder(this);
+            build.setTitle("Notice").setMessage("是否保存？");
+            build.setPositiveButton("确定",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            savePoint(editContent);
+                            finish();
+                        }
+                    });
+            build.setNegativeButton("取消",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).show();
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mBoardView.release();
     }
 }

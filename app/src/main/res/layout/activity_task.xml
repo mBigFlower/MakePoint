@@ -24,16 +24,19 @@
         android:layout_below="@+id/task_toolbar"
         android:orientation="vertical">
 
-        <TextView
+        <EditText
             android:id="@+id/task_edit"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="12dp"
             android:layout_weight="3"
             android:background="#1444"
             android:gravity="center"
-            android:text="编辑文字"
-            android:layout_margin="12dp"
             android:padding="12dp"
+            android:maxLength="7"
+            android:hint="输入七个字重点"
+            android:cursorVisible="false"
+            android:textColorHint="#9fff"
             android:textColor="#fff" />
 
         <View
@@ -45,6 +48,7 @@
             android:background="#fff" />
 
         <com.flowerfat.makepoint.view.DrawBoardView
+            android:id="@+id/task_board"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="12dp"
@@ -52,17 +56,6 @@
 
         </com.flowerfat.makepoint.view.DrawBoardView>
 
-        <com.flowerfat.makepoint.view.DrawBoard2
-            android:id="@+id/task_board"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="12dp"
-            android:layout_weight="7"
-            android:gravity="center"
-            android:padding="12dp"
-            android:visibility="gone"/>
-
     </LinearLayout>
-
 
 </RelativeLayout>

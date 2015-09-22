@@ -3,6 +3,7 @@ package com.flowerfat.makepoint.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
+import com.flowerfat.makepoint.Utils.FilePlusUtil;
+import com.flowerfat.makepoint.entity.Points;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         animBlock();
         initToolBar();
-
     }
 
     private void initToolBar() {
@@ -150,7 +152,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        toolbar.setTitle("MakePoint");
+        // test
+        Points a = FilePlusUtil.getInstance().getPoints();
+        if(a != null){
+            tvTopRight.setText(a.getPoint1().getText());
+            Log.i("oncreat 1235346", " "+a.getPoint1().getText());
+        }
+        else
+            Log.i("oncreat 1235346", " 啥都没有 ");
     }
 
 

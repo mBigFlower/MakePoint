@@ -3,7 +3,6 @@ package com.flowerfat.makepoint.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -146,21 +145,32 @@ public class MainActivity extends AppCompatActivity {
                     .setDuration(ANIM_DURATION_LINE)
                     .start();
         }
+
     }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        // test
-        Points a = FilePlusUtil.getInstance().getPoints();
-        if(a != null){
-            tvTopRight.setText(a.getPoint1().getText());
-            Log.i("oncreat 1235346", " "+a.getPoint1().getText());
-        }
-        else
-            Log.i("oncreat 1235346", " 啥都没有 ");
+
+        showBoards();
+
     }
 
+    Points points;
+
+    private void showBoards() {
+        points = FilePlusUtil.getInstance().getPoints();
+        if (points != null) {
+            for (int i = 0; i < 4; i++) {
+                showBoard
+            }
+        }
+    }
+
+    private void showBoard(int index) {
+        if (points.getPoint1() != null)
+            tv.setText(points.getPoint1().getText());
+    }
 
 }

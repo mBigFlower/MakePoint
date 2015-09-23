@@ -16,6 +16,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
 
+import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.Utils.FilePlusUtil;
 import com.flowerfat.makepoint.Utils.FileUtil;
@@ -171,9 +172,21 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     private void savePoint(String text) {
         Point point = new Point();
         point.setText(text);
-        Points a = new Points();
-        a.setPoint1(point);
-        FileUtil.write(new Gson().toJson(a), FilePlusUtil.FILEPATH_POINTS);
+        FileUtil.write(new Gson().toJson(setPoint(point)), FilePlusUtil.FILEPATH_POINTS);
+    }
+
+    private Points setPoint(Point point) {
+        Points points = FilePlusUtil.getInstance().getPoints();
+        if (fillColor == PointColor.COLOR_1) {
+            points.setPoint1(point);
+        } else if (fillColor == PointColor.COLOR_2) {
+            points.setPoint2(point);
+        } else if (fillColor == PointColor.COLOR_3) {
+            points.setPoint3(point);
+        } else if (fillColor == PointColor.COLOR_4) {
+            points.setPoint4(point);
+        }
+        return points;
     }
 
 
@@ -207,7 +220,6 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
 
         return super.onKeyDown(keyCode, event);
     }
-
 
 
     @Override

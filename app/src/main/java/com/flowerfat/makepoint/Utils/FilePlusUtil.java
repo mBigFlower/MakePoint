@@ -28,7 +28,10 @@ public class FilePlusUtil extends FileUtil {
     }
 
     public Points getPoints(){
-        return mGson.fromJson(FileUtil.read(FILEPATH_POINTS), Points.class);
+        Points points =  mGson.fromJson(FileUtil.read(FILEPATH_POINTS), Points.class);
+        if(points == null)
+            points = new Points();
+        return points;
     }
     public void setPoint1(Point point){
         Points points = getPoints();

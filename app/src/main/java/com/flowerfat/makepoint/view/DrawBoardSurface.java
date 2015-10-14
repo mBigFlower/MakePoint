@@ -18,19 +18,21 @@ import java.util.List;
 
 /**
  * Created by 明明大美女 on 2015/9/19.
+ *
+ * 画板，用 SurfaceView 这个靠谱点
  */
-public class DrawBoard2 extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
+public class DrawBoardSurface extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
 
 
     private Paint mPaint = new Paint();
     private Path mPath = new Path();
     private List<Path> pathList = new ArrayList<Path>();
 
-    public DrawBoard2(Context context) {
+    public DrawBoardSurface(Context context) {
         super(context);
     }
 
-    public DrawBoard2(Context context, AttributeSet attrs) {
+    public DrawBoardSurface(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mPaint.setColor(Color.WHITE);
@@ -45,7 +47,7 @@ public class DrawBoard2 extends SurfaceView implements SurfaceHolder.Callback, V
         setOnTouchListener(this);
     }
 
-    public DrawBoard2(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DrawBoardSurface(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

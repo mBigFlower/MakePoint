@@ -18,6 +18,18 @@
         android:background="#0000"
         android:theme="@style/ThemeToolbar" />
 
+    <TextView
+        android:id="@+id/task_save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/task_toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/task_toolbar"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:text="save"
+        android:textColor="#fff" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,13 +43,13 @@
             android:layout_margin="12dp"
             android:layout_weight="3"
             android:background="#1444"
+            android:cursorVisible="true"
             android:gravity="center"
-            android:padding="12dp"
-            android:maxLength="7"
             android:hint="输入七个字重点"
-            android:cursorVisible="false"
-            android:textColorHint="#9fff"
-            android:textColor="#fff" />
+            android:maxLength="7"
+            android:padding="12dp"
+            android:textColor="#fff"
+            android:textColorHint="#9fff" />
 
         <View
             android:id="@+id/task_hline"

@@ -9,26 +9,21 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.EditText;
 
-import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.Utils.FilePlusUtil;
-import com.flowerfat.makepoint.Utils.FileUtil;
 import com.flowerfat.makepoint.Utils.ScreenUtil;
-import com.flowerfat.makepoint.entity.Point;
-import com.flowerfat.makepoint.entity.Points;
+import com.flowerfat.makepoint.Utils.SpInstance;
 import com.flowerfat.makepoint.view.DrawBoardView;
 import com.flowerfat.makepoint.view.RevealBackgroundView;
-import com.google.gson.Gson;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TaskActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
 
@@ -62,6 +57,9 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         initState();
 
         initToolBar();
+
+        initContent();
+
         setupRevealBackground(savedInstanceState);
 
     }
@@ -79,6 +77,9 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         }
     }
 
+    /**
+     * 初始化toolbar
+     */
     private void initToolBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -89,6 +90,35 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
                 return false;
             }
         });
+    }
+
+    /**
+     * 初始化内容
+     */
+    private void initContent() {
+        etContent.setText(SpInstance.get().gString("pColor" + fillColor));
+    }
+
+    @OnClick(R.id.task_save)
+    void save() {
+        final String editContent = etContent.getText().toString().trim();
+        AlertDialog.Builder build = new AlertDialog.Builder(this);
+        build.setTitle("保存？").setMessage("Mark内容：" + editContent);
+        build.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        savePoint(editContent);
+                        finish();
+                    }
+                });
+        build.setNegativeButton("取消",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ;
+                    }
+                }).show();
     }
 
 
@@ -170,56 +200,23 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     }
 
     private void savePoint(String text) {
-        Point point = new Point();
-        point.setText(text);
-        FileUtil.write(new Gson().toJson(setPoint(point)), FilePlusUtil.FILEPATH_POINTS);
+        SpInstance.get().pString("pColor" + fillColor, text);
     }
 
-    private Points setPoint(Point point) {
-        Points points = FilePlusUtil.getInstance().getPoints();
-        if (fillColor == PointColor.COLOR_1) {
-            points.setPoint1(point);
-        } else if (fillColor == PointColor.COLOR_2) {
-            points.setPoint2(point);
-        } else if (fillColor == PointColor.COLOR_3) {
-            points.setPoint3(point);
-        } else if (fillColor == PointColor.COLOR_4) {
-            points.setPoint4(point);
-        }
-        return points;
-    }
-
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.i("Task", "onKeyDown");
-        final String editContent = etContent.getText().toString().trim();
-        if (editContent == null || editContent.equals("")) {
-            finish();
-            return false;
-        }
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            AlertDialog.Builder build = new AlertDialog.Builder(this);
-            build.setTitle("Notice").setMessage("是否保存？");
-            build.setPositiveButton("确定",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            savePoint(editContent);
-                            finish();
-                        }
-                    });
-            build.setNegativeButton("取消",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    }).show();
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
+//
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        Log.i("Task", "onKeyDown");
+//        if (editContent == null || editContent.equals("")) {
+//            finish();
+//            return false;
+//        }
+//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+//
+//        }
+//
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 
     @Override

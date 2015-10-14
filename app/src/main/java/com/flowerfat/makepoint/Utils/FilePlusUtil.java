@@ -1,9 +1,10 @@
 package com.flowerfat.makepoint.Utils;
 
 
-import com.flowerfat.makepoint.entity.Point;
 import com.flowerfat.makepoint.entity.Points;
 import com.google.gson.Gson;
+
+import java.util.List;
 
 /**
  * Created by 明明大美女 on 2015/9/22.
@@ -33,12 +34,14 @@ public class FilePlusUtil extends FileUtil {
             points = new Points();
         return points;
     }
-    public void setPoint1(Point point){
-        Points points = getPoints();
-        points.setPoint1(point);
-    }
-    public void setPoint2(String text){
 
+    public void setPointsList(Points points){
+
+    }
+
+    public List<Points> getPointsList(){
+
+        return null ;
     }
 
 //    public List<Points> getPointsList() {

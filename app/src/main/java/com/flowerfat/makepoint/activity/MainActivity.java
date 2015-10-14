@@ -1,9 +1,11 @@
 package com.flowerfat.makepoint.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
@@ -12,8 +14,12 @@ import android.widget.Toast;
 
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.Utils.FilePlusUtil;
-import com.flowerfat.makepoint.entity.Points;
+import com.flowerfat.makepoint.Utils.GreenDaoUtil;
+import com.flowerfat.makepoint.Utils.SpInstance;
+import com.flowerfat.makepoint.Utils.Utils;
+import com.flowerfat.makepoint.sqlite.Point;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -50,13 +56,20 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         animBlock();
         initToolBar();
+
     }
 
+    /**
+     * toolbar初始化
+     */
     private void initToolBar() {
         setSupportActionBar(toolbar);
         toolbar.setOnMenuItemClickListener(onMenuItemClick);
     }
 
+    /**
+     * toolbar点击监听
+     */
     private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
@@ -64,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()) {
                 case R.id.action_search:
                     msg += "Click edit";
-                    break;
-                case R.id.action_settings:
-                    msg += "Click setting";
+                    startActivity(new Intent(MainActivity.this, PointsHistoryActivity.class));
                     break;
             }
             if (!msg.equals("")) {
@@ -76,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * 块的点击监听
+     *
+     * @param v
+     */
     public void blockOnclick(View v) {
         int[] startingLocation = new int[2];
         v.getLocationOnScreen(startingLocation);
@@ -84,6 +100,12 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
+    /**
+     * 根据不同的点击，返回对应颜色
+     *
+     * @param v
+     * @return
+     */
     public int getColorFromClick(View v) {
         if (v.getId() == R.id.top_left) {
             return PointColor.COLOR_1;
@@ -106,11 +128,13 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+
         animBlockInit();
         animBlock();
         animLine();
         return true;
-
     }
 
     private void animBlockInit() {
@@ -153,24 +177,41 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        showBoards();
+        dateCheck();
 
     }
 
-    Points points;
-
-    private void showBoards() {
-        points = FilePlusUtil.getInstance().getPoints();
-        if (points != null) {
-            for (int i = 0; i < 4; i++) {
-                showBoard
-            }
+    /**
+     * 每日检测，跨天与否执行的内容不同
+     */
+    private void dateCheck() {
+        if (Utils.ifStepDay(this)) {
+            // 把上次的值存到数据库
+            storePointsSQLite();
+        } else {
+            // 显示上次的值
+            showOldBoards();
         }
     }
 
-    private void showBoard(int index) {
-        if (points.getPoint1() != null)
-            tv.setText(points.getPoint1().getText());
+    private void storePointsSQLite() {
+        GreenDaoUtil.getInstance().setupDatabase(getApplicationContext(), "db-points");
+        Point point = new Point(null,
+                SpInstance.get().gString("pColor" + PointColor.COLOR_1),
+                SpInstance.get().gString("pColor" + PointColor.COLOR_2),
+                SpInstance.get().gString("pColor" + PointColor.COLOR_3),
+                SpInstance.get().gString("pColor" + PointColor.COLOR_4), new Date());
+        GreenDaoUtil.getInstance().insertPoint(point);
+    }
+
+    /**
+     * 展示所有的board内容
+     */
+    private void showOldBoards() {
+        tvTopLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_1));
+        tvTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
+        tvBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
+        tvBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
     }
 
 }

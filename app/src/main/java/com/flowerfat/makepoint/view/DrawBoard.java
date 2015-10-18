@@ -6,7 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Environment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -23,6 +25,8 @@ import java.util.List;
 
 /**
  * Created by 明明大美女 on 2015/9/19.
+ * <p/>
+ * 画板 用 View ， 貌似没 SurfaceView 好。
  */
 public class DrawBoard extends View implements View.OnTouchListener {
 
@@ -36,6 +40,8 @@ public class DrawBoard extends View implements View.OnTouchListener {
     private Paint mBitmapPaint;
     private Canvas mCanvas;
     private int backgroundColor;
+    // 该画板是否可以绘制
+    private boolean drawEnable = true;
 
     public DrawBoard(Context context) {
         super(context);
@@ -64,7 +70,6 @@ public class DrawBoard extends View implements View.OnTouchListener {
                 Bitmap.Config.RGB_565);
         mBitmap.eraseColor(Color.argb(0, 0, 0, 0));
         mCanvas = new Canvas(mBitmap);
-        mCanvas.drawColor(Color.TRANSPARENT);
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         mBitmapPaint.setAlpha(0x00); //设置透明程度
     }
@@ -83,16 +88,20 @@ public class DrawBoard extends View implements View.OnTouchListener {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                Log.i("我是按下", "按下了啊" + event.getX());
                 mPath.moveTo(event.getX(), event.getY());
                 invalidate();
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                mPath.lineTo(event.getX(), event.getY());
-                invalidate();
+                if (drawEnable) {
+                    mPath.lineTo(event.getX(), event.getY());
+                    invalidate();
+                }
                 break;
 
             case MotionEvent.ACTION_UP:
+                Log.i("我是抬起", "抬起了啊" + event.getX());
                 mCanvas.drawPath(mPath, mPaint);
                 savePath.add(mPath);
                 break;
@@ -103,9 +112,11 @@ public class DrawBoard extends View implements View.OnTouchListener {
 
     /**
      * 外部调用，设置board的背景色
+     *
      * @param color
      */
-    public void setBoardColor(int color){
+    public void setBoardColor(int color) {
+        backgroundColor = color;
         mCanvas.drawColor(color);
     }
 
@@ -127,23 +138,47 @@ public class DrawBoard extends View implements View.OnTouchListener {
      */
     public void clear() {
         mPath.reset();
-        mCanvas.drawColor(Color.TRANSPARENT);
+        mCanvas.drawColor(backgroundColor);
         invalidate();
     }
 
-    /*
-        * 保存所绘图形
-        * 返回绘图文件的存储路径
-        * */
+    /**
+     * 是否可画
+     *
+     * @param enable
+     */
+    public void setDrawEnable(boolean enable) {
+        drawEnable = enable;
+    }
+
+
+    /**
+     * 获得是否可画
+     *
+     * @return
+     */
+    public boolean getDrawEnable() {
+        return drawEnable;
+    }
+
+    /**
+     * 保存所绘图形
+     * 返回绘图文件的存储路径
+     */
     public String saveBitmap() {
+        if(mPath == null || mPath.isEmpty()){
+            return "还是画点什么吧~" ;
+        }
         //获得系统当前时间，并以该时间作为文件名
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String str = formatter.format(curDate);
         String paintPath = null;
-        str = str + "paint.png";
-        File dir = new File("/sdcard/boards/");
-        File file = new File("/sdcard/boards/", str);
+        str = str + backgroundColor + ".png";
+        String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
+//        String sdPath = "/sdcard/boards/";
+        File dir = new File(sdPath);
+        File file = new File(sdPath, str);
         if (!dir.exists()) {
             dir.mkdir();
         } else {
@@ -158,7 +193,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
             out.flush();
             out.close();
             //保存绘图文件路径
-            paintPath = "/sdcard/boards/" + str;
+            paintPath = sdPath + str;
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -168,7 +203,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
             e.printStackTrace();
         }
 
-        return paintPath;
+        return "保存图片成功："+paintPath;
     }
 
     public void release() {

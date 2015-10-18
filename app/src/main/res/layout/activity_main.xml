@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
+        <com.flowerfat.makepoint.view.GoodTextView
             android:id="@+id/top_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -31,7 +31,7 @@
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%" />
 
-        <TextView
+        <com.flowerfat.makepoint.view.GoodTextView
             android:id="@+id/top_right"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -46,7 +46,7 @@
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%" />
 
-        <TextView
+        <com.flowerfat.makepoint.view.GoodTextView
             android:id="@+id/bottom_left"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -61,7 +61,7 @@
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%" />
 
-        <TextView
+        <com.flowerfat.makepoint.view.GoodTextView
             android:id="@+id/bottom_right"
             android:layout_width="0dp"
             android:layout_height="0dp"

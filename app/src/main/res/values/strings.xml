@@ -6,4 +6,6 @@
     <string name="title_activity_task">TaskActivity</string>
     <string name="title_activity_photo_take">PhotoTakeActivity</string>
     <string name="title_activity_take_photo">TakePhoto</string>
+    <string name="title_activity_green_dao">GreenDaoActivity</string>
+    <string name="title_activity_points_history">PointsHistoryActivity</string>
 </resources>

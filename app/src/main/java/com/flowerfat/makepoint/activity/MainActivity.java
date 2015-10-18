@@ -18,7 +18,6 @@ import com.flowerfat.makepoint.entity.Points;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private static final int ANIM_DURATION_BLOCK = 400;

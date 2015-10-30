@@ -5,8 +5,11 @@ package com.flowerfat.makepoint;
  */
 public class PointColor {
 
+    // 蓝色
     public static int COLOR_1 = 0xFF0079BF ;
+    // 红色
     public static int COLOR_2 = 0xFFEB5A46 ;
+    // 紫色
     public static int COLOR_3 = 0xFFC377E0 ;
     public static int COLOR_4 = 0xFFFFAB4A ;
 

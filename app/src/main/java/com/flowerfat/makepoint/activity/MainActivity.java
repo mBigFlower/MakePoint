@@ -1,9 +1,13 @@
 package com.flowerfat.makepoint.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -206,10 +210,43 @@ public class MainActivity extends AppCompatActivity {
      * 展示所有的board内容
      */
     private void showOldBoards() {
-        tvTopLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
-        tvTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_1));
-        tvBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
-        tvBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
+        tvTopLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_1));
+        tvTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
+        tvBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
+        tvBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
+    }
+
+
+    private long mExitTime;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+             if ((System.currentTimeMillis() - mExitTime) > 3000) {
+                showSnake("再按一次退出程序");
+                mExitTime = System.currentTimeMillis();
+            } else {
+
+                finish();
+            }
+            return true ;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    Snackbar mSnackbar ;
+    protected void showSnake(String text){
+        if (!TextUtils.isEmpty(text)) {
+            if (mSnackbar == null) {
+                mSnackbar = Snackbar.make(getWindow().getDecorView(), text, Snackbar.LENGTH_LONG)
+                        .setAction("OK", null);
+                mSnackbar.setActionTextColor(Color.WHITE);
+
+            } else {
+                mSnackbar.setText(text);
+            }
+            mSnackbar.show();
+        }
     }
 
 }

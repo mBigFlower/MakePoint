@@ -1,6 +1,9 @@
 package com.flowerfat.makepoint.Utils;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
+import android.text.TextUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,6 +13,8 @@ import java.util.Date;
  * Created by 明明大美女 on 2015/10/10.
  */
 public class Utils {
+
+
 
     public static boolean isEmpty(String text) {
         if (text == null || text.equals("")) {

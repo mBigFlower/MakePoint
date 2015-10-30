@@ -43,13 +43,21 @@ public class SpInstance {
         return sp.getString(key, null);
     }
 
+    public void pBoolean(String key, boolean ifOrNot){
+        editor.putBoolean(key, ifOrNot).commit();
+    }
+
+    public boolean gBoolean(String key, boolean _default){
+        return sp.getBoolean(key, _default);
+    }
+
     /////////////////////////////////////////////////////////////////
 
     public void initOneDayPoint(){
-        editor.putString("pColor" + PointColor.COLOR_1, "level top");
-        editor.putString("pColor" + PointColor.COLOR_2, "蓝色");
-        editor.putString("pColor" + PointColor.COLOR_3, "level three");
-        editor.putString("pColor" + PointColor.COLOR_4, "level bottom");
+        editor.putString("pColor" + PointColor.COLOR_1, "蓝色");
+        editor.putString("pColor" + PointColor.COLOR_2, "level top");
+        editor.putString("pColor" + PointColor.COLOR_3, "level bottom");
+        editor.putString("pColor" + PointColor.COLOR_4, "level three");
         editor.commit();
     }
 

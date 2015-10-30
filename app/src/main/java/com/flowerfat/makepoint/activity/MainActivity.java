@@ -7,15 +7,21 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.util.Util;
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.Utils.GreenDaoUtil;
@@ -31,12 +37,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int ANIM_DURATION_BLOCK = 400;
     private static final int ANIM_DURATION_LINE = 1000;
 
+    private final int TITLE_PADDINGTOP = Utils.dp2px(15);
+
     // 这个只对手机自带返回按钮有效，而toolbar的系统返回无效。。。
     private boolean isFirstLoad = true;
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
+    @Bind(R.id.main_framLayout)
+    FrameLayout titleFL;
     @Bind(R.id.top_left)
     TextView tvTopLeft;
     @Bind(R.id.top_right)
@@ -56,16 +63,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         animBlock();
-        initToolBar();
-
-    }
-
-    /**
-     * toolbar初始化
-     */
-    private void initToolBar() {
-        setSupportActionBar(toolbar);
-        toolbar.setOnMenuItemClickListener(onMenuItemClick);
     }
 
     /**
@@ -217,25 +214,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    float downX , downY = 0;
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            downX = event.getX();
+            downY = event.getY();
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+            titleFL.setPadding((int) (event.getX() - downX) ,
+                    TITLE_PADDINGTOP+(int) (event.getY() - downY)  , 0, 0);
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            titleFL.setPadding(0, TITLE_PADDINGTOP, 0, 0);
+        }
+        return super.onTouchEvent(event);
+    }
+
+
     private long mExitTime;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-             if ((System.currentTimeMillis() - mExitTime) > 3000) {
+            if ((System.currentTimeMillis() - mExitTime) > 3000) {
                 showSnake("再按一次退出程序");
                 mExitTime = System.currentTimeMillis();
             } else {
 
                 finish();
             }
-            return true ;
+            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    Snackbar mSnackbar ;
-    protected void showSnake(String text){
+    Snackbar mSnackbar;
+
+    protected void showSnake(String text) {
         if (!TextUtils.isEmpty(text)) {
             if (mSnackbar == null) {
                 mSnackbar = Snackbar.make(getWindow().getDecorView(), text, Snackbar.LENGTH_LONG)

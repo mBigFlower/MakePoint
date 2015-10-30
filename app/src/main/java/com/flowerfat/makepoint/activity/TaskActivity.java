@@ -13,7 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.Utils.ScreenUtil;
@@ -42,6 +44,9 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     @Bind(R.id.task_toolbar)
     Toolbar toolbar;
 
+    @Bind(R.id.task_save)
+    TextView saveTV ;
+
     @Bind(R.id.task_hline)
     View viewHline;
 
@@ -63,7 +68,6 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         setupRevealBackground(savedInstanceState);
 
     }
-
 
     /**
      * 天真的以为这个是沉浸式状态栏
@@ -154,6 +158,11 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         toolbar.setAlpha(0);
         toolbar.setTranslationX(ScreenUtil.getScreenSize(this)[0] / 2);
         toolbar.animate().translationX(0).alpha(1).setDuration(ANIM_DELAY_TOOLBAR);
+
+        saveTV.setScaleX(0);
+        saveTV.setScaleY(0);
+        saveTV.animate().scaleX(1).scaleY(1).setDuration(300).setStartDelay(400)
+                .setInterpolator(new OvershootInterpolator(1.f));
 
         mBoardView.setBoardColor(fillColor);
         mBoardView.show();

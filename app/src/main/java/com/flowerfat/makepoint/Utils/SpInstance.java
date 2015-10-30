@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.flowerfat.makepoint.MyApplication;
+import com.flowerfat.makepoint.PointColor;
 
 /**
  * Created by 明明大美女 on 2015/10/10.
@@ -40,6 +41,16 @@ public class SpInstance {
 
     public String gString(String key) {
         return sp.getString(key, null);
+    }
+
+    /////////////////////////////////////////////////////////////////
+
+    public void initOneDayPoint(){
+        editor.putString("pColor" + PointColor.COLOR_1, "level top");
+        editor.putString("pColor" + PointColor.COLOR_2, "蓝色");
+        editor.putString("pColor" + PointColor.COLOR_3, "level three");
+        editor.putString("pColor" + PointColor.COLOR_4, "level bottom");
+        editor.commit();
     }
 
 }

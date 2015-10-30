@@ -68,10 +68,10 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHo
         public CardViewHolder(View view) {
             super(view);
             textTitle = (TextView)view.findViewById(R.id.item_title);
-            text1 = (TextView)view.findViewById(R.id.item_level1);
-            text2 = (TextView)view.findViewById(R.id.item_level2);
-            text3 = (TextView)view.findViewById(R.id.item_level3);
-            text4 = (TextView)view.findViewById(R.id.item_level4);
+            text1 = (TextView)view.findViewById(R.id.item_level2);
+            text2 = (TextView)view.findViewById(R.id.item_level1);
+            text3 = (TextView)view.findViewById(R.id.item_level4);
+            text4 = (TextView)view.findViewById(R.id.item_level3);
         }
 
     }

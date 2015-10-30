@@ -19,8 +19,6 @@ import com.flowerfat.makepoint.Utils.SpInstance;
 import com.flowerfat.makepoint.Utils.Utils;
 import com.flowerfat.makepoint.sqlite.Point;
 
-import java.util.Date;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -188,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
         if (Utils.ifStepDay(this)) {
             // 把上次的值存到数据库
             storePointsSQLite();
+            SpInstance.get().initOneDayPoint();
         } else {
             // 显示上次的值
             showOldBoards();
@@ -200,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
                 SpInstance.get().gString("pColor" + PointColor.COLOR_1),
                 SpInstance.get().gString("pColor" + PointColor.COLOR_2),
                 SpInstance.get().gString("pColor" + PointColor.COLOR_3),
-                SpInstance.get().gString("pColor" + PointColor.COLOR_4), new Date());
+                SpInstance.get().gString("pColor" + PointColor.COLOR_4), Utils.yesteday());
         GreenDaoUtil.getInstance().insertPoint(point);
     }
 
@@ -208,10 +207,10 @@ public class MainActivity extends AppCompatActivity {
      * 展示所有的board内容
      */
     private void showOldBoards() {
-        tvTopLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_1));
-        tvTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
-        tvBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
-        tvBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
+        tvTopLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
+        tvTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_1));
+        tvBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
+        tvBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
     }
 
 }

@@ -3,6 +3,7 @@ package com.flowerfat.makepoint.Utils;
 import android.content.Context;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -16,6 +17,13 @@ public class Utils {
         } else {
             return false;
         }
+    }
+
+    public static Date yesteday(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        cal.add(Calendar.DATE, -1);
+        return cal.getTime();
     }
 
     /**

@@ -22,7 +22,6 @@ import com.flowerfat.makepoint.sqlite.Point;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private static final int ANIM_DURATION_BLOCK = 400;

@@ -17,11 +17,20 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
+import com.flowerfat.makepoint.Utils.GreenDaoUtil;
 import com.flowerfat.makepoint.Utils.ScreenUtil;
 import com.flowerfat.makepoint.Utils.SpInstance;
+import com.flowerfat.makepoint.Utils.Utils;
+import com.flowerfat.makepoint.sqlite.Point;
 import com.flowerfat.makepoint.view.DrawBoardView;
 import com.flowerfat.makepoint.view.RevealBackgroundView;
+
+import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -210,6 +219,15 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
 
     private void savePoint(String text) {
         SpInstance.get().pString("pColor" + fillColor, text);
+        Point point = GreenDaoUtil.getInstance().getTopPoint();
+        if(point != null && point.getDate().equals(new Date())){
+            // 更新数据库
+            Log.i("savePoint", "date:"+point.getDate().toString());
+        } else {
+            Point newPoint = new Point(fillColor, text, new Date());
+            GreenDaoUtil.getInstance().setupDatabase(getApplicationContext(), "db-points");
+            GreenDaoUtil.getInstance().insertPoint(newPoint);
+        }
     }
 
 //

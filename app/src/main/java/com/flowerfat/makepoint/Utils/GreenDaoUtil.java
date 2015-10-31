@@ -2,6 +2,7 @@ package com.flowerfat.makepoint.Utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.flowerfat.makepoint.sqlite.DaoMaster;
 import com.flowerfat.makepoint.sqlite.DaoSession;
@@ -80,6 +81,11 @@ public class GreenDaoUtil {
      */
     public List<Point> searchAllPoint() {
         return getPointDao().loadAll();
+    }
+
+    public Point getTopPoint(){
+        Log.i("getTopPoint", "rowId waht/?" + getPointDao().loadByRowId(1));
+        return getPointDao().loadAll().get(0);
     }
 
     /**

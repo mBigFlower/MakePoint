@@ -28,6 +28,7 @@ import com.flowerfat.makepoint.view.DrawBoardView;
 import com.flowerfat.makepoint.view.RevealBackgroundView;
 
 import java.lang.ref.SoftReference;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -217,15 +218,22 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         fillColor = color;
     }
 
+    /**
+     * 这个地方的代码太笨了。自己都看不下去了！！！！ 要改 TODO
+     * @param text
+     */
     private void savePoint(String text) {
+        GreenDaoUtil.getInstance().setupDatabase(getApplicationContext(), "db-points");
         SpInstance.get().pString("pColor" + fillColor, text);
         Point point = GreenDaoUtil.getInstance().getTopPoint();
-        if(point != null && point.getDate().equals(new Date())){
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+        if(point != null && format.format(point.getDate()).equals(format.format(new Date()))){
             // 更新数据库
+            point.setPoint(fillColor, text);
+            GreenDaoUtil.getInstance().replacePoint(point);
             Log.i("savePoint", "date:"+point.getDate().toString());
         } else {
             Point newPoint = new Point(fillColor, text, new Date());
-            GreenDaoUtil.getInstance().setupDatabase(getApplicationContext(), "db-points");
             GreenDaoUtil.getInstance().insertPoint(newPoint);
         }
     }

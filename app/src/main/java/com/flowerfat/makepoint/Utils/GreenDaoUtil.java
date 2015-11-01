@@ -75,6 +75,10 @@ public class GreenDaoUtil {
         getPointDao().insert(entity);
     }
 
+    public void replacePoint(Point entity){
+        getPointDao().insertOrReplace(entity);
+    }
+
     /**
      * 返回所有数据
      * @return
@@ -84,8 +88,11 @@ public class GreenDaoUtil {
     }
 
     public Point getTopPoint(){
-        Log.i("getTopPoint", "rowId waht/?" + getPointDao().loadByRowId(1));
-        return getPointDao().loadAll().get(0);
+        if(getPointDao().loadAll().size() > 0)
+            return getPointDao().loadAll().get(0);
+        else {
+            return null ;
+        }
     }
 
     /**

@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     // 这个只对手机自带返回按钮有效，而toolbar的系统返回无效。。。
     private boolean isFirstLoad = true;
 
+    private float downX, downY = 0;
+
     @Bind(R.id.main_framLayout)
     FrameLayout titleFL;
     @Bind(R.id.top_left)
@@ -63,27 +65,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         animBlock();
+
+        initListener();
+
     }
 
-    /**
-     * toolbar点击监听
-     */
-    private Toolbar.OnMenuItemClickListener onMenuItemClick = new Toolbar.OnMenuItemClickListener() {
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            String msg = "";
-            switch (menuItem.getItemId()) {
-                case R.id.action_search:
-                    msg += "Click edit";
-                    startActivity(new Intent(MainActivity.this, PointsHistoryActivity.class));
-                    break;
+    private void initListener() {
+        titleFL.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    downX = event.getX();
+                    downY = event.getY();
+                } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+                    titleFL.setPadding((int) (event.getX() - downX),
+                            TITLE_PADDINGTOP + (int) (event.getY() - downY), 0, 0);
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    titleFL.setPadding(0, TITLE_PADDINGTOP, 0, 0);
+                }
+                return true;
             }
-            if (!msg.equals("")) {
-                Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        }
-    };
+        });
+    }
 
     /**
      * 块的点击监听
@@ -96,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
         startingLocation[0] += v.getWidth() / 2;
         TaskActivity.startUserProfileFromLocation(startingLocation, getColorFromClick(v), this);
         overridePendingTransition(0, 0);
+    }
+
+    public void listOnclick(View v) {
+        startActivity(new Intent(MainActivity.this, PointsHistoryActivity.class));
     }
 
     /**
@@ -211,23 +218,22 @@ public class MainActivity extends AppCompatActivity {
         tvTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
         tvBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
         tvBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
+
     }
 
-
-    float downX , downY = 0;
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            downX = event.getX();
-            downY = event.getY();
-        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-            titleFL.setPadding((int) (event.getX() - downX) ,
-                    TITLE_PADDINGTOP+(int) (event.getY() - downY)  , 0, 0);
-        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            titleFL.setPadding(0, TITLE_PADDINGTOP, 0, 0);
-        }
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//            downX = event.getX();
+//            downY = event.getY();
+//        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
+//            titleFL.setPadding((int) (event.getX() - downX) ,
+//                    TITLE_PADDINGTOP+(int) (event.getY() - downY)  , 0, 0);
+//        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//            titleFL.setPadding(0, TITLE_PADDINGTOP, 0, 0);
+//        }
+//        return super.onTouchEvent(event);
+//    }
 
 
     private long mExitTime;

@@ -5,23 +5,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.util.Util;
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.Utils.GreenDaoUtil;
@@ -201,7 +194,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void storePointsSQLite() {
-        GreenDaoUtil.getInstance().setupDatabase(getApplicationContext(), "db-points");
         Point point = new Point(null,
                 SpInstance.get().gString("pColor" + PointColor.COLOR_1),
                 SpInstance.get().gString("pColor" + PointColor.COLOR_2),

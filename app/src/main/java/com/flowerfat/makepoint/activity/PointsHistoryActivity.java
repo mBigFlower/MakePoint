@@ -29,7 +29,6 @@ public class PointsHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_points_history);
         ButterKnife.bind(this);
-        GreenDaoUtil.getInstance().setupDatabase(this, "db-points");
 
         initRecyclerView();
     }

@@ -24,6 +24,9 @@ import java.util.List;
 import de.greenrobot.dao.query.Query;
 import de.greenrobot.dao.query.QueryBuilder;
 
+/**
+ * 这个是个操作例子
+ */
 public class GreenDaoActivity extends ListActivity {
 
     private SQLiteDatabase db;

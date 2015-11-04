@@ -2,7 +2,6 @@ package com.flowerfat.makepoint.Utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.flowerfat.makepoint.sqlite.DaoMaster;
 import com.flowerfat.makepoint.sqlite.DaoSession;
@@ -29,6 +28,8 @@ public class GreenDaoUtil {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
 
+    private String currentDbName ;
+
     public static GreenDaoUtil getInstance() {
         if (mGreenDaoUtil == null) {
             synchronized (GreenDaoUtil.class) {
@@ -45,6 +46,7 @@ public class GreenDaoUtil {
 
     /**
      * 官方推荐将获取 DaoMaster 对象的方法放到 Application 层，这样将避免多次创建生成 Session 对象
+     * 也就是说我们一辈子只用创建一个 dbName ？
      *
      * @param context Application层？
      * @param dbName  数据库名称

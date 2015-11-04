@@ -17,21 +17,16 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.Utils.GreenDaoUtil;
 import com.flowerfat.makepoint.Utils.ScreenUtil;
 import com.flowerfat.makepoint.Utils.SpInstance;
-import com.flowerfat.makepoint.Utils.Utils;
 import com.flowerfat.makepoint.sqlite.Point;
 import com.flowerfat.makepoint.view.DrawBoardView;
 import com.flowerfat.makepoint.view.RevealBackgroundView;
 
-import java.lang.ref.SoftReference;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -223,7 +218,6 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
      * @param text
      */
     private void savePoint(String text) {
-        GreenDaoUtil.getInstance().setupDatabase(getApplicationContext(), "db-points");
         SpInstance.get().pString("pColor" + fillColor, text);
         Point point = GreenDaoUtil.getInstance().getTopPoint();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd");

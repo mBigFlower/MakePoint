@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.flowerfat.makepoint.R;
+
 /**
  * Created by 明明大美女 on 2015/10/10.
  *
@@ -17,11 +19,25 @@ public class GoodTextView extends TextView {
 
     public GoodTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
     }
 
     @Override // 重写了setText方法
     public void setText(CharSequence text, BufferType type) {
         if(text != null)
             super.setText(text, type);
+    }
+
+    public void setImgLeft(int id){
+        this.setCompoundDrawables(getResources().getDrawable(id), null, null, null);
+    }
+    public void setImgRight(int id){
+        this.setCompoundDrawables(null, null, getResources().getDrawable(id),  null);
+    }
+    public void setImgTop(int id){
+        this.setCompoundDrawables(null, getResources().getDrawable(id), null, null);
+    }
+    public void setImgBottom(int id){
+        this.setCompoundDrawables(null, null, null, getResources().getDrawable(id));
     }
 }

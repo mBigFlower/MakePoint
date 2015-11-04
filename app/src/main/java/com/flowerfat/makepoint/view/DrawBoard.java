@@ -170,9 +170,10 @@ public class DrawBoard extends View implements View.OnTouchListener {
             return "还是画点什么吧~" ;
         }
         //获得系统当前时间，并以该时间作为文件名
-        SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String str = formatter.format(curDate);
+//        SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
+//        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+//        String str = formatter.format(curDate);
+        String str = "";
         String paintPath = null;
         str = str + backgroundColor + ".png";
         String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";

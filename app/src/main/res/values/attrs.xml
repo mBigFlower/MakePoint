@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="quarterBlock">
+        <attr name="blockText" format="string" />
+        <attr name="textLocation" format="integer" />
+    </declare-styleable>
+
+
+</resources>

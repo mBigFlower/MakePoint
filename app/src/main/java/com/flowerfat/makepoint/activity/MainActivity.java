@@ -28,6 +28,8 @@ import com.flowerfat.makepoint.Utils.GreenDaoUtil;
 import com.flowerfat.makepoint.Utils.SpInstance;
 import com.flowerfat.makepoint.Utils.Utils;
 import com.flowerfat.makepoint.sqlite.Point;
+import com.flowerfat.makepoint.view.GoodTextView;
+import com.flowerfat.makepoint.view.QuarterBlock;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,13 +49,13 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.main_framLayout)
     FrameLayout titleFL;
     @Bind(R.id.top_left)
-    TextView tvTopLeft;
+    QuarterBlock qbTopLeft;
     @Bind(R.id.top_right)
-    TextView tvTopRight;
+    QuarterBlock qbTopRight;
     @Bind(R.id.bottom_left)
-    TextView tvBottomLeft;
+    QuarterBlock qbBottomLeft;
     @Bind(R.id.bottom_right)
-    TextView tvBottomRight;
+    QuarterBlock qbBottomRight;
     @Bind(R.id.view_hline)
     View vHline;
     @Bind(R.id.view_vline)
@@ -143,17 +145,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void animBlockInit() {
-        tvTopLeft.setAlpha(0);
-        tvTopRight.setAlpha(0);
-        tvBottomLeft.setAlpha(0);
-        tvBottomRight.setAlpha(0);
+        qbTopLeft.setAlpha(0);
+        qbTopRight.setAlpha(0);
+        qbBottomLeft.setAlpha(0);
+//        tvBottomRight.setAlpha(0);
     }
 
     private void animBlock() {
-        tvTopLeft.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK);
-        tvTopRight.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK).setStartDelay(200);
-        tvBottomLeft.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK).setStartDelay(400);
-        tvBottomRight.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK).setStartDelay(600);
+        qbTopLeft.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK);
+        qbTopRight.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK).setStartDelay(200);
+        qbBottomLeft.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK).setStartDelay(400);
+        qbBottomRight.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK).setStartDelay(600);
     }
 
     private void animLine() {
@@ -214,11 +216,10 @@ public class MainActivity extends AppCompatActivity {
      * 展示所有的board内容
      */
     private void showOldBoards() {
-        tvTopLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_1));
-        tvTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
-        tvBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
-        tvBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
-
+        qbTopLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_1));
+        qbTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
+        qbBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
+        qbBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
     }
 
 //    @Override

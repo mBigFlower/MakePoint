@@ -2,28 +2,22 @@ package com.flowerfat.makepoint.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
+import android.net.Uri;
 import android.os.Environment;
-import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.Utils.ScreenUtil;
 
 import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by 明明大美女 on 2015/9/21.
@@ -103,6 +97,9 @@ public class QuarterBlock extends LinearLayout {
                 imgFile = new File(sdPath, PointColor.COLOR_4 + ".png");
                 break ;
         }
+
+        Uri imageUri = Uri.fromFile(imgFile);
+        System.out.println("onActivityResult"+ imageUri);
         if (imgFile.exists()) {
             Glide.with(mContext).load(imgFile).into(mImageView);
         }

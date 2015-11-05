@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
@@ -21,7 +20,6 @@ import com.flowerfat.makepoint.Utils.GreenDaoUtil;
 import com.flowerfat.makepoint.Utils.SpInstance;
 import com.flowerfat.makepoint.Utils.Utils;
 import com.flowerfat.makepoint.sqlite.Point;
-import com.flowerfat.makepoint.view.GoodTextView;
 import com.flowerfat.makepoint.view.QuarterBlock;
 
 import butterknife.Bind;

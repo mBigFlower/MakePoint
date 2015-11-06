@@ -21,6 +21,7 @@ import com.flowerfat.makepoint.Utils.SpInstance;
 import com.flowerfat.makepoint.Utils.Utils;
 import com.flowerfat.makepoint.sqlite.Point;
 import com.flowerfat.makepoint.view.QuarterBlock;
+import com.flowerfat.makepoint.view.QuarterBlock2;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.bottom_left)
     QuarterBlock qbBottomLeft;
     @Bind(R.id.bottom_right)
-    QuarterBlock qbBottomRight;
+    QuarterBlock2 qbBottomRight;
     @Bind(R.id.view_hline)
     View vHline;
     @Bind(R.id.view_vline)

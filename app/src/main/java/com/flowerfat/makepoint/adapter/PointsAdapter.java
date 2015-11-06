@@ -46,7 +46,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHo
 
         SimpleDateFormat format = new SimpleDateFormat("MM-dd");
         if(mDatas.get(position).getDate() != null){
-            String today = format.format(mDatas.get(position).getDate());
+            String today = mDatas.get(position).getDate();
             holder.textTitle.setText(today);
         }
     }

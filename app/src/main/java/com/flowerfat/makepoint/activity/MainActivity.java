@@ -3,6 +3,7 @@ package com.flowerfat.makepoint.activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -13,15 +14,16 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.Utils.GreenDaoUtil;
+import com.flowerfat.makepoint.Utils.FileUtil;
 import com.flowerfat.makepoint.Utils.SpInstance;
 import com.flowerfat.makepoint.Utils.Utils;
-import com.flowerfat.makepoint.sqlite.Point;
 import com.flowerfat.makepoint.view.QuarterBlock;
-import com.flowerfat.makepoint.view.QuarterBlock2;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.bottom_left)
     QuarterBlock qbBottomLeft;
     @Bind(R.id.bottom_right)
-    QuarterBlock2 qbBottomRight;
+    QuarterBlock qbBottomRight;
     @Bind(R.id.view_hline)
     View vHline;
     @Bind(R.id.view_vline)
@@ -176,31 +178,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        // TODO
         dateCheck();
-
     }
 
-    /**
-     * 每日检测，跨天与否执行的内容不同
-     */
     private void dateCheck() {
         if (Utils.ifStepDay(this)) {
-            // 把上次的值存到数据库
-            storePointsSQLite();
+            // reset the point's text
             SpInstance.get().initOneDayPoint();
-        } else {
-            // 显示上次的值
             showOldBoards();
+            // delete all the board pic
+            try {
+                FileUtil.del(new File(Environment.getExternalStorageDirectory(), "/boards/"));
+            } catch (Exception e) {
+                Toast.makeText(this, "错误信息："+e.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
-    }
-
-    private void storePointsSQLite() {
-        Point point = new Point(null,
-                SpInstance.get().gString("pColor" + PointColor.COLOR_1),
-                SpInstance.get().gString("pColor" + PointColor.COLOR_2),
-                SpInstance.get().gString("pColor" + PointColor.COLOR_3),
-                SpInstance.get().gString("pColor" + PointColor.COLOR_4), Utils.yesteday());
-        GreenDaoUtil.getInstance().insertPoint(point);
     }
 
     /**

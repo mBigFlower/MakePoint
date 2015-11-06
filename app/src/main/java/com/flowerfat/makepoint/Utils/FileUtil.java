@@ -36,12 +36,13 @@ public class FileUtil {
 
     /**
      * 创建文件夹 （如果有文件和folderName重名，也不能创建）
+     *
      * @param path
      */
-    public static void creatFolder(String path){
+    public static void creatFolder(String path) {
         File folder;
         folder = new File(path);
-        if(!folder.exists()){
+        if (!folder.exists()) {
             // Notice: 在文件夹的目录结构中，如果有任意一级的目录不存在，则无法创建
 //            folder.mkdir();
             // 用mkdirs() 就不会出现上面的问题，可以一路创建到底，所以以后就用这个了
@@ -123,6 +124,31 @@ public class FileUtil {
         } else {
             Log.e("文件操作", "文件不存在");
         }
+    }
+
+    /**
+     * delete file or delete folder and it's children
+     *
+     * @param file file or folder
+     * @return success or fail
+     * @throws IOException
+     */
+    public static boolean del(File file) throws IOException {
+        if (file == null || !file.exists()) {
+            return true;
+        }
+
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for (File childFile : files) {
+                boolean isOk = del(childFile);
+                if (!isOk) {
+                    //删除一个出错则本次删除任务失败
+                    return false;
+                }
+            }
+        }
+        return file.delete();
     }
 
     /**

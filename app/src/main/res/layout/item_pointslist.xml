@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.flowerfat.makepoint.view.GoodTextView
+        <TextView
             android:id="@+id/item_level2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:textSize="20sp"
             app:layout_widthPercent="50%" />
 
-        <com.flowerfat.makepoint.view.GoodTextView
+        <TextView
             android:id="@+id/item_level1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
             android:textSize="20sp"
             app:layout_widthPercent="50%" />
 
-        <com.flowerfat.makepoint.view.GoodTextView
+        <TextView
             android:id="@+id/item_level4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:textSize="20sp"
             app:layout_widthPercent="50%" />
 
-        <com.flowerfat.makepoint.view.GoodTextView
+        <TextView
             android:id="@+id/item_level3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

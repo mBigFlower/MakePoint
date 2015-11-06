@@ -28,7 +28,7 @@ public class PointDao extends AbstractDao<Point, Long> {
         public final static Property Point2 = new Property(2, String.class, "point2", false, "POINT2");
         public final static Property Point3 = new Property(3, String.class, "point3", false, "POINT3");
         public final static Property Point4 = new Property(4, String.class, "point4", false, "POINT4");
-        public final static Property Date = new Property(5, java.util.Date.class, "date", false, "DATE");
+        public final static Property Date = new Property(5, String.class, "date", false, "DATE");
     };
 
 
@@ -49,7 +49,7 @@ public class PointDao extends AbstractDao<Point, Long> {
                 "\"POINT2\" TEXT," + // 2: point2
                 "\"POINT3\" TEXT," + // 3: point3
                 "\"POINT4\" TEXT," + // 4: point4
-                "\"DATE\" INTEGER);"); // 5: date
+                "\"DATE\" TEXT);"); // 5: date
     }
 
     /** Drops the underlying database table. */
@@ -88,9 +88,9 @@ public class PointDao extends AbstractDao<Point, Long> {
             stmt.bindString(5, point4);
         }
  
-        java.util.Date date = entity.getDate();
+        String date = entity.getDate();
         if (date != null) {
-            stmt.bindLong(6, date.getTime());
+            stmt.bindString(6, date);
         }
     }
 
@@ -109,7 +109,7 @@ public class PointDao extends AbstractDao<Point, Long> {
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // point2
             cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // point3
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // point4
-            cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)) // date
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // date
         );
         return entity;
     }
@@ -122,7 +122,7 @@ public class PointDao extends AbstractDao<Point, Long> {
         entity.setPoint2(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setPoint3(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
         entity.setPoint4(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setDate(cursor.isNull(offset + 5) ? null : new java.util.Date(cursor.getLong(offset + 5)));
+        entity.setDate(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     
     /** @inheritdoc */

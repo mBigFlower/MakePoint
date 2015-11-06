@@ -68,7 +68,7 @@
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%" />
 
-        <com.flowerfat.makepoint.view.QuarterBlock2
+        <com.flowerfat.makepoint.view.QuarterBlock
             android:id="@+id/bottom_right"
             android:layout_width="0dp"
             android:layout_height="0dp"

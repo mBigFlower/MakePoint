@@ -13,7 +13,6 @@ public class ExampleDaoGenerator {
         Schema schema = new Schema(1, "com.flowerfat.makepoint.sqlite");
 
         addPoint(schema);
-        addNote(schema);
 
         new DaoGenerator().generateAll(schema, "./app/src/main/java");
     }
@@ -26,15 +25,7 @@ public class ExampleDaoGenerator {
         note.addStringProperty("point2");
         note.addStringProperty("point3");
         note.addStringProperty("point4");
-        note.addDateProperty("date");
-    }
-
-    private static void addNote(Schema schema) {
-        Entity note = schema.addEntity("Note");
-        note.addIdProperty();
-        note.addStringProperty("text").notNull();
-        note.addStringProperty("comment");
-        note.addDateProperty("date");
+        note.addStringProperty("date");
     }
 
 }

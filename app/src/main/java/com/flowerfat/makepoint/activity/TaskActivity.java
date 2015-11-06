@@ -221,13 +221,14 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         SpInstance.get().pString("pColor" + fillColor, text);
         Point point = GreenDaoUtil.getInstance().getTopPoint();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd");
-        if(point != null && format.format(point.getDate()).equals(format.format(new Date()))){
+        Log.i("savePoint", "new date:"+format.format(new Date()));
+        if(point != null && point.getDate().equals(format.format(new Date()))){
+            Log.i("savePoint", "old date:"+point.getDate().toString());
             // 更新数据库
             point.setPoint(fillColor, text);
             GreenDaoUtil.getInstance().replacePoint(point);
-            Log.i("savePoint", "date:"+point.getDate().toString());
         } else {
-            Point newPoint = new Point(fillColor, text, new Date());
+            Point newPoint = new Point(fillColor, text, format.format(new Date()));
             GreenDaoUtil.getInstance().insertPoint(newPoint);
         }
     }

@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -177,16 +178,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         // TODO
         dateCheck();
     }
 
     private void dateCheck() {
+        Log.d("datecheck", "begin");
         if (Utils.ifStepDay(this)) {
             // reset the point's text
             SpInstance.get().initOneDayPoint();
+            Log.d("datecheck", "initOneDayPoint");
             showOldBoards();
+            Log.d("datecheck", "showOldBoards");
+
             // delete all the board pic
             try {
                 FileUtil.del(new File(Environment.getExternalStorageDirectory(), "/boards/"));

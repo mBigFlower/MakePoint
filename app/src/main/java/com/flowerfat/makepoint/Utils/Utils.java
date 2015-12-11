@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.flowerfat.makepoint.MyApplication;
 
@@ -39,19 +40,23 @@ public class Utils {
      * @param context
      * @return 是否跨天
      */
-    public static boolean ifStepDay(Context context) {
+    public static boolean ifStepDay(Context context) {        Log.d("datecheck", "ifStepDay");
+
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         String today = format.format(new Date());
-
+        Log.d("datecheck", "1");
         String lastDay = SpInstance.get().gString("lastDay") ;
-
+        Log.d("datecheck",lastDay+ " 2 "+today);
         // 如果之前没存lastDay ，或者today与lastDay相同，则没有跨天
         if (lastDay == null) {
+            Log.d("datecheck", "3");
             SpInstance.get().pString("lastDay", today);
             return false;
         } else if (today.equals(lastDay)) {
+            Log.d("datecheck", "4");
             return false;
         } else {
+            Log.d("datecheck", "5");
             SpInstance.get().pString("lastDay", today);
             return true;
         }

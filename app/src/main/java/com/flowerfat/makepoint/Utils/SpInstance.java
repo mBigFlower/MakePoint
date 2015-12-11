@@ -3,6 +3,7 @@ package com.flowerfat.makepoint.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import com.flowerfat.makepoint.MyApplication;
 import com.flowerfat.makepoint.PointColor;
@@ -54,6 +55,7 @@ public class SpInstance {
     /////////////////////////////////////////////////////////////////
 
     public void initOneDayPoint(){
+        Log.d("datecheck", "initOneDayPoint begin");
         editor.putString("pColor" + PointColor.COLOR_1, "蓝色");
         editor.putString("pColor" + PointColor.COLOR_2, "level top");
         editor.putString("pColor" + PointColor.COLOR_3, "level bottom");

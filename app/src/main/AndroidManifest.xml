@@ -25,10 +25,6 @@
                 android:value=".activity.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.GreenDaoActivity"
-            android:label="@string/title_activity_green_dao" >
-        </activity>
-        <activity
             android:name=".activity.PointsHistoryActivity"
             android:label="@string/title_activity_points_history" >
         </activity>

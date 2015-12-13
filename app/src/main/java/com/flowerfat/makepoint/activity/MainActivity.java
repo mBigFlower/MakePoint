@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private final int TITLE_PADDINGTOP = Utils.dp2px(15);
 
     // 这个只对手机自带返回按钮有效，而toolbar的系统返回无效。。。
-    private boolean isFirstLoad = true;
+    private boolean isFirstLoad;
 
     private float downX, downY = 0;
 
@@ -60,11 +60,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
+        // 没有下面这句话，则会不显示onCreateOptionsMenu
+        setSupportActionBar(new Toolbar(this));
         animBlock();
-
         initListener();
-
+        if (savedInstanceState == null) {
+            isFirstLoad = true;
+        }
     }
 
     private void initListener() {
@@ -130,15 +134,14 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.e("onCreateOptionsMenu", "动画呢？");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-
-        Log.e("onCreateOptionsMenu", "动画呢？");
-
-        animBlockInit();
-        animBlock();
-        animLine();
+        if (isFirstLoad) {
+            isFirstLoad = false;
+            animBlockInit();
+            animBlock();
+            animLine();
+        }
         return true;
     }
 
@@ -146,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         qbTopLeft.setAlpha(0);
         qbTopRight.setAlpha(0);
         qbBottomLeft.setAlpha(0);
-//        tvBottomRight.setAlpha(0);
+        qbBottomRight.setAlpha(0);
     }
 
     private void animBlock() {
@@ -157,24 +160,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void animLine() {
-        if (isFirstLoad) {
-            isFirstLoad = false;
-            vVline.setTranslationY(-1500);
-            vHline.setTranslationX(-1500);
-            vVline.animate()
-                    .translationY(0)
-                    .setInterpolator(new OvershootInterpolator(1.f))
-                    .setStartDelay(900)
-                    .setDuration(ANIM_DURATION_LINE)
-                    .start();
-            vHline.animate()
-                    .translationX(0)
-                    .setInterpolator(new OvershootInterpolator(1.f))
-                    .setStartDelay(900)
-                    .setDuration(ANIM_DURATION_LINE)
-                    .start();
-        }
-
+        vVline.setTranslationY(-1500);
+        vHline.setTranslationX(-1500);
+        vVline.animate()
+                .translationY(0)
+                .setInterpolator(new OvershootInterpolator(1.f))
+                .setStartDelay(900)
+                .setDuration(ANIM_DURATION_LINE)
+                .start();
+        vHline.animate()
+                .translationX(0)
+                .setInterpolator(new OvershootInterpolator(1.f))
+                .setStartDelay(900)
+                .setDuration(ANIM_DURATION_LINE)
+                .start();
     }
 
 
@@ -194,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 FileUtil.del(new File(Environment.getExternalStorageDirectory(), "/boards/"));
             } catch (Exception e) {
-                Toast.makeText(this, "错误信息："+e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "错误信息：" + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
         showOldBoards();
@@ -225,22 +224,22 @@ public class MainActivity extends AppCompatActivity {
 //    }
 
 
-    private long mExitTime;
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - mExitTime) > 3000) {
-                showSnake("再按一次退出程序");
-                mExitTime = System.currentTimeMillis();
-            } else {
-
-                finish();
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    private long mExitTime;
+//
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+//            if ((System.currentTimeMillis() - mExitTime) > 3000) {
+//                showSnake("再按一次退出程序");
+//                mExitTime = System.currentTimeMillis();
+//            } else {
+//
+//                finish();
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
     Snackbar mSnackbar;
 

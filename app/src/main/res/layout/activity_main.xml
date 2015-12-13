@@ -82,7 +82,6 @@
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%" />
 
-
         <View
             android:id="@+id/view_hline"
             android:layout_width="match_parent"

@@ -3,6 +3,7 @@ package com.flowerfat.makepoint.Utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import com.flowerfat.makepoint.MyApplication;
 import com.flowerfat.makepoint.PointColor;

@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -129,8 +130,11 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.e("onCreateOptionsMenu", "动画呢？");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        Log.e("onCreateOptionsMenu", "动画呢？");
 
         animBlockInit();
         animBlock();
@@ -177,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        Log.v("MainActivity", "onResume");
         // TODO
         dateCheck();
     }
@@ -186,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
         if (Utils.ifStepDay(this)) {
             // reset the point's text
             SpInstance.get().initOneDayPoint();
-            showOldBoards();
             // delete all the board pic
             try {
                 FileUtil.del(new File(Environment.getExternalStorageDirectory(), "/boards/"));
@@ -194,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "错误信息："+e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
+        showOldBoards();
     }
 
     /**

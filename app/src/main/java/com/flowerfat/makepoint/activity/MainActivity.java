@@ -130,8 +130,11 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.e("onCreateOptionsMenu", "动画呢？");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
+
+        Log.e("onCreateOptionsMenu", "动画呢？");
 
         animBlockInit();
         animBlock();
@@ -178,19 +181,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.v("MainActivity", "onResume");
         // TODO
         dateCheck();
     }
 
     private void dateCheck() {
-        Log.d("datecheck", "begin");
         if (Utils.ifStepDay(this)) {
             // reset the point's text
             SpInstance.get().initOneDayPoint();
-            Log.d("datecheck", "initOneDayPoint");
-            showOldBoards();
-            Log.d("datecheck", "showOldBoards");
-
             // delete all the board pic
             try {
                 FileUtil.del(new File(Environment.getExternalStorageDirectory(), "/boards/"));
@@ -198,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "错误信息："+e.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
+        showOldBoards();
     }
 
     /**

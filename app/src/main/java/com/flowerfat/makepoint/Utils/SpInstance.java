@@ -55,7 +55,6 @@ public class SpInstance {
     /////////////////////////////////////////////////////////////////
 
     public void initOneDayPoint(){
-        Log.d("datecheck", "initOneDayPoint begin");
         editor.putString("pColor" + PointColor.COLOR_1, "蓝色");
         editor.putString("pColor" + PointColor.COLOR_2, "level top");
         editor.putString("pColor" + PointColor.COLOR_3, "level bottom");

@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class PointsHistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
 
     private PointsAdapter mAdapter;
 
@@ -31,7 +31,7 @@ public class PointsHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_points_history);
+        setContentView(R.layout.activity_history);
         ButterKnife.bind(this);
 
         initToolbar();
@@ -56,7 +56,7 @@ public class PointsHistoryActivity extends AppCompatActivity {
 
         List<Point> pointsLists = GreenDaoUtil.getInstance().searchAllPoint();
         Collections.reverse(pointsLists);
-        Log.i("PointsHistoryActivity", pointsLists.size() +" length");
+        Log.i("HistoryActivity", pointsLists.size() +" length");
         mAdapter.addItems(pointsLists);
     }
 

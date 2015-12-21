@@ -3,7 +3,6 @@ package com.flowerfat.makepoint.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -14,13 +13,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
+import com.flowerfat.makepoint.Utils.SpInstance;
 import com.flowerfat.makepoint.Utils.Utils;
 
 import java.io.File;
 
 /**
  * Created by 明明大美女 on 2015/9/21.
- * <p>
+ * <p/>
  * 主页的控件，一共四块
  */
 public class QuarterBlock extends LinearLayout {
@@ -76,6 +76,7 @@ public class QuarterBlock extends LinearLayout {
 //        mTextView.setLayoutParams(new LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         mTextView.setText(textString);
         mTextView.setTextSize(20);
+        mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 
     private void ivInit() {
@@ -88,56 +89,53 @@ public class QuarterBlock extends LinearLayout {
      * @param location
      */
     private void setImageAndLoc(int location) {
-        String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
-        File imgFile;
         switch (location) {
             case 1:
-                imgFile = new File(sdPath, PointColor.COLOR_1 + ".png");
-                if (imgFile.exists())
-                    mTextView.setGravity(Gravity.RIGHT);
-                else
-                    mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 this.addView(mImageView);
                 this.addView(mTextView);
                 break;
             case 2:
-                imgFile = new File(sdPath, PointColor.COLOR_2 + ".png");
-                if (imgFile.exists())
-                    mTextView.setGravity(Gravity.LEFT);
-                else
-                    mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 this.addView(mImageView);
                 this.addView(mTextView);
                 break;
             case 3:
-                imgFile = new File(sdPath, PointColor.COLOR_3 + ".png");
-                if (imgFile.exists())
-                    mTextView.setGravity(Gravity.RIGHT);
-                else
-                    mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 this.addView(mTextView);
                 this.addView(mImageView);
                 break;
             default:
-                imgFile = new File(sdPath, PointColor.COLOR_4 + ".png");
-                if (imgFile.exists())
-                    mTextView.setGravity(Gravity.LEFT);
-                else
-                    mTextView.setGravity(Gravity.CENTER_HORIZONTAL);
                 this.addView(mTextView);
                 this.addView(mImageView);
                 break;
         }
 
-        Uri imageUri = Uri.fromFile(imgFile);
-        System.out.println("onActivityResult" + imageUri);
-        if (imgFile.exists()) {
-            Glide.with(mContext).load(imgFile).into(mImageView);
-        }
     }
 
     public void setText(String text) {
         mTextView.setText(text);
+    }
+
+    public boolean setImg(int color) {
+        String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
+        File imgFile = new File(sdPath, color + ".png");
+        if (imgFile.exists()) {
+            Glide.with(mContext).load(imgFile).into(mImageView);
+            imgFile = null;
+            return true;
+        } else {
+            imgFile = null;
+            return false;
+        }
+    }
+
+    public void onResume(int color) {
+        setText(SpInstance.get().gString("pColor" + color));
+        if (setImg(color)) {
+            if(color == PointColor.COLOR_1 || color == PointColor.COLOR_3) {
+                mTextView.setGravity(Gravity.RIGHT);
+            } else {
+                mTextView.setGravity(Gravity.LEFT);
+            }
+        }
     }
 
 }

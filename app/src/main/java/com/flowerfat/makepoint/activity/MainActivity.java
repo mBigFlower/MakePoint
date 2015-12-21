@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private final int TITLE_PADDINGTOP = Utils.dp2px(15);
 
-    // 这个只对手机自带返回按钮有效，而toolbar的系统返回无效。。。
     private boolean isFirstLoad;
 
     private float downX, downY = 0;
@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
                             TITLE_PADDINGTOP + (int) (event.getY() - downY), 0, 0);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     titleFL.setPadding(0, TITLE_PADDINGTOP, 0, 0);
+                    if (event.getY() < Utils.dp2px(56))
+                        goSetting();
                 }
                 return true;
             }
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void listOnclick(View v) {
-        startActivity(new Intent(MainActivity.this, PointsHistoryActivity.class));
+        startActivity(new Intent(MainActivity.this, HistoryActivity.class));
     }
 
     /**
@@ -200,60 +202,46 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 展示所有的board内容
+     * 展示所有的board内容, 文字和
      */
     private void showOldBoards() {
-        qbTopLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_1));
-        qbTopRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_2));
-        qbBottomLeft.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_3));
-        qbBottomRight.setText(SpInstance.get().gString("pColor" + PointColor.COLOR_4));
+        qbTopLeft.onResume(PointColor.COLOR_1);
+        qbTopRight.onResume(PointColor.COLOR_2);
+        qbBottomLeft.onResume(PointColor.COLOR_3);
+        qbBottomRight.onResume(PointColor.COLOR_4);
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//            downX = event.getX();
-//            downY = event.getY();
-//        } else if (event.getAction() == MotionEvent.ACTION_MOVE) {
-//            titleFL.setPadding((int) (event.getX() - downX) ,
-//                    TITLE_PADDINGTOP+(int) (event.getY() - downY)  , 0, 0);
-//        } else if (event.getAction() == MotionEvent.ACTION_UP) {
-//            titleFL.setPadding(0, TITLE_PADDINGTOP, 0, 0);
-//        }
-//        return super.onTouchEvent(event);
-//    }
+    private void goSetting() {
+        int[] startingLocation = new int[2];
+        titleFL.getLocationOnScreen(startingLocation);
+        startingLocation[0] += titleFL.getWidth() / 2;
+        SettingActivity.startSettingFromLocation(startingLocation, this);
+        overridePendingTransition(0, 0);
+    }
 
 
-//    private long mExitTime;
-//
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-//            if ((System.currentTimeMillis() - mExitTime) > 3000) {
-//                showSnake("再按一次退出程序");
-//                mExitTime = System.currentTimeMillis();
-//            } else {
-//
-//                finish();
-//            }
-//            return true;
-//        }
-//        return super.onKeyDown(keyCode, event);
-//    }
+    private long mExitTime;
 
-    Snackbar mSnackbar;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 3000) {
+                showSnake("再按一次退出程序");
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     protected void showSnake(String text) {
         if (!TextUtils.isEmpty(text)) {
-            if (mSnackbar == null) {
-                mSnackbar = Snackbar.make(getWindow().getDecorView(), text, Snackbar.LENGTH_LONG)
-                        .setAction("OK", null);
-                mSnackbar.setActionTextColor(Color.WHITE);
-
-            } else {
-                mSnackbar.setText(text);
-            }
-            mSnackbar.show();
+            Snackbar.make(getWindow().getDecorView(), text, Snackbar.LENGTH_LONG)
+                    .setAction("OK", null).setActionTextColor(Color.WHITE)
+                    .show();
         }
     }
 

@@ -2,13 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical"
-    tools:context="com.flowerfat.makepoint.activity.PointsHistoryActivity">
+    tools:context="com.flowerfat.makepoint.activity.HistoryActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/history_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:theme="@style/ThemeToolbar"
         android:background="?attr/colorPrimary"/>
 
     <android.support.v7.widget.RecyclerView

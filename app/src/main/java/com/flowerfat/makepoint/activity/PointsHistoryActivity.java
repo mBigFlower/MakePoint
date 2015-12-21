@@ -12,6 +12,7 @@ import com.flowerfat.makepoint.adapter.PointsAdapter;
 import com.flowerfat.makepoint.sqlite.Point;
 import com.flowerfat.makepoint.view.DividerItemDecoration;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -45,6 +46,7 @@ public class PointsHistoryActivity extends AppCompatActivity {
                 this, DividerItemDecoration.VERTICAL_LIST));
 
         List<Point> pointsLists = GreenDaoUtil.getInstance().searchAllPoint();
+        Collections.reverse(pointsLists);
         Log.i("PointsHistoryActivity", pointsLists.size() +" length");
         mAdapter.addItems(pointsLists);
     }

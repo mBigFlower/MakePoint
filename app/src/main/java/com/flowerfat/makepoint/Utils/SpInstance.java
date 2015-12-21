@@ -55,10 +55,10 @@ public class SpInstance {
     /////////////////////////////////////////////////////////////////
 
     public void initOneDayPoint(){
-        editor.putString("pColor" + PointColor.COLOR_1, "蓝色");
-        editor.putString("pColor" + PointColor.COLOR_2, "level top");
-        editor.putString("pColor" + PointColor.COLOR_3, "level bottom");
-        editor.putString("pColor" + PointColor.COLOR_4, "level three");
+        editor.putString("pColor" + PointColor.COLOR_1, "");
+        editor.putString("pColor" + PointColor.COLOR_2, "");
+        editor.putString("pColor" + PointColor.COLOR_3, "");
+        editor.putString("pColor" + PointColor.COLOR_4, "");
         editor.commit();
     }
 

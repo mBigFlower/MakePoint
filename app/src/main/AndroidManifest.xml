@@ -28,8 +28,7 @@
             android:name=".activity.PointsHistoryActivity"
             android:label="@string/title_activity_points_history" >
         </activity>
-        <activity
-            android:name=".activity.WelcomeActivity" >
+        <activity android:name=".activity.WelcomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

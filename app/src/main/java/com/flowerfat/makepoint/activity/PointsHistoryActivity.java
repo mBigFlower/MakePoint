@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.flowerfat.makepoint.R;
@@ -22,8 +23,10 @@ public class PointsHistoryActivity extends AppCompatActivity {
 
     private PointsAdapter mAdapter;
 
-    @Bind(R.id.points_recycler)
+    @Bind(R.id.history_recycler)
     RecyclerView mRecyclerView;
+    @Bind(R.id.history_toolbar)
+    Toolbar toolbar ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,13 @@ public class PointsHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_points_history);
         ButterKnife.bind(this);
 
+        initToolbar();
         initRecyclerView();
+    }
+
+    private void initToolbar(){
+        setSupportActionBar(toolbar);
+        toolbar.setTitle("历史记录");
     }
 
     private void initRecyclerView() {

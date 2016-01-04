@@ -14,6 +14,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -85,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
                     titleFL.setPadding(0, TITLE_PADDINGTOP, 0, 0);
                     if (event.getY() < Utils.dp2px(56))
                         goSetting();
+                    else {
+                        animTitle();
+                    }
                 }
                 return true;
             }
@@ -178,6 +184,16 @@ public class MainActivity extends AppCompatActivity {
                 .start();
     }
 
+    private void animTitle() {
+        Animation operatingAnim = AnimationUtils.loadAnimation(this, R.anim.rotate_title);
+        LinearInterpolator lin = new LinearInterpolator();
+        operatingAnim.setInterpolator(lin);
+        operatingAnim.setFillAfter(true);
+        titleFL.startAnimation(operatingAnim);
+    }
+    /////////////////////////////////////////////////////////////////////////////////
+    // 上面都是动画
+    /////////////////////////////////////////////////////////////////////////////////
 
     @Override
     protected void onResume() {

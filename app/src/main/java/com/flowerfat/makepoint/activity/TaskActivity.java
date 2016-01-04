@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.Utils.GreenDaoUtil;
 import com.flowerfat.makepoint.Utils.ScreenUtil;
 import com.flowerfat.makepoint.Utils.SpInstance;
+import com.flowerfat.makepoint.Utils.Utils;
 import com.flowerfat.makepoint.sqlite.Point;
 import com.flowerfat.makepoint.view.DrawBoardView;
 import com.flowerfat.makepoint.view.RevealBackgroundView;
@@ -42,13 +45,13 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     RevealBackgroundView vRevealBackground;
 
     @Bind(R.id.task_edit)
-    EditText etContent;
+    EditText contentEt;
 
     @Bind(R.id.task_toolbar)
     Toolbar toolbar;
 
     @Bind(R.id.task_save)
-    TextView saveTV ;
+    TextView saveTV;
 
     @Bind(R.id.task_hline)
     View viewHline;
@@ -89,15 +92,51 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
      * 初始化内容
      */
     private void initContent() {
-        etContent.setText(SpInstance.get().gString("pColor" + fillColor));
+        contentEt.setText(SpInstance.get().gString("pColor" + fillColor));
+        contentEt.setSelection(contentEt.getText().length());
+        contentEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (Utils.isEnglish(s.toString())) {
+                    Log.w("onTextChanged", "包含了英文");
+                } else {
+                    Log.i("onTextChanged", "不包含英文");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @OnClick(R.id.task_save)
     void save() {
-        final String editContent = etContent.getText().toString().trim();
+        final String editContent = contentEt.getText().toString().trim();
+        String title = "保存　";
+        String posName;
         AlertDialog.Builder build = new AlertDialog.Builder(this);
-        build.setTitle("保存？").setMessage("Mark内容：" + editContent);
-        build.setPositiveButton("确定",
+        if (mBoardView.isDrawed()) {
+            posName = "图文";
+            title = title + "<画了个画>";
+            build.setNeutralButton("仅文字", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mBoardView.save();
+                    savePoint(editContent);
+                    finish();
+                }
+            });
+        } else {
+            posName = "确定";
+        }
+        build.setTitle(title).setMessage("Mark内容：" + editContent);
+        build.setPositiveButton(posName,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -172,11 +211,11 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     @Override
     public void onStateChange(int state) {
         if (RevealBackgroundView.STATE_FINISHED == state) {
-            etContent.setVisibility(View.VISIBLE);
+            contentEt.setVisibility(View.VISIBLE);
             viewHline.setVisibility(View.VISIBLE);
             mBoardView.setVisibility(View.VISIBLE);
         } else {
-            etContent.setVisibility(View.INVISIBLE);
+            contentEt.setVisibility(View.INVISIBLE);
             viewHline.setVisibility(View.INVISIBLE);
             mBoardView.setVisibility(View.INVISIBLE);
         }
@@ -199,22 +238,23 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
 
     /**
      * 这个地方的代码太笨了。自己都看不下去了！！！！ 要改 TODO
+     *
      * @param text
      */
     private void savePoint(String text) {
-        SpInstance.get().pString("pColor" + fillColor, text);
-        Point point = GreenDaoUtil.getInstance().getTopPoint();
+        Point point = GreenDaoUtil.getInstance().getBottomPoint();
         SimpleDateFormat format = new SimpleDateFormat("MM-dd");
-        Log.i("savePoint", "new date:"+format.format(new Date()));
-        if(point != null && point.getDate().equals(format.format(new Date()))){
-            Log.i("savePoint", "old date:"+point.getDate().toString());
+        if (point != null && point.getDate().equals(format.format(new Date()))) {
+            Log.i("savePoint", "old date:" + point.getDate().toString());
             // 更新数据库
             point.setPoint(fillColor, text);
             GreenDaoUtil.getInstance().replacePoint(point);
         } else {
             Point newPoint = new Point(fillColor, text, format.format(new Date()));
+            Log.i("savePoint2", newPoint.getDate() + " new date:" + format.format(new Date()));
             GreenDaoUtil.getInstance().insertPoint(newPoint);
         }
+        SpInstance.get().pString("pColor" + fillColor, text);
     }
 
 //

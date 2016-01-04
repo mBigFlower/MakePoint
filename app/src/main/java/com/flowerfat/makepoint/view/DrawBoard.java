@@ -18,9 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +40,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
     private int backgroundColor;
     // 该画板是否可以绘制
     private boolean drawEnable = true;
+    private boolean isDrawed = false ;
 
     public DrawBoard(Context context) {
         super(context);
@@ -104,6 +103,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
                 Log.i("我是抬起", "抬起了啊" + event.getX());
                 mCanvas.drawPath(mPath, mPaint);
                 savePath.add(mPath);
+                isDrawed = true ;
                 break;
         }
 
@@ -139,6 +139,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
     public void clear() {
         mPath.reset();
         mCanvas.drawColor(backgroundColor);
+        isDrawed = false ;
         invalidate();
     }
 
@@ -161,13 +162,21 @@ public class DrawBoard extends View implements View.OnTouchListener {
         return drawEnable;
     }
 
+
+    public boolean isDrawed() {
+        return isDrawed ;
+    }
+    public void setDrawed(boolean isDrawed){
+        this.isDrawed = isDrawed ;
+    }
+
     /**
      * 保存所绘图形
      * 返回绘图文件的存储路径
      */
     public String saveBitmap() {
-        if(mPath == null || mPath.isEmpty()){
-            return "还是画点什么吧~" ;
+        if (mPath == null || mPath.isEmpty()) {
+            return "还是画点什么吧~";
         }
         //获得系统当前时间，并以该时间作为文件名
 //        SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
@@ -204,7 +213,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
             e.printStackTrace();
         }
 
-        return "保存图片成功："+paintPath;
+        return "保存图片成功：" + paintPath;
     }
 
     public void release() {

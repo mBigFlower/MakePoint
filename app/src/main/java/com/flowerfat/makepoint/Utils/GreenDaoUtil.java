@@ -96,6 +96,14 @@ public class GreenDaoUtil {
             return null ;
         }
     }
+    public Point getBottomPoint(){
+        int size = getPointDao().loadAll().size();
+        if(size > 0)
+            return getPointDao().loadAll().get(size-1);
+        else {
+            return null ;
+        }
+    }
 
     /**
      * 数据的数量

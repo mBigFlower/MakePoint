@@ -85,9 +85,10 @@ public class DrawBoardView extends RelativeLayout {
     }
 
     @OnClick(R.id.BoardView_save)
-    void save() {
+    public void save() {
         String saveResult = drawBoard.saveBitmap();
         Toast.makeText(mContext, saveResult, Toast.LENGTH_LONG).show();
+        drawBoard.setDrawed(false);
     }
 
     @OnClick(R.id.BoardView_clear)
@@ -118,5 +119,9 @@ public class DrawBoardView extends RelativeLayout {
      */
     public void release() {
         drawBoard.release();
+    }
+
+    public boolean isDrawed(){
+        return drawBoard.isDrawed();
     }
 }

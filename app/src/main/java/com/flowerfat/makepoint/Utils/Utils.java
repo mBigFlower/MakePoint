@@ -1,9 +1,6 @@
 package com.flowerfat.makepoint.Utils;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.design.widget.Snackbar;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.flowerfat.makepoint.MyApplication;
@@ -11,6 +8,8 @@ import com.flowerfat.makepoint.MyApplication;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by 明明大美女 on 2015/10/10.
@@ -100,6 +99,15 @@ public class Utils {
     public static int sp2px(Context context, float spValue) {
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    public static boolean isEnglish(String str){
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isEnglish = pattern.matcher(str);
+        if( !isEnglish.matches() ){
+            return false;
+        }
+        return true;
     }
 
 }

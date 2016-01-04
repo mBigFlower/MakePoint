@@ -122,9 +122,9 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         String posName;
         AlertDialog.Builder build = new AlertDialog.Builder(this);
         if (mBoardView.isDrawed()) {
-            posName = "图文";
+            posName = "仅文字";
             title = title + "<画了个画>";
-            build.setNeutralButton("仅文字", new DialogInterface.OnClickListener() {
+            build.setNeutralButton("图文", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     mBoardView.save();

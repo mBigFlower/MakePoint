@@ -7,6 +7,7 @@
 # 进度bug
 
 - 任务有提醒不？
+- 英文和中文的字数判断
 
 # 预览
 ![MakePoint](http://7xjizl.com1.z0.glb.clouddn.com/makepointGifPoint1.gif)

@@ -6,9 +6,7 @@
 
 # 进度bug
 
-- 插图那里目前总共只能保持四张图片，因为用glide库有缓存，所以更换图片不咋的。
-- 图片那里还要单独保存
-- 还有，第二天的这个图片就应该不显示了的
+- 任务有提醒不？
 
 # 预览
 ![MakePoint](http://7xjizl.com1.z0.glb.clouddn.com/makepointGifPoint1.gif)

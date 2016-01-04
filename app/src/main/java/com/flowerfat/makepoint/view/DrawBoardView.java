@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.Utils.ScreenUtil;
+import com.flowerfat.makepoint.utils.ScreenUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.flowerfat.makepoint.Utils;
+package com.flowerfat.makepoint.utils;
 
 
 import com.flowerfat.makepoint.entity.Points;

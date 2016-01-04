@@ -2,7 +2,7 @@ package com.flowerfat.makepoint;
 
 import android.app.Application;
 
-import com.flowerfat.makepoint.Utils.GreenDaoUtil;
+import com.flowerfat.makepoint.utils.GreenDaoUtil;
 
 /**
  * Created by 明明大美女 on 2015/9/22.

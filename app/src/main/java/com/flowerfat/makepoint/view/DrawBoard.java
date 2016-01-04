@@ -12,13 +12,16 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.flowerfat.makepoint.Utils.ScreenUtil;
+import com.flowerfat.makepoint.utils.ScreenUtil;
+import com.flowerfat.makepoint.utils.SpInstance;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -179,12 +182,11 @@ public class DrawBoard extends View implements View.OnTouchListener {
             return "还是画点什么吧~";
         }
         //获得系统当前时间，并以该时间作为文件名
-//        SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
-//        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-//        String str = formatter.format(curDate);
-        String str = "";
+        SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
+        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
+        String str = formatter.format(curDate);
         String paintPath = null;
-        str = str + backgroundColor + ".png";
+        str = str + ".png";
         String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
 //        String sdPath = "/sdcard/boards/";
         File dir = new File(sdPath);
@@ -208,11 +210,13 @@ public class DrawBoard extends View implements View.OnTouchListener {
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            return null ;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+            return null ;
         }
-
+        SpInstance.get().pString(""+backgroundColor, str);
         return "保存图片成功：" + paintPath;
     }
 

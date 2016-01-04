@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.Utils.GreenDaoUtil;
+import com.flowerfat.makepoint.utils.GreenDaoUtil;
 import com.flowerfat.makepoint.adapter.PointsAdapter;
 import com.flowerfat.makepoint.sqlite.Point;
 import com.flowerfat.makepoint.view.DividerItemDecoration;

@@ -6,9 +6,9 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.flowerfat.makepoint.Utils.FileUtil;
-import com.flowerfat.makepoint.Utils.SpInstance;
-import com.flowerfat.makepoint.Utils.Utils;
+import com.flowerfat.makepoint.utils.FileUtil;
+import com.flowerfat.makepoint.utils.SpInstance;
+import com.flowerfat.makepoint.utils.Utils;
 
 import java.io.File;
 

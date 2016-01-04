@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Environment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,8 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.Utils.SpInstance;
-import com.flowerfat.makepoint.Utils.Utils;
+import com.flowerfat.makepoint.utils.SpInstance;
+import com.flowerfat.makepoint.utils.Utils;
 
 import java.io.File;
 
@@ -116,7 +117,10 @@ public class QuarterBlock extends LinearLayout {
 
     public boolean setImg(int color) {
         String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
-        File imgFile = new File(sdPath, color + ".png");
+        String imgName = SpInstance.get().gString(""+color);
+        if(imgName == null)
+            return false;
+        File imgFile = new File(sdPath, imgName);
         if (imgFile.exists()) {
             Glide.with(mContext).load(imgFile).into(mImageView);
             imgFile = null;

@@ -23,9 +23,9 @@ import android.widget.Toast;
 
 import com.flowerfat.makepoint.PointColor;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.Utils.FileUtil;
-import com.flowerfat.makepoint.Utils.SpInstance;
-import com.flowerfat.makepoint.Utils.Utils;
+import com.flowerfat.makepoint.utils.FileUtil;
+import com.flowerfat.makepoint.utils.SpInstance;
+import com.flowerfat.makepoint.utils.Utils;
 import com.flowerfat.makepoint.view.QuarterBlock;
 
 import java.io.File;

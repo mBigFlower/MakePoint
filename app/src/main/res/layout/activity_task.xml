@@ -51,13 +51,12 @@
             android:textColor="#fff"
             android:textColorHint="#9fff" />
 
-        <View
+        <com.flowerfat.makepoint.view.DragLineView
             android:id="@+id/task_hline"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:background="#fff" />
+            android:layout_height="20dp" />
 
         <com.flowerfat.makepoint.view.DrawBoardView
             android:id="@+id/task_board"

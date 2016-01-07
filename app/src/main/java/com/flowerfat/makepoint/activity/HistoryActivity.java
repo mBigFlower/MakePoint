@@ -40,7 +40,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void initToolbar(){
         setSupportActionBar(toolbar);
-        toolbar.setTitle("历史记录");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initRecyclerView() {

@@ -1,7 +1,10 @@
 package com.flowerfat.makepoint.utils;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.flowerfat.makepoint.MyApplication;
 
@@ -16,7 +19,19 @@ import java.util.regex.Pattern;
  */
 public class Utils {
 
-
+    /**
+     * 获取屏幕宽高
+     *
+     * @param context
+     * @return
+     */
+    public static int[] getScreenSize(Context context) {
+        int[] screens;
+        DisplayMetrics dm = new DisplayMetrics();
+        dm = context.getResources().getDisplayMetrics();
+        screens = new int[]{dm.widthPixels, dm.heightPixels};
+        return screens;
+    }
 
     public static boolean isEmpty(String text) {
         if (text == null || text.equals("")) {
@@ -110,4 +125,8 @@ public class Utils {
         return true;
     }
 
+    public static void closeSoftInput(Context context, View focusingView) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(focusingView.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+    }
 }

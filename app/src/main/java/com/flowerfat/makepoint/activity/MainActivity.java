@@ -1,5 +1,6 @@
 package com.flowerfat.makepoint.activity;
 
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.flowerfat.makepoint.PointColor;
@@ -26,6 +28,8 @@ import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.utils.FileUtil;
 import com.flowerfat.makepoint.utils.SpInstance;
 import com.flowerfat.makepoint.utils.Utils;
+import com.flowerfat.makepoint.view.ExitDialog;
+import com.flowerfat.makepoint.view.ExitView;
 import com.flowerfat.makepoint.view.QuarterBlock;
 
 import java.io.File;
@@ -58,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
     View vHline;
     @Bind(R.id.view_vline)
     View vVline;
+
+    @Bind(R.id.main_exitView)
+    ExitView exitView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
             isFirstLoad = false;
             animBlockInit();
             animBlock();
-            animLine();
+            animLineIn();
+            exitView.animLineIn();
         }
         return true;
     }
@@ -167,7 +175,16 @@ public class MainActivity extends AppCompatActivity {
         qbBottomRight.animate().alpha(1).setDuration(ANIM_DURATION_BLOCK).setStartDelay(600);
     }
 
-    private void animLine() {
+
+    private void animTitle() {
+        Animation operatingAnim = AnimationUtils.loadAnimation(this, R.anim.rotate_title);
+        LinearInterpolator lin = new LinearInterpolator();
+        operatingAnim.setInterpolator(lin);
+        operatingAnim.setFillAfter(true);
+        titleFL.startAnimation(operatingAnim);
+    }
+
+    private void animLineIn() {
         vVline.setTranslationY(-1500);
         vHline.setTranslationX(-1500);
         vVline.animate()
@@ -184,13 +201,24 @@ public class MainActivity extends AppCompatActivity {
                 .start();
     }
 
-    private void animTitle() {
-        Animation operatingAnim = AnimationUtils.loadAnimation(this, R.anim.rotate_title);
-        LinearInterpolator lin = new LinearInterpolator();
-        operatingAnim.setInterpolator(lin);
-        operatingAnim.setFillAfter(true);
-        titleFL.startAnimation(operatingAnim);
+    private void animLineOut() {
+        int hLineMarginLeft = vHline.getLeft();
+        int hLineMarginRight = vHline.getRight();
+        Log.i("animLineOut", hLineMarginLeft + " " + hLineMarginRight);
+        final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) vHline.getLayoutParams();
+        ValueAnimator leftAnimation = ValueAnimator.ofInt(0, 100);
+        leftAnimation.setDuration(2000);
+        leftAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Integer value = (Integer) animation.getAnimatedValue();
+                Log.i("animLineOut", "value: " + value);
+                exitView.setPadding(value, 0, 0, 0);
+            }
+        });
+        leftAnimation.start();
     }
+
     /////////////////////////////////////////////////////////////////////////////////
     // 上面都是动画
     /////////////////////////////////////////////////////////////////////////////////
@@ -236,17 +264,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private long mExitTime;
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-            if ((System.currentTimeMillis() - mExitTime) > 3000) {
-                showSnake("再按一次退出程序");
-                mExitTime = System.currentTimeMillis();
-            } else {
-                finish();
-            }
+            exitView.animLineOut(new ExitView.OnAnimationEndListener() {
+                @Override
+                public void onAnimationEnd() {
+                    ExitDialog dialog = new ExitDialog(MainActivity.this);
+                    dialog.setOnExitListener(new ExitDialog.OnExitListener() {
+                        @Override
+                        public void exit() {
+                            finish();
+                        }
+
+                        @Override
+                        public void cancel() {
+                            exitView.animLineOutBack();
+                        }
+                    }).show();
+                }
+            });
             return true;
         }
         return super.onKeyDown(keyCode, event);

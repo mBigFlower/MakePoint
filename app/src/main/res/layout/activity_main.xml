@@ -17,11 +17,11 @@
         <ImageView
             android:layout_width="?attr/actionBarSize"
             android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:onClick="listOnclick"
             android:padding="18dp"
-            android:src="@mipmap/icon_list"
-            android:background="?android:attr/selectableItemBackground"/>
+            android:src="@mipmap/icon_list" />
 
     </LinearLayout>
 
@@ -38,9 +38,9 @@
             android:clickable="true"
             android:onClick="blockOnclick"
             app:blockText="level 2"
-            app:textLocation="1"
             app:layout_heightPercent="50%"
-            app:layout_widthPercent="50%" />
+            app:layout_widthPercent="50%"
+            app:textLocation="1" />
 
         <com.flowerfat.makepoint.view.QuarterBlock
             android:id="@+id/top_right"
@@ -52,9 +52,9 @@
             android:drawableBottom="@mipmap/icon_last"
             android:onClick="blockOnclick"
             app:blockText="level top"
-            app:textLocation="2"
             app:layout_heightPercent="50%"
-            app:layout_widthPercent="50%" />
+            app:layout_widthPercent="50%"
+            app:textLocation="2" />
 
         <com.flowerfat.makepoint.view.QuarterBlock
             android:id="@+id/bottom_left"
@@ -65,9 +65,9 @@
             android:clickable="true"
             android:onClick="blockOnclick"
             app:blockText="level bottom"
-            app:textLocation="3"
             app:layout_heightPercent="50%"
-            app:layout_widthPercent="50%" />
+            app:layout_widthPercent="50%"
+            app:textLocation="3" />
 
         <com.flowerfat.makepoint.view.QuarterBlock
             android:id="@+id/bottom_right"
@@ -79,9 +79,9 @@
             android:clickable="true"
             android:onClick="blockOnclick"
             app:blockText="level three"
-            app:textLocation="4"
             app:layout_heightPercent="50%"
-            app:layout_widthPercent="50%" />
+            app:layout_widthPercent="50%"
+            app:textLocation="4" />
 
         <View
             android:id="@+id/view_hline"
@@ -89,6 +89,7 @@
             android:layout_height="2dp"
             android:layout_centerVertical="true"
             android:background="#fff"
+            android:visibility="gone"
             app:layout_marginLeftPercent="40%"
             app:layout_marginRightPercent="27%" />
 
@@ -98,6 +99,7 @@
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:background="#fff"
+            android:visibility="gone"
             app:layout_marginBottomPercent="21%"
             app:layout_marginTopPercent="7%" />
 
@@ -118,4 +120,9 @@
             android:textSize="20sp" />
     </FrameLayout>
 
+    <com.flowerfat.makepoint.view.ExitView
+        android:id="@+id/main_exitView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize" />
 </RelativeLayout>

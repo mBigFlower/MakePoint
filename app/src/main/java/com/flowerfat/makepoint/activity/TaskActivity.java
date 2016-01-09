@@ -117,6 +117,7 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
 
     @OnClick(R.id.task_save)
     void save() {
+        Utils.closeSoftInput(this, contentEt);
         final String editContent = contentEt.getText().toString().trim();
         String title = "保存　";
         String posName;

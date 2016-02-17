@@ -6,4 +6,7 @@
     <string name="title_activity_green_dao">GreenDaoActivity</string>
     <string name="title_activity_history">History</string>
     <string name="title_activity_setting">Setting</string>
+    <string name="title_activity_test">Test</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

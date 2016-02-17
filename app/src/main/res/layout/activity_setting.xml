@@ -1,5 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.flowerfat.makepoint.activity.SettingActivity">
@@ -19,4 +21,19 @@
         android:theme="@style/ThemeToolbar" />
 
 
+    <com.flowerfat.makepoint.view.DotsView
+        android:id="@+id/dotsView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true" />
+
+    <com.hanks.htextview.HTextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/dotsView"
+        android:background="#f00"
+        android:text="haha"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:animateType="anvil" />
 </RelativeLayout>

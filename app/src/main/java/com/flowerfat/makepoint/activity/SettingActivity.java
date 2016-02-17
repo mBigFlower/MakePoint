@@ -1,5 +1,6 @@
 package com.flowerfat.makepoint.activity;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -7,15 +8,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import com.flowerfat.makepoint.R;
+import com.flowerfat.makepoint.view.DotsView;
 import com.flowerfat.makepoint.view.RevealBackgroundView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SettingActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener  {
+public class SettingActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
 
     public static final String ARG_REVEAL_START_LOCATION = "reveal_start_location";
 
@@ -24,6 +27,9 @@ public class SettingActivity extends AppCompatActivity implements RevealBackgrou
 
     @Bind(R.id.setting_toolbar)
     Toolbar toolbar;
+
+    @Bind(R.id.dotsView)
+    DotsView dotsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,8 @@ public class SettingActivity extends AppCompatActivity implements RevealBackgrou
                     vRevealBackground.startFromLocation(startingLocation);
                     // toolbar anim
                     animIn();
+
+                    animDots();
                     return true;
                 }
             });
@@ -72,8 +80,14 @@ public class SettingActivity extends AppCompatActivity implements RevealBackgrou
                 .setInterpolator(new OvershootInterpolator(1.f));
     }
 
+    private void animDots() {
+        ObjectAnimator dotsAnimator = ObjectAnimator.ofFloat(dotsView, DotsView.DOTS_PROGRESS, 0, 1f);
+        dotsAnimator.setDuration(900);
+        dotsAnimator.setStartDelay(50);
+        dotsAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+    }
+
     /**
-     *
      * @param startingLocation
      * @param startingActivity
      */

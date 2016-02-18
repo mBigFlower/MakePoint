@@ -1,6 +1,5 @@
 package com.flowerfat.makepoint.activity;
 
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,9 +17,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.flowerfat.makepoint.PointColor;
@@ -28,7 +25,6 @@ import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.utils.FileUtil;
 import com.flowerfat.makepoint.utils.SpInstance;
 import com.flowerfat.makepoint.utils.Utils;
-import com.flowerfat.makepoint.view.ExitDialog;
 import com.flowerfat.makepoint.view.ExitView;
 import com.flowerfat.makepoint.view.QuarterBlock;
 
@@ -58,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
     QuarterBlock qbBottomLeft;
     @Bind(R.id.bottom_right)
     QuarterBlock qbBottomRight;
-    @Bind(R.id.view_hline)
-    View vHline;
-    @Bind(R.id.view_vline)
-    View vVline;
 
     @Bind(R.id.main_exitView)
     ExitView exitView;
@@ -79,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             isFirstLoad = true;
         }
+
+        initLongListener();
     }
 
     private void initListener() {
@@ -116,6 +110,21 @@ public class MainActivity extends AppCompatActivity {
         TaskActivity.startUserProfileFromLocation(startingLocation, getColorFromClick(v), this);
         overridePendingTransition(0, 0);
     }
+
+    private void initLongListener(){
+        qbTopLeft.setOnLongClickListener(longClick);
+        qbBottomLeft.setOnLongClickListener(longClick);
+        qbBottomRight.setOnLongClickListener(longClick);
+        qbTopRight.setOnLongClickListener(longClick);
+    }
+
+    View.OnLongClickListener longClick = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            Toast.makeText(MainActivity.this, "长按", Toast.LENGTH_LONG).show();
+            return true;
+        }
+    };
 
     public void listOnclick(View v) {
         startActivity(new Intent(MainActivity.this, HistoryActivity.class));
@@ -155,7 +164,6 @@ public class MainActivity extends AppCompatActivity {
             isFirstLoad = false;
             animBlockInit();
             animBlock();
-            animLineIn();
             exitView.animLineIn();
         }
         return true;
@@ -182,41 +190,6 @@ public class MainActivity extends AppCompatActivity {
         operatingAnim.setInterpolator(lin);
         operatingAnim.setFillAfter(true);
         titleFL.startAnimation(operatingAnim);
-    }
-
-    private void animLineIn() {
-        vVline.setTranslationY(-1500);
-        vHline.setTranslationX(-1500);
-        vVline.animate()
-                .translationY(0)
-                .setInterpolator(new OvershootInterpolator(1.f))
-                .setStartDelay(900)
-                .setDuration(ANIM_DURATION_LINE)
-                .start();
-        vHline.animate()
-                .translationX(0)
-                .setInterpolator(new OvershootInterpolator(1.f))
-                .setStartDelay(900)
-                .setDuration(ANIM_DURATION_LINE)
-                .start();
-    }
-
-    private void animLineOut() {
-        int hLineMarginLeft = vHline.getLeft();
-        int hLineMarginRight = vHline.getRight();
-        Log.i("animLineOut", hLineMarginLeft + " " + hLineMarginRight);
-        final RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) vHline.getLayoutParams();
-        ValueAnimator leftAnimation = ValueAnimator.ofInt(0, 100);
-        leftAnimation.setDuration(2000);
-        leftAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                Integer value = (Integer) animation.getAnimatedValue();
-                Log.i("animLineOut", "value: " + value);
-                exitView.setPadding(value, 0, 0, 0);
-            }
-        });
-        leftAnimation.start();
     }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -272,18 +245,7 @@ public class MainActivity extends AppCompatActivity {
             exitView.animLineOut(new ExitView.OnAnimationEndListener() {
                 @Override
                 public void onAnimationEnd() {
-                    ExitDialog dialog = new ExitDialog(MainActivity.this);
-                    dialog.setOnExitListener(new ExitDialog.OnExitListener() {
-                        @Override
-                        public void exit() {
-                            finish();
-                        }
-
-                        @Override
-                        public void cancel() {
-                            exitView.animLineOutBack();
-                        }
-                    }).show();
+                    finish();
                 }
             });
             return true;

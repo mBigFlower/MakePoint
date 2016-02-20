@@ -114,6 +114,10 @@ public class DrawBoardView extends RelativeLayout {
         drawBoard.setBoardColor(color);
     }
 
+    public void setBoardBitmap(int color) {
+        drawBoard.setBitmap(color);
+    }
+
     /**
      * 释放资源
      */
@@ -121,7 +125,7 @@ public class DrawBoardView extends RelativeLayout {
         drawBoard.release();
     }
 
-    public boolean isDrawed(){
+    public boolean isDrawed() {
         return drawBoard.isDrawed();
     }
 }

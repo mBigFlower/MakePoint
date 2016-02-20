@@ -194,6 +194,7 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
                 .setInterpolator(new OvershootInterpolator(1.f));
 
         mBoardView.setBoardColor(fillColor);
+//        mBoardView.setBoardBitmap(fillColor);
         mBoardView.show();
     }
 

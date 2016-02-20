@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     View.OnLongClickListener longClick = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            Toast.makeText(MainActivity.this, "长按", Toast.LENGTH_LONG).show();
+            ((QuarterBlock)v).toggle();
             return true;
         }
     };

@@ -83,18 +83,6 @@
             app:layout_widthPercent="50%"
             app:textLocation="4"/>
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="#7000"
-            android:padding="12dp"
-            android:text="Done"
-            android:textColor="@android:color/white"
-            android:textSize="24sp"
-            app:blockText="level 2"
-            app:layout_heightPercent="50%"
-            app:layout_widthPercent="50%"/>
-
     </android.support.percent.PercentRelativeLayout>
 
     <FrameLayout

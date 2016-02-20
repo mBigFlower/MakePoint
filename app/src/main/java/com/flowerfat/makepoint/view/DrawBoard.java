@@ -2,6 +2,7 @@ package com.flowerfat.makepoint.view;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -43,7 +44,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
     private int backgroundColor;
     // 该画板是否可以绘制
     private boolean drawEnable = true;
-    private boolean isDrawed = false ;
+    private boolean isDrawed = false;
 
     public DrawBoard(Context context) {
         super(context);
@@ -74,6 +75,8 @@ public class DrawBoard extends View implements View.OnTouchListener {
         mCanvas = new Canvas(mBitmap);
         mBitmapPaint = new Paint(Paint.DITHER_FLAG);
         mBitmapPaint.setAlpha(0x00); //设置透明程度
+
+
     }
 
     @Override
@@ -106,11 +109,28 @@ public class DrawBoard extends View implements View.OnTouchListener {
                 Log.i("我是抬起", "抬起了啊" + event.getX());
                 mCanvas.drawPath(mPath, mPaint);
                 savePath.add(mPath);
-                isDrawed = true ;
+                isDrawed = true;
                 break;
         }
 
         return true;
+    }
+
+    public void setBitmap(int color) {
+        String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
+        String imgName = SpInstance.get().gString("" + color);
+        if (imgName == null)
+            return;
+        mBitmap = BitmapFactory.decodeFile(sdPath+imgName);
+        File imgFile = new File(sdPath, imgName);
+//        if (imgFile.exists()) {
+//            mBitmap = BitmapFactory.decodeFile(sdPath+imgName);
+//            imgFile = null;
+//            return;
+//        } else {
+//            imgFile = null;
+//            return;
+//        }
     }
 
     /**
@@ -142,7 +162,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
     public void clear() {
         mPath.reset();
         mCanvas.drawColor(backgroundColor);
-        isDrawed = false ;
+        isDrawed = false;
         invalidate();
     }
 
@@ -167,10 +187,11 @@ public class DrawBoard extends View implements View.OnTouchListener {
 
 
     public boolean isDrawed() {
-        return isDrawed ;
+        return isDrawed;
     }
-    public void setDrawed(boolean isDrawed){
-        this.isDrawed = isDrawed ;
+
+    public void setDrawed(boolean isDrawed) {
+        this.isDrawed = isDrawed;
     }
 
     /**
@@ -210,13 +231,13 @@ public class DrawBoard extends View implements View.OnTouchListener {
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null ;
+            return null;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null ;
+            return null;
         }
-        SpInstance.get().pString(""+backgroundColor, str);
+        SpInstance.get().pString("" + backgroundColor, str);
         return "保存图片成功：" + paintPath;
     }
 

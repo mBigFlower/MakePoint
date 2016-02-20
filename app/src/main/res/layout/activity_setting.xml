@@ -27,13 +27,4 @@
         android:layout_height="100dp"
         android:layout_centerInParent="true" />
 
-    <com.hanks.htextview.HTextView
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/dotsView"
-        android:background="#f00"
-        android:text="haha"
-        android:textColor="@android:color/white"
-        android:textSize="30sp"
-        app:animateType="anvil" />
 </RelativeLayout>

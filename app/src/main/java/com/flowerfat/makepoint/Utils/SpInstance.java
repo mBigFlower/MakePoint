@@ -3,7 +3,6 @@ package com.flowerfat.makepoint.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.util.Log;
 
 import com.flowerfat.makepoint.MyApplication;
 import com.flowerfat.makepoint.PointColor;
@@ -59,6 +58,10 @@ public class SpInstance {
         editor.putString("pColor" + PointColor.COLOR_2, "");
         editor.putString("pColor" + PointColor.COLOR_3, "");
         editor.putString("pColor" + PointColor.COLOR_4, "");
+        editor.putBoolean("isTaskDone" + PointColor.COLOR_1, false);
+        editor.putBoolean("isTaskDone" + PointColor.COLOR_2, false);
+        editor.putBoolean("isTaskDone" + PointColor.COLOR_3, false);
+        editor.putBoolean("isTaskDone" + PointColor.COLOR_4, false);
         editor.commit();
     }
 

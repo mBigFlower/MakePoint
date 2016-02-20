@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     tools:context="com.flowerfat.makepoint.activity.Test">
 
-    <com.hanks.htextview.HTextView
+    <!--<com.hanks.htextview.HTextView
         android:id="@+id/htextview"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -15,5 +15,5 @@
         android:text="haha"
         android:textColor="@android:color/white"
         android:textSize="30sp"
-        app:animateType="anvil" />
+        app:animateType="anvil" />-->
 </RelativeLayout>

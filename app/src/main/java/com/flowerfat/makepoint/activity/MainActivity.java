@@ -229,13 +229,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goSetting() {
-//        int[] startingLocation = new int[2];
-//        titleFL.getLocationOnScreen(startingLocation);
-//        startingLocation[0] += titleFL.getWidth() / 2;
-//        SettingActivity.startSettingFromLocation(startingLocation, this);
-//        overridePendingTransition(0, 0);
+        int[] startingLocation = new int[2];
+        titleFL.getLocationOnScreen(startingLocation);
+        startingLocation[0] += titleFL.getWidth() / 2;
+        SettingActivity.startSettingFromLocation(startingLocation, this);
+        overridePendingTransition(0, 0);
 
-        startActivity(new Intent(this, Test.class));
+//        startActivity(new Intent(this, Test.class));
     }
 
 

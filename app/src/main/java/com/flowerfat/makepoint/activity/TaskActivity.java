@@ -70,7 +70,6 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         initContent();
 
         setupRevealBackground(savedInstanceState);
-
     }
 
     /**
@@ -119,39 +118,31 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     void save() {
         Utils.closeSoftInput(this, contentEt);
         final String editContent = contentEt.getText().toString().trim();
-        String title = "保存　";
-        String posName;
-        AlertDialog.Builder build = new AlertDialog.Builder(this);
         if (mBoardView.isDrawed()) {
-            posName = "仅文字";
-            title = title + "<画了个画>";
-            build.setNeutralButton("图文", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mBoardView.save();
-                    savePoint(editContent);
-                    finish();
-                }
-            });
+            AlertDialog.Builder build = new AlertDialog.Builder(this);
+            build.setTitle("<画了个画>").setMessage("Mark内容：" + editContent);
+            build.setPositiveButton("仅文字",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            savePoint(editContent);
+                            finish();
+                        }
+                    });
+            build.setNegativeButton("图文",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mBoardView.save();
+                            savePoint(editContent);
+                            finish();
+                        }
+                    }).show();
         } else {
-            posName = "确定";
+            savePoint(editContent);
+            finish();
         }
-        build.setTitle(title).setMessage("Mark内容：" + editContent);
-        build.setPositiveButton(posName,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        savePoint(editContent);
-                        finish();
-                    }
-                });
-        build.setNegativeButton("取消",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        ;
-                    }
-                }).show();
+
     }
 
 
@@ -258,22 +249,6 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
         }
         SpInstance.get().pString("pColor" + fillColor, text);
     }
-
-//
-//    @Override
-//    public boolean onKeyDown(int keyCode, KeyEvent event) {
-//        Log.i("Task", "onKeyDown");
-//        if (editContent == null || editContent.equals("")) {
-//            finish();
-//            return false;
-//        }
-//        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK) {
-//
-//        }
-//
-//        return super.onKeyDown(keyCode, event);
-//    }
-
 
     @Override
     protected void onDestroy() {

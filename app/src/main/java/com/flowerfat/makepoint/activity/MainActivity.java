@@ -33,6 +33,11 @@ import java.io.File;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * TODO
+ * 1. 把SP整理一下，增加静态类 Contacts
+ * 2. 把Point的保存方法更改下，改成entity，因为越来越多的相关属性出现了
+ */
 public class MainActivity extends AppCompatActivity {
 
     private static final int ANIM_DURATION_BLOCK = 400;

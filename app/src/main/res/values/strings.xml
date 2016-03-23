@@ -8,5 +8,8 @@
     <string name="title_activity_setting">Setting</string>
     <string name="title_activity_test">Test</string>
 
+
+    <string name="setting_notifacation">通知栏不消失</string>
+
     <string name="hello_world">Hello world!</string>
 </resources>

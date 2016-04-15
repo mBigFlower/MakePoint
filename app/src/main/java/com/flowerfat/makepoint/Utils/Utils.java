@@ -2,13 +2,14 @@ package com.flowerfat.makepoint.utils;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.flowerfat.makepoint.Constants.PointColor;
+import com.flowerfat.makepoint.Constants.PointManager;
 import com.flowerfat.makepoint.MyApplication;
+import com.flowerfat.makepoint.entity.db.Point;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -33,14 +34,6 @@ public class Utils {
         return screens;
     }
 
-    public static boolean isEmpty(String text) {
-        if (text == null || text.equals("")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public static Date yesteday(){
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -48,30 +41,17 @@ public class Utils {
         return cal.getTime();
     }
 
-    /**
-     * 自动判断是否是新的一天。使用了我默认的sp存时间
-     *
-     * @param context
-     * @return 是否跨天
-     */
-    public static boolean ifStepDay(Context context) {        Log.d("datecheck", "ifStepDay");
-
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
-        String today = format.format(new Date());
-        String lastDay = SpInstance.get().gString("lastDay") ;
-        // 如果之前没存lastDay ，或者today与lastDay相同，则没有跨天
-        if (lastDay == null) {
-            SpInstance.get().pString("lastDay", today);
-            return false;
-        } else if (today.equals(lastDay)) {
-            return false;
-        } else {
-            SpInstance.get().pString("lastDay", today);
-            return true;
+    public static Point color2Point(int color){
+        if(color == PointColor.COLOR_1) {
+            return PointManager.get().point1;
+        } else if(color == PointColor.COLOR_2) {
+            return PointManager.get().point2;
+        } else if(color == PointColor.COLOR_3) {
+            return PointManager.get().point3;
+        } else{
+            return PointManager.get().point4;
         }
     }
-
-
 
     public static int px2dp(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
@@ -129,4 +109,5 @@ public class Utils {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(focusingView.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
     }
+
 }

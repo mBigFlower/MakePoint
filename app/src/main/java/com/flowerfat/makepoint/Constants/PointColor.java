@@ -1,4 +1,4 @@
-package com.flowerfat.makepoint;
+package com.flowerfat.makepoint.Constants;
 
 /**
  * Created by 明明大美女 on 2015/9/17.

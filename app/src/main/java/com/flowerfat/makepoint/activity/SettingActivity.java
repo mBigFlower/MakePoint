@@ -1,29 +1,20 @@
 package com.flowerfat.makepoint.activity;
 
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import com.flowerfat.makepoint.R;
+import com.flowerfat.makepoint.activity.base.AnimActivity;
 import com.flowerfat.makepoint.view.DotsView;
-import com.flowerfat.makepoint.view.RevealBackgroundView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
-public class SettingActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
+public class SettingActivity extends AnimActivity{
 
     public static final String ARG_REVEAL_START_LOCATION = "reveal_start_location";
-
-    @Bind(R.id.setting_animBack)
-    RevealBackgroundView vRevealBackground;
 
     @Bind(R.id.setting_toolbar)
     Toolbar toolbar;
@@ -32,45 +23,26 @@ public class SettingActivity extends AppCompatActivity implements RevealBackgrou
     DotsView dotsView;
 
     @Override
+    public void animStart() {
+        animIn();
+        animDots();
+    }
+
+    @Override
+    public int initLayout() {
+        return R.layout.activity_setting;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-        ButterKnife.bind(this);
 
         initToolBar();
-
-        setupRevealBackground(savedInstanceState);
     }
 
     private void initToolBar() {
-//        toolbar.setTitle("Setting");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    /**
-     * @param savedInstanceState
-     */
-    private void setupRevealBackground(Bundle savedInstanceState) {
-        vRevealBackground.setFillPaintColor(Color.BLACK);
-        vRevealBackground.setOnStateChangeListener(this);
-        if (savedInstanceState == null) {
-            final int[] startingLocation = getIntent().getIntArrayExtra(ARG_REVEAL_START_LOCATION);
-            vRevealBackground.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    vRevealBackground.getViewTreeObserver().removeOnPreDrawListener(this);
-                    vRevealBackground.startFromLocation(startingLocation);
-                    // toolbar anim
-                    animIn();
-
-                    animDots();
-                    return true;
-                }
-            });
-        } else {
-            vRevealBackground.setToFinishedFrame();
-        }
     }
 
     private void animIn() {
@@ -87,22 +59,4 @@ public class SettingActivity extends AppCompatActivity implements RevealBackgrou
         dotsAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
     }
 
-    /**
-     * @param startingLocation
-     * @param startingActivity
-     */
-    public static void startSettingFromLocation(int[] startingLocation, Activity startingActivity) {
-        Intent intent = new Intent(startingActivity, SettingActivity.class);
-        intent.putExtra(ARG_REVEAL_START_LOCATION, startingLocation);
-        startingActivity.startActivity(intent);
-    }
-
-    @Override
-    public void onStateChange(int state) {
-        if (RevealBackgroundView.STATE_FINISHED == state) {
-
-        } else {
-
-        }
-    }
 }

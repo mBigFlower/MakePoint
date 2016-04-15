@@ -8,9 +8,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.sqlite.Point;
+import com.flowerfat.makepoint.entity.db.Points;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,7 @@ import java.util.List;
 public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHolder> {
 
 
-    private List<Point> mDatas = new ArrayList<>();
+    private List<Points> mDatas = new ArrayList<>();
     private Context context ;
 
     public PointsAdapter(Context context){
@@ -39,14 +38,13 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHo
 
     @Override
     public void onBindViewHolder(PointsAdapter.CardViewHolder holder, int position) {
-        holder.text1.setText(mDatas.get(position).getPoint1());
-        holder.text2.setText(mDatas.get(position).getPoint2());
-        holder.text3.setText(mDatas.get(position).getPoint3());
-        holder.text4.setText(mDatas.get(position).getPoint4());
+        holder.text1.setText(mDatas.get(position).getPoint1().getTitle());
+        holder.text2.setText(mDatas.get(position).getPoint2().getTitle());
+        holder.text3.setText(mDatas.get(position).getPoint3().getTitle());
+        holder.text4.setText(mDatas.get(position).getPoint4().getTitle());
 
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd");
         if(mDatas.get(position).getDate() != null){
-            String today = mDatas.get(position).getDate();
+            String today = mDatas.get(position).getDate().toString();
             holder.textTitle.setText(today);
         }
     }
@@ -56,7 +54,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHo
         return mDatas.size();
     }
 
-    public void addItems(List<Point> mDatas){
+    public void addItems(List<Points> mDatas){
         this.mDatas = mDatas ;
         notifyDataSetChanged();
     }
@@ -68,10 +66,10 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHo
         public CardViewHolder(View view) {
             super(view);
             textTitle = (TextView)view.findViewById(R.id.item_title);
-            text1 = (TextView)view.findViewById(R.id.item_level2);
-            text2 = (TextView)view.findViewById(R.id.item_level1);
-            text3 = (TextView)view.findViewById(R.id.item_level4);
-            text4 = (TextView)view.findViewById(R.id.item_level3);
+            text1 = (TextView)view.findViewById(R.id.item_block1);
+            text2 = (TextView)view.findViewById(R.id.item_block2);
+            text3 = (TextView)view.findViewById(R.id.item_block3);
+            text4 = (TextView)view.findViewById(R.id.item_block4);
         }
 
     }

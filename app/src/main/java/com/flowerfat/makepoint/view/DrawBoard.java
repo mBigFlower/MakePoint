@@ -1,28 +1,19 @@
 package com.flowerfat.makepoint.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.flowerfat.makepoint.utils.ScreenUtil;
-import com.flowerfat.makepoint.utils.SpInstance;
+import com.flowerfat.makepoint.entity.db.Point;
+import com.flowerfat.makepoint.utils.Utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,13 +29,10 @@ public class DrawBoard extends View implements View.OnTouchListener {
     private Path mPath = new Path();
     private List<Path> savePath = new ArrayList<Path>();
 
-    private Bitmap mBitmap = null;
-    private Paint mBitmapPaint;
-    private Canvas mCanvas;
+
     private int backgroundColor;
     // 该画板是否可以绘制
     private boolean drawEnable = true;
-    private boolean isDrawed = false;
 
     public DrawBoard(Context context) {
         super(context);
@@ -67,71 +55,40 @@ public class DrawBoard extends View implements View.OnTouchListener {
         mPaint.setStrokeWidth(6);
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.STROKE);
-
-        int[] screenSize = ScreenUtil.getScreenSize(mContext);
-        mBitmap = Bitmap.createBitmap(screenSize[0], screenSize[1] * 3 / 5,
-                Bitmap.Config.RGB_565);
-        mBitmap.eraseColor(Color.argb(0, 0, 0, 0));
-        mCanvas = new Canvas(mBitmap);
-        mBitmapPaint = new Paint(Paint.DITHER_FLAG);
-        mBitmapPaint.setAlpha(0x00); //设置透明程度
-
-
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         if (mPath != null)
             canvas.drawPath(mPath, mPaint);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
+        if (!drawEnable) {
+            return true;
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 Log.i("我是按下", "按下了啊" + event.getX());
                 mPath.moveTo(event.getX(), event.getY());
-                invalidate();
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                if (drawEnable) {
-                    mPath.lineTo(event.getX(), event.getY());
-                    invalidate();
-                }
+                mPath.lineTo(event.getX(), event.getY());
+                invalidate();
                 break;
 
             case MotionEvent.ACTION_UP:
                 Log.i("我是抬起", "抬起了啊" + event.getX());
-                mCanvas.drawPath(mPath, mPaint);
-                savePath.add(mPath);
-                isDrawed = true;
+                savePath.add(new Path(mPath));
                 break;
         }
 
         return true;
     }
 
-    public void setBitmap(int color) {
-        String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
-        String imgName = SpInstance.get().gString("" + color);
-        if (imgName == null)
-            return;
-        mBitmap = BitmapFactory.decodeFile(sdPath+imgName);
-        File imgFile = new File(sdPath, imgName);
-//        if (imgFile.exists()) {
-//            mBitmap = BitmapFactory.decodeFile(sdPath+imgName);
-//            imgFile = null;
-//            return;
-//        } else {
-//            imgFile = null;
-//            return;
-//        }
-    }
 
     /**
      * 外部调用，设置board的背景色
@@ -140,20 +97,28 @@ public class DrawBoard extends View implements View.OnTouchListener {
      */
     public void setBoardColor(int color) {
         backgroundColor = color;
-        mCanvas.drawColor(color);
     }
 
     /**
      * 撤销功能
      */
     public void toLastPath() {
-        int length = savePath.size() - 1;
-        if (length >= 0) {
+        int lastIndex = savePath.size() - 1;
+        if (lastIndex == 0) {
             clear();
-            savePath.remove(length--);
-            mPath = savePath.get(length);
+        } else if (lastIndex > 0) {
+            final Path path = savePath.get(lastIndex - 1);
+            mPath.reset();
+            invalidate();
+            savePath.remove(lastIndex);
+            mPath = path;
             invalidate();
         }
+    }
+
+    public void setPath(Path path) {
+        if (path != null)
+            this.mPath = path;
     }
 
     /**
@@ -161,8 +126,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
      */
     public void clear() {
         mPath.reset();
-        mCanvas.drawColor(backgroundColor);
-        isDrawed = false;
+        savePath.clear();
         invalidate();
     }
 
@@ -187,11 +151,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
 
 
     public boolean isDrawed() {
-        return isDrawed;
-    }
-
-    public void setDrawed(boolean isDrawed) {
-        this.isDrawed = isDrawed;
+        return !savePath.isEmpty();
     }
 
     /**
@@ -202,48 +162,14 @@ public class DrawBoard extends View implements View.OnTouchListener {
         if (mPath == null || mPath.isEmpty()) {
             return "还是画点什么吧~";
         }
-        //获得系统当前时间，并以该时间作为文件名
-        SimpleDateFormat formatter = new SimpleDateFormat("MMddHHmmss");
-        Date curDate = new Date(System.currentTimeMillis());//获取当前时间
-        String str = formatter.format(curDate);
-        String paintPath = null;
-        str = str + ".png";
-        String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
-//        String sdPath = "/sdcard/boards/";
-        File dir = new File(sdPath);
-        File file = new File(sdPath, str);
-        if (!dir.exists()) {
-            dir.mkdir();
-        } else {
-            if (file.exists()) {
-                file.delete();
-            }
-        }
-
-        try {
-            FileOutputStream out = new FileOutputStream(file);
-            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.flush();
-            out.close();
-            //保存绘图文件路径
-            paintPath = sdPath + str;
-
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
-        SpInstance.get().pString("" + backgroundColor, str);
-        return "保存图片成功：" + paintPath;
+        Point point = Utils.color2Point(backgroundColor);
+        point.setImgPath(mPath);
+        point.update();
+        return "保存成功";
     }
 
     public void release() {
-        if (mBitmap != null)
-            mBitmap.recycle();
+
     }
 
 }

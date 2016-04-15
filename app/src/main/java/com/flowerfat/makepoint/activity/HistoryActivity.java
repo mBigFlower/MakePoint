@@ -5,13 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.utils.GreenDaoUtil;
 import com.flowerfat.makepoint.adapter.PointsAdapter;
-import com.flowerfat.makepoint.sqlite.Point;
+import com.flowerfat.makepoint.entity.db.Points;
 import com.flowerfat.makepoint.view.DividerItemDecoration;
+import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.Collections;
 import java.util.List;
@@ -54,9 +53,8 @@ public class HistoryActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(
                 this, DividerItemDecoration.VERTICAL_LIST));
 
-        List<Point> pointsLists = GreenDaoUtil.getInstance().searchAllPoint();
+        List<Points> pointsLists = new Select().from(Points.class).queryList();
         Collections.reverse(pointsLists);
-        Log.i("HistoryActivity", pointsLists.size() +" length");
         mAdapter.addItems(pointsLists);
     }
 

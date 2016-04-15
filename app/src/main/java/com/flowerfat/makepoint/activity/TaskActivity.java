@@ -3,73 +3,84 @@ package com.flowerfat.makepoint.activity;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.utils.GreenDaoUtil;
+import com.flowerfat.makepoint.activity.base.AnimActivity;
+import com.flowerfat.makepoint.entity.db.Point;
 import com.flowerfat.makepoint.utils.ScreenUtil;
-import com.flowerfat.makepoint.utils.SpInstance;
 import com.flowerfat.makepoint.utils.Utils;
-import com.flowerfat.makepoint.sqlite.Point;
 import com.flowerfat.makepoint.view.DrawBoardView;
 import com.flowerfat.makepoint.view.RevealBackgroundView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class TaskActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
+public class TaskActivity extends AnimActivity {
 
     public static final int ANIM_DELAY_TOOLBAR = 400;
 
-    public static final String ARG_REVEAL_START_LOCATION = "reveal_start_location";
+    public static final String KEY_FILL_COLOR = "fillColor";
 
-    private static int fillColor;
-
-    @Bind(R.id.animBack)
-    RevealBackgroundView vRevealBackground;
+    private int fillColor;
 
     @Bind(R.id.task_edit)
     EditText contentEt;
-
     @Bind(R.id.task_toolbar)
     Toolbar toolbar;
-
     @Bind(R.id.task_save)
     TextView saveTV;
-
     @Bind(R.id.task_hline)
     View viewHline;
-
     @Bind(R.id.task_board)
     DrawBoardView mBoardView;
+
+    /**
+     * 其他activity打开这个activity所调用的方法
+     *
+     * @param startingLocation
+     * @param color
+     * @param startingActivity
+     */
+    public static void startFromLocation(Activity startingActivity, int[] startingLocation, int color) {
+        Intent intent = new Intent(startingActivity, TaskActivity.class);
+        intent.putExtra(ARG_REVEAL_START_LOCATION, startingLocation);
+        intent.putExtra(KEY_FILL_COLOR, color);
+        startingActivity.startActivity(intent);
+        startingActivity.overridePendingTransition(0, 0);
+    }
+
+    @Override
+    public void animStart() {
+        // toolbar动画
+        animIn();
+    }
+
+    @Override
+    public int initLayout() {
+        return R.layout.activity_task;
+    }
+
+
+    @Override
+    public int getFillColor() {
+        fillColor = getIntent().getIntExtra(KEY_FILL_COLOR, Color.BLACK);
+        return fillColor;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
-        ButterKnife.bind(this);
 
         initToolBar();
-
         initContent();
-
-        setupRevealBackground(savedInstanceState);
     }
 
     /**
@@ -78,40 +89,17 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
     private void initToolBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Log.i("lalala", "onMenuItemClick");
-                return false;
-            }
-        });
     }
 
     /**
      * 初始化内容
      */
     private void initContent() {
-        contentEt.setText(SpInstance.get().gString("pColor" + fillColor));
+        Point point = Utils.color2Point(fillColor);
+        contentEt.setText(point.getTitle());
         contentEt.setSelection(contentEt.getText().length());
-        contentEt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (Utils.isEnglish(s.toString())) {
-                    Log.w("onTextChanged", "包含了英文");
-                } else {
-                    Log.i("onTextChanged", "不包含英文");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        mBoardView.setPath(point.getImgPath());
     }
 
     @OnClick(R.id.task_save)
@@ -139,40 +127,14 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
                         }
                     }).show();
         } else {
-            savePoint(editContent);
+            savePoint(editContent); // TODO 这里为什么有它？
             finish();
         }
 
     }
 
-
     /**
-     * 变化的圆的动画控制
-     *
-     * @param savedInstanceState
-     */
-    private void setupRevealBackground(Bundle savedInstanceState) {
-        vRevealBackground.setFillPaintColor(fillColor);
-        vRevealBackground.setOnStateChangeListener(this);
-        if (savedInstanceState == null) {
-            final int[] startingLocation = getIntent().getIntArrayExtra(ARG_REVEAL_START_LOCATION);
-            vRevealBackground.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    vRevealBackground.getViewTreeObserver().removeOnPreDrawListener(this);
-                    vRevealBackground.startFromLocation(startingLocation);
-                    // toolbar动画
-                    animIn();
-                    return true;
-                }
-            });
-        } else {
-            vRevealBackground.setToFinishedFrame();
-        }
-    }
-
-    /**
-     * toolbar的入场动画，右侧进入
+     * 入场动画
      */
     private void animIn() {
         toolbar.setAlpha(0);
@@ -185,15 +147,15 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
                 .setInterpolator(new OvershootInterpolator(1.f));
 
         mBoardView.setBoardColor(fillColor);
-//        mBoardView.setBoardBitmap(fillColor);
         mBoardView.show();
     }
 
     /**
      * toolbar 的退出动画
      */
-    private void animToolbarExit() {
-        toolbar.animate().translationX(ScreenUtil.getScreenSize(this)[0] / 2).setDuration(ANIM_DELAY_TOOLBAR);
+    private void animExit() {
+        toolbar.animate().translationX(toolbar.getWidth() / 4).alpha(0).setDuration(ANIM_DELAY_TOOLBAR);
+        saveTV.animate().scaleX(0).scaleY(0).setDuration(ANIM_DELAY_TOOLBAR);
     }
 
     /**
@@ -207,47 +169,28 @@ public class TaskActivity extends AppCompatActivity implements RevealBackgroundV
             contentEt.setVisibility(View.VISIBLE);
             viewHline.setVisibility(View.VISIBLE);
             mBoardView.setVisibility(View.VISIBLE);
-        } else {
+        } else if (RevealBackgroundView.STATE_FINISHED > state) {
             contentEt.setVisibility(View.INVISIBLE);
             viewHline.setVisibility(View.INVISIBLE);
             mBoardView.setVisibility(View.INVISIBLE);
         }
+        super.onStateChange(state);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        animExit();
     }
 
     /**
-     * 其他activity打开这个activity所调用的方法
-     *
-     * @param startingLocation
-     * @param color
-     * @param startingActivity
-     */
-    public static void startUserProfileFromLocation(int[] startingLocation, int color, Activity startingActivity) {
-        Intent intent = new Intent(startingActivity, TaskActivity.class);
-        intent.putExtra(ARG_REVEAL_START_LOCATION, startingLocation);
-        startingActivity.startActivity(intent);
-
-        fillColor = color;
-    }
-
-    /**
-     * 这个地方的代码太笨了。自己都看不下去了！！！！ 要改 TODO
      *
      * @param text
      */
     private void savePoint(String text) {
-        Point point = GreenDaoUtil.getInstance().getBottomPoint();
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd");
-        if (point != null && point.getDate().equals(format.format(new Date()))) {
-            Log.i("savePoint", "old date:" + point.getDate().toString());
-            // 更新数据库
-            point.setPoint(fillColor, text);
-            GreenDaoUtil.getInstance().replacePoint(point);
-        } else {
-            Point newPoint = new Point(fillColor, text, format.format(new Date()));
-            Log.i("savePoint2", newPoint.getDate() + " new date:" + format.format(new Date()));
-            GreenDaoUtil.getInstance().insertPoint(newPoint);
-        }
-        SpInstance.get().pString("pColor" + fillColor, text);
+        Point point = Utils.color2Point(fillColor);
+        point.setTitle(text);
+        point.update();
     }
 
     @Override

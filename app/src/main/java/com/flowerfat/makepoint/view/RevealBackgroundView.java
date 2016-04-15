@@ -21,6 +21,7 @@ public class RevealBackgroundView extends View {
     public static final int STATE_NOT_STARTED = 0;
     public static final int STATE_FILL_STARTED = 1;
     public static final int STATE_FINISHED = 2;
+    public static final int STATE_ACT_FINISH = 3;
 
     private static final Interpolator INTERPOLATOR = new AccelerateInterpolator();
     private static final int FILL_TIME = 400;
@@ -82,6 +83,19 @@ public class RevealBackgroundView extends View {
         });
         revealAnimator.start();
     }
+    public void finishFromLocation(){
+        changeState(STATE_FILL_STARTED);
+        revealAnimator = ObjectAnimator.ofInt(this, "currentRadius", getWidth() + getHeight(), 0).setDuration(FILL_TIME);
+        revealAnimator.setInterpolator(INTERPOLATOR);
+        revealAnimator.setStartDelay(FILL_TIME);
+        revealAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                changeState(STATE_ACT_FINISH);
+            }
+        });
+        revealAnimator.start();
+    }
 
     public void setToFinishedFrame() {
         changeState(STATE_FINISHED);
@@ -91,6 +105,7 @@ public class RevealBackgroundView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         if (state == STATE_FINISHED) {
+            fillPaint.getColor();
             canvas.drawRect(0, 0, getWidth(), getHeight(), fillPaint);
         } else {
             canvas.drawCircle(startLocationX, startLocationY, currentRadius, fillPaint);
@@ -108,15 +123,14 @@ public class RevealBackgroundView extends View {
         }
     }
 
-    public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener) {
-        this.onStateChangeListener = onStateChangeListener;
-    }
-
     public void setCurrentRadius(int radius) {
         this.currentRadius = radius;
         invalidate();
     }
 
+    public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener) {
+        this.onStateChangeListener = onStateChangeListener;
+    }
     public static interface OnStateChangeListener {
         void onStateChange(int state);
     }

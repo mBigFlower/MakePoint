@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.flowerfat.makepoint.MyApplication;
-import com.flowerfat.makepoint.PointColor;
+import com.flowerfat.makepoint.Constants.PointColor;
 
 /**
  * Created by 明明大美女 on 2015/10/10.

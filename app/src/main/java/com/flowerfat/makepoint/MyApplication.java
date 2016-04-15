@@ -2,7 +2,7 @@ package com.flowerfat.makepoint;
 
 import android.app.Application;
 
-import com.flowerfat.makepoint.utils.GreenDaoUtil;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 /**
  * Created by 明明大美女 on 2015/9/22.
@@ -16,8 +16,9 @@ public class MyApplication extends Application {
         super.onCreate();
 
         myApplication = this; // 单例
-        // 数据库初始化
-        GreenDaoUtil.getInstance().setupDatabase(this, "db-points");
+
+        //DBflow
+        FlowManager.init(this);
     }
 
     public static MyApplication getInstance() {

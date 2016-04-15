@@ -3,19 +3,14 @@ package com.flowerfat.makepoint.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.os.Environment;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.utils.SpInstance;
+import com.flowerfat.makepoint.entity.db.Point;
 import com.flowerfat.makepoint.utils.Utils;
-
-import java.io.File;
 
 /**
  * Created by 明明大美女 on 2015/9/21.
@@ -24,17 +19,14 @@ import java.io.File;
  */
 public class QuarterBlock extends RelativeLayout {
 
-
     private final int PADDING = Utils.dp2px(12);
 
-    ImageView mImageView;
+    PathView mPathView;
     TextView mTextView, mDoneMaskTv;
 
-    private String textString;
     private int textLocation;
-    private int mColor;
-    private boolean isDone;
-    private boolean hasImg;
+
+    private Point mPoint;
 
     public QuarterBlock(Context context) {
         super(context);
@@ -47,7 +39,6 @@ public class QuarterBlock extends RelativeLayout {
         TypedArray ta = context.getTheme().obtainStyledAttributes(attrs, R.styleable.quarterBlock, 0, 0);
 
         try {
-            textString = ta.getString(R.styleable.quarterBlock_blockText);
             textLocation = ta.getInt(R.styleable.quarterBlock_textLocation, 1);
         } finally {
             ta.recycle();
@@ -85,7 +76,6 @@ public class QuarterBlock extends RelativeLayout {
             mTextView = new TextView(getContext());
             mTextView.setPadding(0, 0, 0, PADDING);
             mTextView.setTextColor(Color.WHITE);
-            mTextView.setText(textString);
             mTextView.setTextSize(20);
 
             LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -96,28 +86,12 @@ public class QuarterBlock extends RelativeLayout {
     }
 
     private void ivInit() {
-        mImageView = new ImageView(getContext());
-        mImageView.setId(R.id.Qb_ImageView);
-        mImageView.setPadding(PADDING, PADDING, PADDING, PADDING);
-        mImageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        mPathView = new PathView(getContext());
+        mPathView.setId(R.id.Qb_ImageView);
+        mPathView.setPadding(PADDING, PADDING, PADDING, PADDING);
+        mPathView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        this.addView(mImageView);
-    }
-
-    public boolean setImg(int color) {
-        String sdPath = Environment.getExternalStorageDirectory().getPath() + "/boards/";
-        String imgName = SpInstance.get().gString("" + color);
-        if (imgName == null)
-            return false;
-        File imgFile = new File(sdPath, imgName);
-        if (imgFile.exists()) {
-            Glide.with(getContext()).load(imgFile).into(mImageView);
-            imgFile = null;
-            return true;
-        } else {
-            imgFile = null;
-            return false;
-        }
+        this.addView(mPathView);
     }
 
     public void setText(String text) {
@@ -125,7 +99,7 @@ public class QuarterBlock extends RelativeLayout {
     }
 
     public void toggle() {
-        if (isDone) {
+        if (mPoint.isDone()) {
             setDoneMask(false);
         } else {
             setDoneMask(true);
@@ -133,8 +107,7 @@ public class QuarterBlock extends RelativeLayout {
     }
 
     public void setDoneMask(boolean isDoneShow) {
-        isDone = isDoneShow;
-        SpInstance.get().pBoolean("isTaskDone" + mColor, isDone);
+        mPoint.setDone(isDoneShow);
         if (isDoneShow) {
             mDoneMaskTv.setVisibility(VISIBLE);
         } else {
@@ -142,42 +115,31 @@ public class QuarterBlock extends RelativeLayout {
         }
     }
 
-
-    public void onResume(int color) {
-        mColor = color;
-        setText(SpInstance.get().gString("pColor" + color));
-        setDoneMask(SpInstance.get().gBoolean("isTaskDone" + color, false));
-        imgAndTextChange(color);
-    }
-
-    /**
-     * 图片有无变化，而影响文字的位置
-     */
-    private void imgAndTextChange(int color) {
-        if (setImg(color)) {
-            if (!hasImg) {
-                textLocationChange();
-            }
-            hasImg = true;
-        } else {
-            if (hasImg) {
-                textLocationChange();
-            }
-            hasImg = false;
-        }
+    public void onResume(Point point) {
+            mPoint = point;
+            setText(mPoint.getTitle());
+            mPathView.setmPath(mPoint.getImgPath());
+            setDoneMask(mPoint.isDone());
+            textLocationChange(mPoint.getImgPath() != null);
     }
 
     //////////////////////////////////
     // 工具
     //////////////////////////////////
-    private void textLocationChange() {
+
+    /**
+     * 根据有无图片，来决定文字的位置
+     *
+     * @param hasImg
+     */
+    private void textLocationChange(boolean hasImg) {
         LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         if (hasImg) {
-            lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
-        } else {
             lp.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
             lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+        } else {
+            lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
         }
         mTextView.setLayoutParams(lp);
     }

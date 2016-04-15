@@ -1,13 +1,13 @@
 package com.flowerfat.makepoint.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -18,17 +18,14 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
-import android.widget.Toast;
+import android.widget.RemoteViews;
 
-import com.flowerfat.makepoint.PointColor;
+import com.flowerfat.makepoint.Constants.PointColor;
+import com.flowerfat.makepoint.Constants.PointManager;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.utils.FileUtil;
-import com.flowerfat.makepoint.utils.SpInstance;
 import com.flowerfat.makepoint.utils.Utils;
 import com.flowerfat.makepoint.view.ExitView;
 import com.flowerfat.makepoint.view.QuarterBlock;
-
-import java.io.File;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,8 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int ANIM_DURATION_LINE = 1000;
 
     private final int TITLE_PADDINGTOP = Utils.dp2px(15);
-
-    private boolean isFirstLoad;
 
     private float downX, downY = 0;
 
@@ -71,15 +66,16 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         // 没有下面这句话，则会不显示onCreateOptionsMenu
         setSupportActionBar(new Toolbar(this));
-        animBlock();
-        initListener();
-        if (savedInstanceState == null) {
-            isFirstLoad = true;
-        }
 
+        initListener();
         initLongListener();
+        // notification的测试
+        notification();
     }
 
+    /**
+     * 将title添加一个可拖拽的效果
+     */
     private void initListener() {
         titleFL.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -112,11 +108,11 @@ public class MainActivity extends AppCompatActivity {
         int[] startingLocation = new int[2];
         v.getLocationOnScreen(startingLocation);
         startingLocation[0] += v.getWidth() / 2;
-        TaskActivity.startUserProfileFromLocation(startingLocation, getColorFromClick(v), this);
+        TaskActivity.startFromLocation(this, startingLocation, getColorFromClick(v));
         overridePendingTransition(0, 0);
     }
 
-    private void initLongListener(){
+    private void initLongListener() {
         qbTopLeft.setOnLongClickListener(longClick);
         qbBottomLeft.setOnLongClickListener(longClick);
         qbBottomRight.setOnLongClickListener(longClick);
@@ -126,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
     View.OnLongClickListener longClick = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            ((QuarterBlock)v).toggle();
+            ((QuarterBlock) v).toggle();
             return true;
         }
     };
@@ -165,12 +161,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-        if (isFirstLoad) {
-            isFirstLoad = false;
-            animBlockInit();
-            animBlock();
-            exitView.animLineIn();
-        }
+        animBlockInit();
+        animBlock();
+        exitView.animLineIn();
         return true;
     }
 
@@ -205,21 +198,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         Log.v("MainActivity", "onResume");
-        // TODO
+        PointManager.get().onResume();
         dateCheck();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PointManager.get().onDestroy();
+    }
+
     private void dateCheck() {
-        if (Utils.ifStepDay(this)) {
-            // reset the point's text
-            SpInstance.get().initOneDayPoint();
-            // delete all the board pic
-            try {
-                FileUtil.del(new File(Environment.getExternalStorageDirectory(), "/boards/"));
-            } catch (Exception e) {
-                Toast.makeText(this, "错误信息：" + e.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        }
+        // TODO
         showOldBoards();
     }
 
@@ -227,18 +217,17 @@ public class MainActivity extends AppCompatActivity {
      * 展示所有的board内容, 文字和
      */
     private void showOldBoards() {
-        qbTopLeft.onResume(PointColor.COLOR_1);
-        qbTopRight.onResume(PointColor.COLOR_2);
-        qbBottomLeft.onResume(PointColor.COLOR_3);
-        qbBottomRight.onResume(PointColor.COLOR_4);
+        qbTopLeft.onResume(PointManager.get().point1);
+        qbTopRight.onResume(PointManager.get().point2);
+        qbBottomLeft.onResume(PointManager.get().point3);
+        qbBottomRight.onResume(PointManager.get().point4);
     }
 
     private void goSetting() {
         int[] startingLocation = new int[2];
         titleFL.getLocationOnScreen(startingLocation);
         startingLocation[0] += titleFL.getWidth() / 2;
-        SettingActivity.startSettingFromLocation(startingLocation, this);
-        overridePendingTransition(0, 0);
+        SettingActivity.launchFromLocation(this, SettingActivity.class, startingLocation);
 
 //        startActivity(new Intent(this, Test.class));
     }
@@ -259,12 +248,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    protected void showSnake(String text) {
-        if (!TextUtils.isEmpty(text)) {
-            Snackbar.make(getWindow().getDecorView(), text, Snackbar.LENGTH_LONG)
-                    .setAction("OK", null).setActionTextColor(Color.WHITE)
-                    .show();
-        }
+    private void notification() {
+        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this);
+        //自定义界面
+        RemoteViews rv = new RemoteViews(getPackageName(), R.layout.layout_notification);
+        rv.setTextViewText(R.id.notification_tv1, "我是自定义的1");
+        rv.setTextViewText(R.id.notification_tv2, "我是自定义的2");
+        rv.setTextViewText(R.id.notification_tv3, "我是自定义的3");
+        rv.setTextViewText(R.id.notification_tv4, "我是自定义的4");
+
+        notifyBuilder.setAutoCancel(false);
+        notifyBuilder.setOngoing(true);
+        Notification notification = notifyBuilder.build();
+        notification.contentView = (rv);
+        //获取到系统的notificationManager
+        NotificationManager notificationManager = (NotificationManager)
+                getSystemService(Context.NOTIFICATION_SERVICE);
+        //把定义的notification 传递给 notificationmanager
+        notificationManager.notify(0, notification);
     }
 
 }

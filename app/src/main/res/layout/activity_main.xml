@@ -37,7 +37,6 @@
             android:background="@color/paint_blue"
             android:clickable="true"
             android:onClick="blockOnclick"
-            app:blockText="level 2"
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%"
             app:textLocation="1"/>
@@ -51,7 +50,6 @@
             android:clickable="true"
             android:drawableBottom="@mipmap/icon_last"
             android:onClick="blockOnclick"
-            app:blockText="level top"
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%"
             app:textLocation="2"/>
@@ -64,7 +62,6 @@
             android:background="@color/paint_purple"
             android:clickable="true"
             android:onClick="blockOnclick"
-            app:blockText="level bottom"
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%"
             app:textLocation="3"/>
@@ -78,7 +75,6 @@
             android:background="@color/paint_oringe"
             android:clickable="true"
             android:onClick="blockOnclick"
-            app:blockText="level three"
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%"
             app:textLocation="4"/>

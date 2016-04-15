@@ -88,16 +88,12 @@ public class DrawBoardView extends RelativeLayout {
     public void save() {
         String saveResult = drawBoard.saveBitmap();
         Toast.makeText(mContext, saveResult, Toast.LENGTH_LONG).show();
-        drawBoard.setDrawed(false);
     }
 
     @OnClick(R.id.BoardView_clear)
     void clear() {
-        drawBoard.clear();
-    }
-
-    public void openSetting() {
-
+        drawBoard.toLastPath();
+//        drawBoard.clear();
     }
 
     /**
@@ -114,10 +110,9 @@ public class DrawBoardView extends RelativeLayout {
         drawBoard.setBoardColor(color);
     }
 
-    public void setBoardBitmap(int color) {
-        drawBoard.setBitmap(color);
+    public void setPath(Path path){
+        drawBoard.setPath(path);
     }
-
     /**
      * 释放资源
      */

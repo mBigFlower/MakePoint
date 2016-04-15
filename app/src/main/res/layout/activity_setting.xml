@@ -6,13 +6,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.flowerfat.makepoint.activity.SettingActivity">
 
-    <com.flowerfat.makepoint.view.RevealBackgroundView
-        android:id="@+id/setting_animBack"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:fitsSystemWindows="true" />
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/setting_toolbar"
         android:layout_width="match_parent"

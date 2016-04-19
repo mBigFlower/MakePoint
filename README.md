@@ -7,11 +7,11 @@
 
 # TODO
 
-[ ] 任务有提醒不？
-[x] 画板路径的保存
-[ ] 在notification常驻任务
-[ ] 在锁屏界面常驻任务
-[ ] setting界面
+- [ ] 任务有提醒不？
+- [x] ~~画板路径的保存~~
+- [ ] 在notification常驻任务
+- [ ] 在锁屏界面常驻任务
+- [ ] setting界面
 
 # 预览
 ![MakePoint](http://7xjizl.com1.z0.glb.clouddn.com/makepointGifPoint1.gif)

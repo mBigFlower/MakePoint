@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
         initLongListener();
         // notification的测试
         notification();
+
+
     }
 
     /**

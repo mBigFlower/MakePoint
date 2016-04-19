@@ -3,18 +3,21 @@ package com.flowerfat.makepoint.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.flowerfat.makepoint.utils.PathUtil;
+import com.flowerfat.makepoint.utils.Utils;
 
 /**
  * Created by 明明大美女 on 2016/4/8.
  */
 public class PathView extends View {
 
-    private Path mPath;
+    private final int PADDING = Utils.dp2px(12);
+
+    private PathPlus mPath;
     private Paint mPaint = new Paint();
 
     public PathView(Context context) {
@@ -47,14 +50,13 @@ public class PathView extends View {
             canvas.drawPath(mPath, mPaint);
     }
 
-    public void setmPath(Path path) {
-//        this.mPath = path;
-        if(path != null) {
-            Matrix matrix = new Matrix();
-            matrix.setScale(200, 200);
-//        matrix.postScale(getWidth(), getWidth());
-            path.transform(matrix, mPath);
+
+    public void setmPath(String pathStr) {
+        if (pathStr != null) {
+            mPath = new PathPlus(pathStr);
+            mPath = (PathPlus)PathUtil.suitView(this, mPath, PADDING);
             invalidate();
         }
     }
+
 }

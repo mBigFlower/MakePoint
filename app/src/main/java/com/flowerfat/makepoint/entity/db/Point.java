@@ -1,7 +1,5 @@
 package com.flowerfat.makepoint.entity.db;
 
-import android.graphics.Path;
-
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ModelContainer;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
@@ -23,8 +21,8 @@ public class Point extends BaseModel {
     boolean isDone;
     @Column
     String date;
-    @Column(typeConverter = PathConverter.class)
-    Path imgPath;
+    @Column
+    String imgPath;
 
     public Point(){
         title = "";
@@ -53,11 +51,11 @@ public class Point extends BaseModel {
         isDone = done;
     }
 
-    public Path getImgPath() {
+    public String getImgPath() {
         return imgPath;
     }
 
-    public void setImgPath(Path imgPath) {
+    public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
     }
 

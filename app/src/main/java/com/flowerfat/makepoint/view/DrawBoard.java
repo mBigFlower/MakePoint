@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -26,8 +25,8 @@ public class DrawBoard extends View implements View.OnTouchListener {
     private Context mContext;
 
     private Paint mPaint = new Paint();
-    private Path mPath = new Path();
-    private List<Path> savePath = new ArrayList<Path>();
+    private PathPlus mPath = new PathPlus();
+    private List<PathPlus> savePath = new ArrayList<PathPlus>();
 
 
     private int backgroundColor;
@@ -82,7 +81,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
 
             case MotionEvent.ACTION_UP:
                 Log.i("我是抬起", "抬起了啊" + event.getX());
-                savePath.add(new Path(mPath));
+                savePath.add(new PathPlus(mPath.pathPoints2Str()));
                 break;
         }
 
@@ -107,7 +106,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
         if (lastIndex == 0) {
             clear();
         } else if (lastIndex > 0) {
-            final Path path = savePath.get(lastIndex - 1);
+            final PathPlus path = savePath.get(lastIndex - 1);
             mPath.reset();
             invalidate();
             savePath.remove(lastIndex);
@@ -116,9 +115,9 @@ public class DrawBoard extends View implements View.OnTouchListener {
         }
     }
 
-    public void setPath(Path path) {
-        if (path != null)
-            this.mPath = path;
+    public void setPath(String pathStr) {
+        if (pathStr != null)
+            this.mPath = new PathPlus(pathStr);
     }
 
     /**
@@ -158,13 +157,14 @@ public class DrawBoard extends View implements View.OnTouchListener {
      * 保存所绘图形
      * 返回绘图文件的存储路径
      */
-    public String saveBitmap() {
+    public String save() {
         if (mPath == null || mPath.isEmpty()) {
             return "还是画点什么吧~";
         }
         Point point = Utils.color2Point(backgroundColor);
-        point.setImgPath(mPath);
+        point.setImgPath(mPath.pathPoints2Str());
         point.update();
+
         return "保存成功";
     }
 

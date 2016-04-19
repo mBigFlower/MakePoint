@@ -88,7 +88,6 @@ public class QuarterBlock extends RelativeLayout {
     private void ivInit() {
         mPathView = new PathView(getContext());
         mPathView.setId(R.id.Qb_ImageView);
-        mPathView.setPadding(PADDING, PADDING, PADDING, PADDING);
         mPathView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         this.addView(mPathView);
@@ -116,11 +115,11 @@ public class QuarterBlock extends RelativeLayout {
     }
 
     public void onResume(Point point) {
-            mPoint = point;
-            setText(mPoint.getTitle());
-            mPathView.setmPath(mPoint.getImgPath());
-            setDoneMask(mPoint.isDone());
-            textLocationChange(mPoint.getImgPath() != null);
+        mPoint = point;
+        setText(mPoint.getTitle());
+        mPathView.setmPath(mPoint.getImgPath());
+        setDoneMask(mPoint.isDone());
+        textLocationChange(mPoint.getImgPath() != null);
     }
 
     //////////////////////////////////

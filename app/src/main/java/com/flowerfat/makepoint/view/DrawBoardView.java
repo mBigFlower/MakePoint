@@ -86,7 +86,7 @@ public class DrawBoardView extends RelativeLayout {
 
     @OnClick(R.id.BoardView_save)
     public void save() {
-        String saveResult = drawBoard.saveBitmap();
+        String saveResult = drawBoard.save();
         Toast.makeText(mContext, saveResult, Toast.LENGTH_LONG).show();
     }
 
@@ -110,8 +110,8 @@ public class DrawBoardView extends RelativeLayout {
         drawBoard.setBoardColor(color);
     }
 
-    public void setPath(Path path){
-        drawBoard.setPath(path);
+    public void setPathStr(String pathStr){
+        drawBoard.setPath(pathStr);
     }
     /**
      * 释放资源

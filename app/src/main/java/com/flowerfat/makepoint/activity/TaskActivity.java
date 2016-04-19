@@ -99,7 +99,7 @@ public class TaskActivity extends AnimActivity {
         contentEt.setText(point.getTitle());
         contentEt.setSelection(contentEt.getText().length());
 
-        mBoardView.setPath(point.getImgPath());
+        mBoardView.setPathStr(point.getImgPath());
     }
 
     @OnClick(R.id.task_save)

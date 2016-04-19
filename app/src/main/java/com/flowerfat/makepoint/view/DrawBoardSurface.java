@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.util.AttributeSet;
@@ -14,10 +13,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.flowerfat.makepoint.utils.SpInstance;
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by 明明大美女 on 2015/9/19.
@@ -30,9 +27,8 @@ public class DrawBoardSurface extends SurfaceView implements SurfaceHolder.Callb
 
 
     private Paint mPaint = new Paint();
-    private Path mPath = new Path();
+    private PathPlus mPath = new PathPlus();
     // 保存路径
-    private List<Path> pathList = new ArrayList<Path>();
     private int backgroundColor;
 
     public DrawBoardSurface(Context context) {
@@ -78,27 +74,10 @@ public class DrawBoardSurface extends SurfaceView implements SurfaceHolder.Callb
 
 
     /**
-     * 撤销功能
-     */
-    public void toLastPath() {
-        int lastIndex = pathList.size() - 1;
-        if (lastIndex > 0) {
-            final Path path = pathList.get(lastIndex - 1);
-            clearDrawBoard();
-            pathList.remove(lastIndex);
-
-            String pathStr = new Gson().toJson(path);
-            mPath = new Gson().fromJson(pathStr, Path.class);
-            draw();
-        }
-    }
-
-    /**
      * 清屏
      */
     public void clear() {
         clearDrawBoard();
-        pathList.clear();
     }
 
     private void clearDrawBoard(){
@@ -106,10 +85,6 @@ public class DrawBoardSurface extends SurfaceView implements SurfaceHolder.Callb
         Canvas canvas = getHolder().lockCanvas();
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         getHolder().unlockCanvasAndPost(canvas);
-    }
-
-    public boolean isDrawed() {
-        return !pathList.isEmpty();
     }
 
     /**
@@ -134,13 +109,23 @@ public class DrawBoardSurface extends SurfaceView implements SurfaceHolder.Callb
                 draw();
                 break;
             case MotionEvent.ACTION_UP:
-                pathList.add(new Path(mPath));
                 break;
         }
         return true;
     }
 
 
+    public String save(){
+//        if (mPath == null || mPath.isEmpty()) {
+//            return "还是画点什么吧~";
+//        }
+//        Point point = Utils.color2Point(backgroundColor);
+//        point.setImgPath(mPath);
+//        point.update();
+
+        SpInstance.get().pString("xixi22", new Gson().toJson(mPath));
+        return "保存成功";
+    }
     public void release() {
         getHolder().removeCallback(this);
     }

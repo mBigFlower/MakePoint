@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                tools:context=".MainActivity">
+                tools:context=".activity.MainActivity">
 
     <LinearLayout
         android:id="@+id/main_title"
@@ -21,7 +21,7 @@
             android:clickable="true"
             android:onClick="listOnclick"
             android:padding="18dp"
-            android:src="@mipmap/icon_list"/>
+            android:src="@drawable/icon_list"/>
 
     </LinearLayout>
 
@@ -48,7 +48,7 @@
             android:layout_toRightOf="@+id/top_left"
             android:background="@color/paint_red"
             android:clickable="true"
-            android:drawableBottom="@mipmap/icon_last"
+            android:drawableBottom="@drawable/icon_last"
             android:onClick="blockOnclick"
             app:layout_heightPercent="50%"
             app:layout_widthPercent="50%"

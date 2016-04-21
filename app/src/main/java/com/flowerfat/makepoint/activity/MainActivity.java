@@ -1,12 +1,8 @@
 package com.flowerfat.makepoint.activity;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -18,7 +14,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
-import android.widget.RemoteViews;
 
 import com.flowerfat.makepoint.Constants.PointColor;
 import com.flowerfat.makepoint.Constants.PointManager;
@@ -69,10 +64,15 @@ public class MainActivity extends AppCompatActivity {
 
         initListener();
         initLongListener();
-        // notification的测试
-        notification();
 
+    }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            Log.e("xixi",  Utils.getStateHeight(this) + " " + Utils.getScreenSize(this)[1]);
+        }
     }
 
     /**
@@ -248,26 +248,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
-    private void notification() {
-        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this);
-        //自定义界面
-        RemoteViews rv = new RemoteViews(getPackageName(), R.layout.layout_notification);
-        rv.setTextViewText(R.id.notification_tv1, "我是自定义的1");
-        rv.setTextViewText(R.id.notification_tv2, "我是自定义的2");
-        rv.setTextViewText(R.id.notification_tv3, "我是自定义的3");
-        rv.setTextViewText(R.id.notification_tv4, "我是自定义的4");
-
-        notifyBuilder.setAutoCancel(false);
-        notifyBuilder.setOngoing(true);
-        Notification notification = notifyBuilder.build();
-        notification.contentView = (rv);
-        //获取到系统的notificationManager
-        NotificationManager notificationManager = (NotificationManager)
-                getSystemService(Context.NOTIFICATION_SERVICE);
-        //把定义的notification 传递给 notificationmanager
-        notificationManager.notify(0, notification);
-    }
-
 }

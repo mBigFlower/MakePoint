@@ -3,24 +3,30 @@ package com.flowerfat.makepoint.activity;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.activity.base.AnimActivity;
+import com.flowerfat.makepoint.utils.NotificationUtil;
+import com.flowerfat.makepoint.utils.SpInstance;
 import com.flowerfat.makepoint.view.DotsView;
+import com.flowerfat.makepoint.view.MaterialCheckBox;
 
 import butterknife.Bind;
 
 public class SettingActivity extends AnimActivity{
-
-    public static final String ARG_REVEAL_START_LOCATION = "reveal_start_location";
 
     @Bind(R.id.setting_toolbar)
     Toolbar toolbar;
 
     @Bind(R.id.dotsView)
     DotsView dotsView;
+
+    @Bind(R.id.notification_cb)
+    MaterialCheckBox notificationCb;
 
     @Override
     public void animStart() {
@@ -38,6 +44,7 @@ public class SettingActivity extends AnimActivity{
         super.onCreate(savedInstanceState);
 
         initToolBar();
+        initListener();
     }
 
     private void initToolBar() {
@@ -57,6 +64,22 @@ public class SettingActivity extends AnimActivity{
         dotsAnimator.setDuration(900);
         dotsAnimator.setStartDelay(50);
         dotsAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        dotsAnimator.start();
     }
 
+    private void initListener(){
+        notificationCb.setChecked(SpInstance.get().isNotification());
+        notificationCb.setOnCheckedChangedListener(new MaterialCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(View view, boolean isChecked) {
+                Log.i("initListener", isChecked+"");
+                SpInstance.get().setNotification(isChecked);
+                if(isChecked) {
+                    NotificationUtil.show();
+                } else {
+                    NotificationUtil.dismiss();
+                }
+            }
+        });
+    }
 }

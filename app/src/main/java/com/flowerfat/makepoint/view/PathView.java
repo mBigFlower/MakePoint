@@ -15,7 +15,7 @@ import com.flowerfat.makepoint.utils.Utils;
  */
 public class PathView extends View {
 
-    private final int PADDING = Utils.dp2px(12);
+    private final int PADDING = Utils.dp2px(56);
 
     private PathPlus mPath;
     private Paint mPaint = new Paint();

@@ -6,4 +6,5 @@ package com.flowerfat.makepoint.Constants;
 public interface SPConstant {
 
     String KEY_IS_NEW_DAY = "is_new_day";
+    String KEY_IS_NOTIFICATION = "is_notify";
 }

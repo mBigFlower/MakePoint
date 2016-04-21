@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/transparent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -15,7 +17,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/paint_blue" />
+            android:textColor="@color/paint_blue"
+            android:textStyle="bold"
+            tools:text="我是第一个" />
 
         <TextView
             android:id="@+id/notification_tv2"
@@ -23,7 +27,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/paint_red" />
+            android:textColor="@color/paint_red"
+            android:textStyle="bold"
+            tools:text="我是第2个" />
 
     </LinearLayout>
 
@@ -39,7 +45,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/paint_purple" />
+            android:textColor="@color/paint_purple"
+            android:textStyle="bold"
+            tools:text="我是第3个" />
 
         <TextView
             android:id="@+id/notification_tv4"
@@ -47,7 +55,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/paint_yellow" />
+            android:textColor="@color/paint_yellow"
+            android:textStyle="bold"
+            tools:text="我是第4个" />
 
     </LinearLayout>
 

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:padding="12dp"
-            android:src="@mipmap/icon_arrow_up" />
+            android:src="@drawable/icon_arrow_up" />
 
         <ImageView
             android:id="@+id/BoardView_save"
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/BoardView_close"
             android:padding="12dp"
-            android:src="@mipmap/icon_save" />
+            android:src="@drawable/icon_save" />
 
         <ImageView
             android:id="@+id/BoardView_clear"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/BoardView_save"
             android:padding="12dp"
-            android:src="@mipmap/icon_clear" />
+            android:src="@drawable/icon_clear" />
 
         <com.flowerfat.makepoint.view.DrawBoard
             android:id="@+id/BoardView_drawBoard"
@@ -56,6 +56,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_margin="12dp"
-        android:src="@mipmap/icon_arrow_down" />
+        android:src="@drawable/icon_arrow_down" />
 
 </FrameLayout>

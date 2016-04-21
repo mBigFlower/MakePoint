@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+import com.flowerfat.makepoint.Constants.SPConstant;
 import com.flowerfat.makepoint.MyApplication;
-import com.flowerfat.makepoint.Constants.PointColor;
 
 /**
  * Created by 明明大美女 on 2015/10/10.
@@ -51,18 +51,12 @@ public class SpInstance {
         return sp.getBoolean(key, _default);
     }
 
+
     /////////////////////////////////////////////////////////////////
-
-    public void initOneDayPoint(){
-        editor.putString("pColor" + PointColor.COLOR_1, "");
-        editor.putString("pColor" + PointColor.COLOR_2, "");
-        editor.putString("pColor" + PointColor.COLOR_3, "");
-        editor.putString("pColor" + PointColor.COLOR_4, "");
-        editor.putBoolean("isTaskDone" + PointColor.COLOR_1, false);
-        editor.putBoolean("isTaskDone" + PointColor.COLOR_2, false);
-        editor.putBoolean("isTaskDone" + PointColor.COLOR_3, false);
-        editor.putBoolean("isTaskDone" + PointColor.COLOR_4, false);
-        editor.commit();
+    public void setNotification(boolean isNotificationShow) {
+        pBoolean(SPConstant.KEY_IS_NOTIFICATION, isNotificationShow);
     }
-
+    public boolean isNotification(){
+        return gBoolean(SPConstant.KEY_IS_NOTIFICATION, false);
+    }
 }

@@ -13,28 +13,26 @@
         android:background="#000"
         android:theme="@style/ThemeToolbar" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:layout_below="@+id/setting_toolbar">
+        android:layout_below="@+id/setting_toolbar"
+        android:gravity="center_vertical"
+        android:paddingLeft="24dp"
+        android:text="@string/setting_notifacation"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/setting_notifacation"
-            android:textColor="@android:color/white"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="24dp"
-            android:textSize="18sp"/>
 
-        <android.support.v7.widget.AppCompatCheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="right|center_vertical"
-            android:checked="true"
-            android:paddingRight="16dp"/>
-
-    </FrameLayout>
+    <com.flowerfat.makepoint.view.MaterialCheckBox
+        android:id="@+id/notification_cb"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/setting_toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="15dp"
+        android:checked="true" />
 
     <com.flowerfat.makepoint.view.DotsView
         android:id="@+id/dotsView"

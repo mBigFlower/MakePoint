@@ -20,6 +20,8 @@ import com.flowerfat.makepoint.utils.Utils;
 public class QuarterBlock extends RelativeLayout {
 
     private final int PADDING = Utils.dp2px(12);
+    public static final int WIDTH = 340;
+    public static final int HEIGHT = 600;
 
     PathView mPathView;
     TextView mTextView, mDoneMaskTv;
@@ -88,9 +90,10 @@ public class QuarterBlock extends RelativeLayout {
     private void ivInit() {
         mPathView = new PathView(getContext());
         mPathView.setId(R.id.Qb_ImageView);
-        mPathView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        this.addView(mPathView);
+        LayoutParams lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+        lp.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+        this.addView(mPathView, lp);
     }
 
     public void setText(String text) {

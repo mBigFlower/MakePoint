@@ -92,8 +92,7 @@ public class DrawBoardView extends RelativeLayout {
 
     @OnClick(R.id.BoardView_clear)
     void clear() {
-        drawBoard.toLastPath();
-//        drawBoard.clear();
+        drawBoard.clear();
     }
 
     /**

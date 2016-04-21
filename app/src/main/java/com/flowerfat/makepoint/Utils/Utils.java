@@ -1,6 +1,8 @@
 package com.flowerfat.makepoint.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -32,6 +34,12 @@ public class Utils {
         dm = context.getResources().getDisplayMetrics();
         screens = new int[]{dm.widthPixels, dm.heightPixels};
         return screens;
+    }
+
+    public static int getStateHeight(Activity activity){
+        Rect outRect = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(outRect);
+        return outRect.top;
     }
 
     public static Date yesteday(){

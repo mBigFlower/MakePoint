@@ -90,7 +90,7 @@ public class PathUtil {
 
         float transLeft = (width - pathW) / 2;
         float transTop = (height - pathH) / 2;
-        trans(path, transLeft-bounds.left, transTop-bounds.top);
+        trans(path, transLeft, transTop);
         Log.i("Path 边距调整 ", "左：" + bounds.left + " 上：" + bounds.top);
         Log.i("Path 大小调整 ", "宽度：" + bounds.width() + " 上：" + bounds.height());
         return path;

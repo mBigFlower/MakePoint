@@ -1,4 +1,4 @@
-package com.flowerfat.makepoint.view;
+package com.flowerfat.path;
 
 import android.graphics.Path;
 
@@ -73,18 +73,6 @@ public class PathPlus extends Path {
         }
     }
 
-    public class PathPoint {
-        public float x;
-        public float y;
-        // 判断这个点，是按下的还是move的
-        public boolean isDown;
-
-        public PathPoint(float x, float y, boolean isDown) {
-            this.x = x;
-            this.y = y;
-            this.isDown = isDown;
-        }
-    }
 
 
 }

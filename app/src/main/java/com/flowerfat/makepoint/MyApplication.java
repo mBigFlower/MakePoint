@@ -2,6 +2,7 @@ package com.flowerfat.makepoint;
 
 import android.app.Application;
 
+import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 /**
@@ -18,7 +19,7 @@ public class MyApplication extends Application {
         myApplication = this; // 单例
 
         //DBflow
-        FlowManager.init(this);
+        FlowManager.init(new FlowConfig.Builder(this).build());
     }
 
     public static MyApplication getInstance() {

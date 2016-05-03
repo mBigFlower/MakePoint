@@ -17,14 +17,14 @@ public class WelcomeActivity extends AppCompatActivity {
         delayStart();
     }
 
-    private void delayStart(){
+    private void delayStart() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
                 finish();
             }
-        }, 10000);
+        }, 2000);
     }
 
 }

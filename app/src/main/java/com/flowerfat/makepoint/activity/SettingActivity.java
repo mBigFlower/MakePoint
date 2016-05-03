@@ -3,7 +3,6 @@ package com.flowerfat.makepoint.activity;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -72,13 +71,7 @@ public class SettingActivity extends AnimActivity{
         notificationCb.setOnCheckedChangedListener(new MaterialCheckBox.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View view, boolean isChecked) {
-                Log.i("initListener", isChecked+"");
-                SpInstance.get().setNotification(isChecked);
-                if(isChecked) {
-                    NotificationUtil.show();
-                } else {
-                    NotificationUtil.dismiss();
-                }
+                NotificationUtil.setSwitchState(isChecked);
             }
         });
     }

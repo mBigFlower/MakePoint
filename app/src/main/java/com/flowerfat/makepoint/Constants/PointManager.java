@@ -4,6 +4,7 @@ import com.flowerfat.makepoint.entity.db.Point;
 import com.flowerfat.makepoint.entity.db.Point_Table;
 import com.flowerfat.makepoint.entity.db.Points;
 import com.flowerfat.makepoint.utils.DateUtil;
+import com.flowerfat.makepoint.utils.NotificationUtil;
 import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class PointManager {
             point4 = new Point(date);
             points = new Points(point1, point2, point3, point4);
             points.save();
+            NotificationUtil.refresh();
         } else if (point1 == null || point2 == null || point3 == null || point4 == null) {
             // TODO 数据库取出来
             String date = DateUtil.getDate(DateUtil.YMD);
@@ -47,11 +49,6 @@ public class PointManager {
             point2 = pointList.get(1);
             point3 = pointList.get(2);
             point4 = pointList.get(3);
-//            points = SQLite.select().from(Points.class).querySingle();
-//            point1 = points.getPoint1();
-//            point2 = points.getPoint2();
-//            point3 = points.getPoint3();
-//            point4 = points.getPoint4();
         }
     }
 

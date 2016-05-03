@@ -20,6 +20,15 @@ public class NotificationUtil {
 
     public static final int ID_NOTIFICATION = 123;
 
+    public static void setSwitchState(boolean isNotification){
+        SpInstance.get().setNotification(isNotification);
+        if(isNotification) {
+            show();
+        } else {
+            dismiss();
+        }
+    }
+
     public static void show() {
         Intent intent = new Intent(MyApplication.getInstance(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -33,7 +42,7 @@ public class NotificationUtil {
         rv.setTextViewText(R.id.notification_tv4, PointManager.get().getPoint4().getTitle());
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(MyApplication.getInstance());
-        builder.setContent(rv).setOngoing(true);
+        builder.setContent(rv).setOngoing(true).setSmallIcon(R.drawable.img_yellowman2);
         builder.setContentIntent(pendingIntent);
         // 5.0系统以后，要弄一个黑白的图标
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -53,4 +62,10 @@ public class NotificationUtil {
         manger.cancel(ID_NOTIFICATION);
     }
 
+    public static void refresh(){
+        if(SpInstance.get().isNotification()) {
+            dismiss();
+            show();
+        }
+    }
 }

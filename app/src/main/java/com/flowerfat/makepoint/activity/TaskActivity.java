@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.activity.base.AnimActivity;
 import com.flowerfat.makepoint.entity.db.Point;
+import com.flowerfat.makepoint.utils.NotificationUtil;
 import com.flowerfat.makepoint.utils.ScreenUtil;
 import com.flowerfat.makepoint.utils.Utils;
 import com.flowerfat.makepoint.view.DrawBoardView;
@@ -191,6 +192,7 @@ public class TaskActivity extends AnimActivity {
         Point point = Utils.color2Point(fillColor);
         point.setTitle(text);
         point.update();
+        NotificationUtil.refresh();
     }
 
     @Override

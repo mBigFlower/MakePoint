@@ -31,8 +31,7 @@
         android:layout_below="@+id/setting_toolbar"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="15dp"
-        android:checked="true" />
+        android:layout_marginTop="15dp" />
 
     <com.flowerfat.makepoint.view.DotsView
         android:id="@+id/dotsView"

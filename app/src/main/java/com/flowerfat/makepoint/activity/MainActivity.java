@@ -1,5 +1,6 @@
 package com.flowerfat.makepoint.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import com.flowerfat.makepoint.Constants.PointColor;
 import com.flowerfat.makepoint.Constants.PointManager;
 import com.flowerfat.makepoint.R;
+import com.flowerfat.makepoint.utils.NotificationUtil;
 import com.flowerfat.makepoint.utils.Utils;
 import com.flowerfat.makepoint.view.ExitView;
 import com.flowerfat.makepoint.view.QuarterBlock;
@@ -53,6 +55,10 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.main_exitView)
     ExitView exitView;
 
+    public static void launch(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            Log.e("xixi",  Utils.getStateHeight(this) + " " + Utils.getScreenSize(this)[1]);
+            Log.e("xixi", Utils.getStateHeight(this) + " " + Utils.getScreenSize(this)[1]);
         }
     }
 

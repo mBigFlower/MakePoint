@@ -62,6 +62,10 @@ public class NotificationUtil {
         manger.cancel(ID_NOTIFICATION);
     }
 
+    public static void init(){
+
+    }
+
     public static void refresh(){
         if(SpInstance.get().isNotification()) {
             dismiss();

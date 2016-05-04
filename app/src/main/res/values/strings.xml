@@ -10,6 +10,7 @@
 
 
     <string name="setting_notifacation">通知栏不消失</string>
+    <string name="setting_welcome_anim">初始动画</string>
 
     <string name="hello_world">Hello world!</string>
 </resources>

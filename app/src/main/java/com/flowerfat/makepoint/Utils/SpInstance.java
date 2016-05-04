@@ -53,10 +53,25 @@ public class SpInstance {
 
 
     /////////////////////////////////////////////////////////////////
+    // setting
+    ////////////////////////////////////////////////////////////////////////
+
+    /**
+     * notification相关的设置
+     * @param isNotificationShow
+     */
     public void setNotification(boolean isNotificationShow) {
         pBoolean(SPConstant.KEY_IS_NOTIFICATION, isNotificationShow);
     }
     public boolean isNotification(){
         return gBoolean(SPConstant.KEY_IS_NOTIFICATION, false);
+    }
+
+    ////////////////////////
+    public void setWelcomeAnim(boolean isWelAnimShow){
+        pBoolean(SPConstant.KEY_IS_WELCOME_ANIM, isWelAnimShow);
+    }
+    public boolean isWelcomeAnim(){
+        return gBoolean(SPConstant.KEY_IS_WELCOME_ANIM, true);
     }
 }

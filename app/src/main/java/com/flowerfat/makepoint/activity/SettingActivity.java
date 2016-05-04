@@ -26,6 +26,8 @@ public class SettingActivity extends AnimActivity{
 
     @Bind(R.id.notification_cb)
     MaterialCheckBox notificationCb;
+    @Bind(R.id.welcome_anim_cb)
+    MaterialCheckBox welcomeAnimCb;
 
     @Override
     public void animStart() {
@@ -72,6 +74,13 @@ public class SettingActivity extends AnimActivity{
             @Override
             public void onCheckedChanged(View view, boolean isChecked) {
                 NotificationUtil.setSwitchState(isChecked);
+            }
+        });
+        welcomeAnimCb.setChecked(SpInstance.get().isWelcomeAnim());
+        welcomeAnimCb.setOnCheckedChangedListener(new MaterialCheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(View view, boolean isChecked) {
+                SpInstance.get().setWelcomeAnim(isChecked);
             }
         });
     }

@@ -51,13 +51,14 @@ public class PathView extends View {
             canvas.drawPath(mPath, mPaint);
     }
 
-
     public void setmPath(String pathStr) {
         if (pathStr != null) {
             mPath = new PathPlus(pathStr);
             mPath = (PathPlus)PathUtil.suitView(this, mPath, PADDING);
-            invalidate();
+        } else {
+            mPath = null ;
         }
+        invalidate();
     }
 
 }

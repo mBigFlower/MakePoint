@@ -12,6 +12,7 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.flowerfat.makepoint.Constants.PointManager;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.activity.base.AnimActivity;
 import com.flowerfat.makepoint.entity.db.Point;
@@ -189,6 +190,9 @@ public class TaskActivity extends AnimActivity {
      * @param text
      */
     private void savePoint(String text) {
+        if(PointManager.get().points == null) {
+            PointManager.get().createPoints();
+        }
         Point point = Utils.color2Point(fillColor);
         point.setTitle(text);
         point.update();

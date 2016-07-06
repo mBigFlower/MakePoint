@@ -36,8 +36,6 @@ public class PointManager {
             point2 = new Point(date);
             point3 = new Point(date);
             point4 = new Point(date);
-            points = new Points(point1, point2, point3, point4);
-            points.save();
             NotificationUtil.refresh();
         } else if (point1 == null || point2 == null || point3 == null || point4 == null) {
             // TODO 数据库取出来
@@ -58,6 +56,11 @@ public class PointManager {
         point2 = null;
         point3 = null;
         point4 = null;
+    }
+
+    public void createPoints(){
+        points = new Points(point1, point2, point3, point4);
+        points.save();
     }
 
     public Point getPoint1() {

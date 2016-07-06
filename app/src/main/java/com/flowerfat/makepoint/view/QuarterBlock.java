@@ -69,6 +69,7 @@ public class QuarterBlock extends RelativeLayout {
                     ViewGroup.LayoutParams.MATCH_PARENT));
             mDoneMaskTv.setText("Done");
             mDoneMaskTv.setTextSize(20);
+            mDoneMaskTv.setVisibility(GONE);
             addView(mDoneMaskTv);
         }
     }
@@ -109,7 +110,10 @@ public class QuarterBlock extends RelativeLayout {
     }
 
     public void setDoneMask(boolean isDoneShow) {
+        if("".equals(mPoint.getTitle()) && mPoint.getImgPath() == null)
+            return ;
         mPoint.setDone(isDoneShow);
+        mPoint.update();
         if (isDoneShow) {
             mDoneMaskTv.setVisibility(VISIBLE);
         } else {

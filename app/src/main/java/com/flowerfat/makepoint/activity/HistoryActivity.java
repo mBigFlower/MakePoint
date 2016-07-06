@@ -53,9 +53,15 @@ public class HistoryActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(
                 this, DividerItemDecoration.VERTICAL_LIST));
 
+        mAdapter.addItems(getHistoryData());
+    }
+
+    private List<Points> getHistoryData(){
+        // 获取数据
         List<Points> pointsLists = new Select().from(Points.class).queryList();
+        // list反向
         Collections.reverse(pointsLists);
-        mAdapter.addItems(pointsLists);
+        return pointsLists;
     }
 
 

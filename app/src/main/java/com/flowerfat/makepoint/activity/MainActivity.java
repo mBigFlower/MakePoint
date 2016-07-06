@@ -19,7 +19,6 @@ import android.widget.FrameLayout;
 import com.flowerfat.makepoint.Constants.PointColor;
 import com.flowerfat.makepoint.Constants.PointManager;
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.utils.NotificationUtil;
 import com.flowerfat.makepoint.utils.Utils;
 import com.flowerfat.makepoint.view.ExitView;
 import com.flowerfat.makepoint.view.QuarterBlock;
@@ -29,8 +28,7 @@ import butterknife.ButterKnife;
 
 /**
  * TODO
- * 1. 把SP整理一下，增加静态类 Contacts
- * 2. 把Point的保存方法更改下，改成entity，因为越来越多的相关属性出现了
+ * 1. 这个界面完全可以用来界面显示，不保留数据
  */
 public class MainActivity extends AppCompatActivity {
 
@@ -207,18 +205,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.v("MainActivity", "onResume");
         PointManager.get().onResume();
-        dateCheck();
+        showOldBoards();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         PointManager.get().onDestroy();
-    }
-
-    private void dateCheck() {
-        // TODO
-        showOldBoards();
     }
 
     /**

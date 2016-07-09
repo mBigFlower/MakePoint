@@ -179,6 +179,13 @@ public class TaskActivity extends AnimActivity {
         super.onStateChange(state);
     }
 
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

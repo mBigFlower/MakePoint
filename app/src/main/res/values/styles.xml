@@ -4,8 +4,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.MakePoint" parent="Base.Theme.MakePoint">
-    </style>
+    <style name="Theme.MakePoint" parent="Base.Theme.MakePoint"></style>
 
     <style name="Base.Theme.MakePoint" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#000</item>
@@ -24,5 +23,9 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+    <style name="Theme.MakePoint.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MakePoint.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

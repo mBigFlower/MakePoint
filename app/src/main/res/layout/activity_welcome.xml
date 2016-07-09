@@ -5,7 +5,7 @@
     android:background="@color/paint_oringe"
     android:gravity="center">
 
-    <com.flowerfat.path.NPNView
+    <com.flowerfat.path.cool.NPNView
         android:layout_gravity="center"
         android:layout_width="300dp"
         android:layout_height="300dp"/>

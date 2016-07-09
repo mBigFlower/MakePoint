@@ -84,4 +84,10 @@ public class SettingActivity extends AnimActivity{
             }
         });
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
 }

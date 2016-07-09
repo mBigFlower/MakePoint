@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:theme="@style/ThemeToolbar"
-        android:background="@color/paint_blue"/>
+        android:background="@android:color/black"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/history_recycler"

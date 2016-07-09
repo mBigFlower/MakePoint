@@ -1,4 +1,4 @@
-package com.flowerfat.path;
+package com.flowerfat.path.cool;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -7,8 +7,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
+
+import com.flowerfat.path.PathAnim;
 
 /**
  * Created by 明明大美女 on 2016/4/27.
@@ -62,6 +65,7 @@ public class NPNView extends View {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
+        Log.e("onLayout",changed+"");
         if (changed) {
             mDrawCtrl = new DrawCtrl(getWidth());
 

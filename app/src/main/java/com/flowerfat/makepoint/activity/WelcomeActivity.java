@@ -14,6 +14,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+//        startActivity(new Intent(this, TestActivity.class));
         isAnimShow();
     }
 

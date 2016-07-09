@@ -20,33 +20,26 @@
         <activity
             android:name=".activity.TaskActivity"
             android:label="@string/title_activity_task"
-            android:theme="@style/AppTheme.TransparentActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
+            android:theme="@style/AppTheme.TransparentActivity"/>
         <activity
             android:name=".activity.HistoryActivity"
             android:label="@string/title_activity_history"
-            android:theme="@style/AppTheme.TransparentActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
+            android:theme="@style/AppTheme.TransparentActivity"/>
         <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.SettingActivity"
             android:label="@string/title_activity_setting"
-            android:theme="@style/AppTheme.TransparentActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
-        </activity>
+            android:theme="@style/AppTheme.TransparentActivity"/>
+        <activity
+            android:name=".activity.TestActivity"
+            android:label="@string/title_activity_test"
+            android:theme="@style/Theme.MakePoint"/>
     </application>
 
 </manifest>

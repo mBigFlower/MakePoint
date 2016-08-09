@@ -18,7 +18,7 @@ public class Point extends BaseModel {
     @Column
     String title;
     @Column
-    boolean isDone;
+    String doneTime;
     @Column
     String date;
     @Column
@@ -43,12 +43,12 @@ public class Point extends BaseModel {
         this.title = title;
     }
 
-    public boolean isDone() {
-        return isDone;
+    public String getDoneTime() {
+        return doneTime;
     }
 
-    public void setDone(boolean done) {
-        isDone = done;
+    public void setDoneTime(String doneTime) {
+        this.doneTime = doneTime;
     }
 
     public String getImgPath() {
@@ -72,7 +72,7 @@ public class Point extends BaseModel {
         return "Point{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", isDone=" + isDone +
+                ", isDone=" + doneTime +
                 ", date=" + date +
                 ", imgPath=" + imgPath +
                 '}';

@@ -102,22 +102,23 @@ public class QuarterBlock extends RelativeLayout {
     }
 
     public void toggle() {
-        if (mPoint.isDone()) {
-            setDoneMask(false);
+        if (mPoint.getDoneTime() == null) {
+            setDoneMask("Done\n"+"0809");
         } else {
-            setDoneMask(true);
+            setDoneMask(null);
         }
     }
 
-    public void setDoneMask(boolean isDoneShow) {
+    public void setDoneMask(String doneTime) {
         if("".equals(mPoint.getTitle()) && mPoint.getImgPath() == null)
             return ;
-        mPoint.setDone(isDoneShow);
+        mPoint.setDoneTime(doneTime);
         mPoint.update();
-        if (isDoneShow) {
-            mDoneMaskTv.setVisibility(VISIBLE);
-        } else {
+        if (doneTime == null) {
             mDoneMaskTv.setVisibility(GONE);
+        } else {
+            mDoneMaskTv.setVisibility(VISIBLE);
+            mDoneMaskTv.setText(doneTime);
         }
     }
 
@@ -125,7 +126,7 @@ public class QuarterBlock extends RelativeLayout {
         mPoint = point;
         setText(mPoint.getTitle());
         mPathView.setmPath(mPoint.getImgPath());
-        setDoneMask(mPoint.isDone());
+        setDoneMask(mPoint.getDoneTime());
         textLocationChange(mPoint.getImgPath() != null);
     }
 

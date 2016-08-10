@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.entity.db.Point;
+import com.flowerfat.makepoint.utils.DateUtil;
 import com.flowerfat.makepoint.utils.Utils;
 
 /**
@@ -103,7 +104,7 @@ public class QuarterBlock extends RelativeLayout {
 
     public void toggle() {
         if (mPoint.getDoneTime() == null) {
-            setDoneMask("Done\n"+"0809");
+            setDoneMask("   Done   "+ DateUtil.getDate(DateUtil.HMS));
         } else {
             setDoneMask(null);
         }

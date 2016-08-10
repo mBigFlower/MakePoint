@@ -11,6 +11,7 @@ import java.util.Date;
 public class DateUtil {
 
     public static final String YMD = "yyyyMMdd";
+    public static final String HMS = "hh:mm:ss";
 
     public static String getDate(String pattern){
         return new SimpleDateFormat(pattern).format(new Date());

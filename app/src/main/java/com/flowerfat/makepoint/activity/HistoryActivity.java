@@ -1,40 +1,53 @@
 package com.flowerfat.makepoint.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
 
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.adapter.PointsAdapter;
-import com.flowerfat.makepoint.entity.db.Points;
-import com.flowerfat.makepoint.view.DividerItemDecoration;
-import com.raizlabs.android.dbflow.sql.language.Select;
-
-import java.util.Collections;
-import java.util.List;
+import com.flowerfat.makepoint.activity.base.AnimActivity;
+import com.flowerfat.makepoint.fragment.EmptyFragment;
+import com.flowerfat.makepoint.fragment.HistoryChartFragment;
+import com.flowerfat.makepoint.fragment.HistoryListFragment;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryActivity extends AnimActivity {
 
-    private PointsAdapter mAdapter;
+    private static final int ANIMATION_DELAY = 300;
+    private static final Interpolator INTERPOLATOR = new DecelerateInterpolator();
 
-    @Bind(R.id.history_recycler)
-    RecyclerView mRecyclerView;
     @Bind(R.id.history_toolbar)
-    Toolbar toolbar ;
+    Toolbar toolbar;
+    @Bind(R.id.history_viewPager)
+    ViewPager mViewPager;
+    @Bind(R.id.history_tabs)
+    TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
-        ButterKnife.bind(this);
 
         initToolbar();
-        initRecyclerView();
+        initViewPager();
+    }
+
+    @Override
+    public void animStart() {
+        animTitleIn();
+        animTabIn();
+        animViewPagerIn();
+    }
+
+
+    @Override
+    public int initLayout() {
+        return R.layout.activity_history;
     }
 
     @Override
@@ -43,32 +56,70 @@ public class HistoryActivity extends AppCompatActivity {
         return true;
     }
 
-    private void initToolbar(){
+    private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void initRecyclerView() {
-        mRecyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(manager);
+    private void initViewPager() {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public int getCount() {
+                return 3;
+            }
 
-        mAdapter = new PointsAdapter(this);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(
-                this, DividerItemDecoration.VERTICAL_LIST));
+            @Override
+            public android.support.v4.app.Fragment getItem(int position) {
+                switch (position) {
+                    case 0:
+                        return new HistoryListFragment();
+                    case 1:
+                        return new HistoryChartFragment();
+                    default:
+                        return new EmptyFragment();
+                }
+            }
 
-        mAdapter.addItems(getHistoryData());
+            @Override
+            public CharSequence getPageTitle(int position) {
+                switch (position) {
+                    case 0:
+                        return "List";
+                    case 1:
+                        return "Chart";
+                    default:
+                        return "Test";
+                }
+            }
+        });
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
-    private List<Points> getHistoryData(){
-        // 获取数据
-        List<Points> pointsLists = new Select().from(Points.class).queryList();
-        // list反向
-        Collections.reverse(pointsLists);
-        return pointsLists;
+
+    private void animTitleIn() {
+        toolbar.setScaleX(0);
+        toolbar.setScaleY(0);
+        toolbar.animate().scaleX(1).scaleY(1).setDuration(300)
+                .setStartDelay(ANIMATION_DELAY)
+                .setInterpolator(new OvershootInterpolator(1.f));
     }
 
+    private void animTabIn() {
+        mTabLayout.setTranslationY(-mTabLayout.getHeight());
+        mTabLayout.animate().translationY(0).setDuration(300)
+                .setStartDelay(ANIMATION_DELAY).setInterpolator(INTERPOLATOR);
+    }
 
+    private void animViewPagerIn() {
+        mViewPager.setAlpha(0);
+        mViewPager.animate().alpha(1).setDuration(600)
+                .setStartDelay(600).setInterpolator(INTERPOLATOR);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mViewPager.setAlpha(0);
+    }
 }

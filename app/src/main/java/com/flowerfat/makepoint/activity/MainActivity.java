@@ -25,6 +25,7 @@ import com.flowerfat.makepoint.view.QuarterBlock;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * TODO
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
-            Log.e("xixi", Utils.getStateHeight(this) + " " + Utils.getScreenSize(this)[1]);
+            Timber.e(Utils.getStateHeight(this) + " " + Utils.getScreenSize(this)[1]);
         }
     }
 
@@ -118,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(0, 0);
     }
 
+    public void listOnclick(View v) {
+        HistoryActivity.launchFromLocation(this, HistoryActivity.class,
+                new int[]{v.getLeft(), titleFL.getHeight()});
+    }
+
     private void initLongListener() {
         qbTopLeft.setOnLongClickListener(longClick);
         qbBottomLeft.setOnLongClickListener(longClick);
@@ -132,10 +138,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
-
-    public void listOnclick(View v) {
-        startActivity(new Intent(MainActivity.this, HistoryActivity.class));
-    }
 
     /**
      * 根据不同的点击，返回对应颜色
@@ -229,8 +231,6 @@ public class MainActivity extends AppCompatActivity {
         titleFL.getLocationOnScreen(startingLocation);
         startingLocation[0] += titleFL.getWidth() / 2;
         SettingActivity.launchFromLocation(this, SettingActivity.class, startingLocation);
-
-//        startActivity(new Intent(this, Test.class));
     }
 
 

@@ -6,11 +6,6 @@
     android:fitsSystemWindows="true"
     tools:context="com.flowerfat.makepoint.activity.SettingActivity">
 
-    <com.flowerfat.path.cool.HeartJumpAnimView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true" />
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/setting_toolbar"
         android:layout_width="match_parent"

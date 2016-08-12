@@ -16,6 +16,8 @@ import butterknife.ButterKnife;
 
 /**
  * 圆形背景扩展动画的baseActivity，继承这个，就有拉个效果了！
+ *
+ * 注意了啊，xml里千万不要白色的background
  */
 public abstract class AnimActivity extends AppCompatActivity implements RevealBackgroundView.OnStateChangeListener {
 

@@ -11,7 +11,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
-import com.flowerfat.path.PathAnim;
+import com.flowerfat.path.PathAnimUtil;
+
 
 /**
  * Created by 明明大美女 on 2016/4/27.
@@ -30,13 +31,13 @@ public class NPNView extends View {
     private final int LINE_WIDTH = 5;
 
     private Paint mPaint;
-    private Path mResPath1 = new Path();
-    private Path mResPath2 = new Path();
-    private Path mResPath3 = new Path();
-    private Path mResPath4 = new Path();
-    private Path mResPath5 = new Path();
-    private Path mResPath6 = new Path();
-    private Path mOutputPath = new Path();
+    private PathAnimUtil mResPathAnim1;
+    private PathAnimUtil mResPathAnim2;
+    private PathAnimUtil mResPathAnim3;
+    private PathAnimUtil mResPathAnim4;
+    private PathAnimUtil mResPathAnim5;
+    private PathAnimUtil mResPathAnim6;
+    private PathAnimUtil mOutputPathAnim;
     private DrawCtrl mDrawCtrl;
 
     public NPNView(Context context) {
@@ -65,15 +66,18 @@ public class NPNView extends View {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        Log.e("onLayout",changed+"");
+        Log.e("onLayout", changed + "");
         if (changed) {
             mDrawCtrl = new DrawCtrl(getWidth());
 
             animTopBottomLine();
             refreshDriver();
-            animRes(mResPath1, mResPath2, ANIM_TIME*3/8, ANIM_TIME/4, mDrawCtrl.res1Height, mDrawCtrl.halfSize / 2, 0);
-            animRes(mResPath3, mResPath4, ANIM_TIME/4, ANIM_TIME*9/16, mDrawCtrl.res2Height, mDrawCtrl.halfSize * 5 / 4, 0);
-            animRes(mResPath5, mResPath6, ANIM_TIME/4, ANIM_TIME*9/16, mDrawCtrl.res3Height, mDrawCtrl.halfSize * 5 / 4, mDrawCtrl.halfSize * 5 / 4);
+            mResPathAnim1 = animResUp(ANIM_TIME * 3 / 8, ANIM_TIME / 4, mDrawCtrl.res1Height, mDrawCtrl.halfSize / 2, 0);
+            mResPathAnim2 = animResDown(ANIM_TIME * 3 / 8, ANIM_TIME / 4, mDrawCtrl.res1Height, mDrawCtrl.halfSize / 2, 0);
+            mResPathAnim3 = animResUp(ANIM_TIME / 4, ANIM_TIME * 9 / 16, mDrawCtrl.res2Height, mDrawCtrl.halfSize * 5 / 4, 0);
+            mResPathAnim4 = animResDown(ANIM_TIME / 4, ANIM_TIME * 9 / 16, mDrawCtrl.res2Height, mDrawCtrl.halfSize * 5 / 4, 0);
+            mResPathAnim5 = animResUp(ANIM_TIME / 4, ANIM_TIME * 9 / 16, mDrawCtrl.res3Height, mDrawCtrl.halfSize * 5 / 4, mDrawCtrl.halfSize * 5 / 4);
+            mResPathAnim6 = animResDown(ANIM_TIME / 4, ANIM_TIME * 9 / 16, mDrawCtrl.res3Height, mDrawCtrl.halfSize * 5 / 4, mDrawCtrl.halfSize * 5 / 4);
             animNPN();
             animOutput();
         }
@@ -116,7 +120,7 @@ public class NPNView extends View {
 
     private void animNPN() {
         ValueAnimator npnAnim = ValueAnimator.ofFloat(0, mDrawCtrl.npnHalfHeight);
-        npnAnim.setDuration(ANIM_TIME/8).setStartDelay(ANIM_TIME/2);
+        npnAnim.setDuration(ANIM_TIME / 8).setStartDelay(ANIM_TIME / 2);
         npnAnim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -126,11 +130,13 @@ public class NPNView extends View {
         npnAnim.start();
     }
 
-    private void animOutput(){
-        PathAnim.Builder builderUp = new PathAnim.Builder();
-        builderUp.setAnimDuration(ANIM_TIME*7/16).setStartDelay(ANIM_TIME*9/16)
-                .addLine(mDrawCtrl.outputX, mDrawCtrl.outputY, mDrawCtrl.size, mDrawCtrl.outputY)
-                .bindPath(mOutputPath).onStart();
+    private void animOutput() {
+        Path path = new Path();
+        path.moveTo(mDrawCtrl.outputX, mDrawCtrl.outputY);
+        path.lineTo(mDrawCtrl.size, mDrawCtrl.outputY);
+        mOutputPathAnim = new PathAnimUtil(path, mPaint);
+        mOutputPathAnim.getAnimator().setDuration(ANIM_TIME*7/16).setStartDelay(ANIM_TIME*9/16);
+        mOutputPathAnim.anim(this);
     }
 
     /**
@@ -138,32 +144,52 @@ public class NPNView extends View {
      * 画电阻
      * 一个电阻由两个path构成
      *
-     * @param path1      第一个Path
-     * @param path2      第二个Path
      * @param duration   动画执行时间
      * @param startDelay 动画开始的延时
      * @param resHeight  电阻的高度
      * @param beginX     电阻的位置：上面的引脚的X坐标值
      * @param beginY     电阻的位置：上面的引脚的Y坐标值
      */
-    private void animRes(Path path1, Path path2, int duration, int startDelay, float resHeight, int beginX, int beginY) {
+    private PathAnimUtil animResUp(int duration, int startDelay, float resHeight, int beginX, int beginY) {
         // 根据高宽，来计算各个点位
         float resHeightDiv4 = resHeight / 4;
-        // 实行动画
-        PathAnim.Builder builderUp = new PathAnim.Builder();
-        builderUp.setAnimDuration(duration).setStartDelay(startDelay)
-                .addLine(beginX, beginY + resHeight, beginX, beginY + resHeightDiv4 * 3)
-                .toRelX(-mDrawCtrl.resWidthDiv2)
-                .toRelY(-resHeightDiv4 * 2)
-                .toRelX(mDrawCtrl.resWidthDiv2)
-                .bindPath(path1).onStart();
-        PathAnim.Builder builderDown = new PathAnim.Builder();
-        builderDown.setAnimDuration(duration).setStartDelay(startDelay)
-                .addLine(beginX, beginY, beginX, beginY + resHeightDiv4)
-                .toRelX(mDrawCtrl.resWidthDiv2)
-                .toRelY(resHeightDiv4 * 2)
-                .toRelX(-mDrawCtrl.resWidthDiv2)
-                .bindPath(path2).onStart();
+        Path path = new Path();
+        path.moveTo(beginX, beginY + resHeight);
+        path.lineTo(beginX, beginY + resHeightDiv4 * 3);
+        path.rLineTo(-mDrawCtrl.resWidthDiv2, 0);
+        path.rLineTo(0, -resHeightDiv4 * 2);
+        path.rLineTo(mDrawCtrl.resWidthDiv2, 0);
+        PathAnimUtil pathAnim = new PathAnimUtil(path, mPaint);
+        pathAnim.getAnimator().setDuration(duration).setStartDelay(startDelay);
+        pathAnim.anim(this);
+        return pathAnim ;
+    }
+
+/**
+     * /**
+     * 画电阻
+     * 一个电阻由两个path构成
+     *
+     * @param duration   动画执行时间
+     * @param startDelay 动画开始的延时
+     * @param resHeight  电阻的高度
+     * @param beginX     电阻的位置：上面的引脚的X坐标值
+     * @param beginY     电阻的位置：上面的引脚的Y坐标值
+     */
+    private PathAnimUtil animResDown(int duration, int startDelay, float resHeight, int beginX, int beginY) {
+        // 根据高宽，来计算各个点位
+        float resHeightDiv4 = resHeight / 4;
+
+        Path path = new Path();
+        path.moveTo(beginX, beginY);
+        path.lineTo(beginX, beginY + resHeightDiv4);
+        path.rLineTo(mDrawCtrl.resWidthDiv2, 0);
+        path.rLineTo(0, resHeightDiv4 * 2);
+        path.rLineTo(-mDrawCtrl.resWidthDiv2, 0);
+        PathAnimUtil pathAnim = new PathAnimUtil(path, mPaint);
+        pathAnim.getAnimator().setDuration(duration).setStartDelay(startDelay);
+        pathAnim.anim(this);
+        return pathAnim ;
     }
 
 
@@ -173,16 +199,15 @@ public class NPNView extends View {
         // 画最顶部的那跟线
         canvas.drawLine(0, mDrawCtrl.topLineY, lineLength, mDrawCtrl.topLineY, mPaint);
         // 画最底部的那跟线
-        canvas.drawLine(mDrawCtrl.size-lineLength, mDrawCtrl.bottomLineY, mDrawCtrl.size, mDrawCtrl.bottomLineY, mPaint);
+        canvas.drawLine(mDrawCtrl.size - lineLength, mDrawCtrl.bottomLineY, mDrawCtrl.size, mDrawCtrl.bottomLineY, mPaint);
         // 画信号输入的线
         onDrawInputLine(canvas);
         // 画信号输出的线
         onDrawOutputLine(canvas);
-        // 画电阻
-        onDrawRes(canvas);
         // 画三极管
         onDrawNPNLine(canvas);
-
+        // 画电阻
+        onDrawRes(canvas);
     }
 
     private void onDrawInputLine(Canvas canvas) {
@@ -194,7 +219,7 @@ public class NPNView extends View {
     }
 
     private void onDrawOutputLine(Canvas canvas) {
-        canvas.drawPath(mOutputPath, mPaint);
+        mOutputPathAnim.onDraw(canvas);
     }
 
     /**
@@ -214,14 +239,13 @@ public class NPNView extends View {
     }
 
     private void onDrawRes(Canvas canvas) {
-        canvas.drawPath(mResPath1, mPaint);
-        canvas.drawPath(mResPath2, mPaint);
-        canvas.drawPath(mResPath3, mPaint);
-        canvas.drawPath(mResPath4, mPaint);
-        canvas.drawPath(mResPath5, mPaint);
-        canvas.drawPath(mResPath6, mPaint);
+        mResPathAnim1.onDraw(canvas);
+        mResPathAnim2.onDraw(canvas);
+        mResPathAnim3.onDraw(canvas);
+        mResPathAnim4.onDraw(canvas);
+        mResPathAnim5.onDraw(canvas);
+        mResPathAnim6.onDraw(canvas);
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

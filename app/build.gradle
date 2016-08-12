@@ -45,5 +45,9 @@ dependencies {
     apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    // 图表
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+    // log
+    compile 'com.jakewharton.timber:timber:4.1.2'
     compile project(':path')
 }

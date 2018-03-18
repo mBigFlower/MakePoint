@@ -1,4 +1,5 @@
-﻿# 前言
+
+# 前言
 第一篇开源项目，算是个动画小集锦吧。持续更新。
 
 # 描述
@@ -16,3 +17,12 @@
 
 # 预览
 ![MakePoint](http://7xjizl.com1.z0.glb.clouddn.com/makepointGifPoint1.gif)
+
+# Libs
+比较简单的应用，没用啥库。
+
+- Gson
+- path  自己写的一个画板库
+- GreenDao 数据库
+
+如果b不喜欢GreenDao，请移步light分支

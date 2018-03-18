@@ -22,7 +22,6 @@
 
 - Gson
 - path  自己写的一个画板库
-- GreenDao 数据库
 
-如果不喜欢GreenDao，可以移步light分支，用file存储数据
+master分支使用GreenDao做数据库
 

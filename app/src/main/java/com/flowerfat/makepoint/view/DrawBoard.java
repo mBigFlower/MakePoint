@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.flowerfat.makepoint.entity.db.Point;
+import com.flowerfat.makepoint.entity.db.PointManager;
 import com.flowerfat.makepoint.utils.Utils;
 import com.flowerfat.path.PathPlus;
 
@@ -164,7 +165,7 @@ public class DrawBoard extends View implements View.OnTouchListener {
         }
         Point point = Utils.color2Point(backgroundColor);
         point.setImgPath(mPath.pathPoints2Str());
-        point.update();
+        PointManager.get().save();
 
         return "保存成功";
     }

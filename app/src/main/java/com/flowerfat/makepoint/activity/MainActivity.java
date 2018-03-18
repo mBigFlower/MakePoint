@@ -17,7 +17,7 @@ import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 
 import com.flowerfat.makepoint.Constants.PointColor;
-import com.flowerfat.makepoint.Constants.PointManager;
+import com.flowerfat.makepoint.entity.db.PointManager;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.utils.Utils;
 import com.flowerfat.makepoint.view.ExitView;
@@ -220,10 +220,10 @@ public class MainActivity extends AppCompatActivity {
      * 展示所有的board内容, 文字和
      */
     private void showOldBoards() {
-        qbTopLeft.onResume(PointManager.get().point1);
-        qbTopRight.onResume(PointManager.get().point2);
-        qbBottomLeft.onResume(PointManager.get().point3);
-        qbBottomRight.onResume(PointManager.get().point4);
+        qbTopLeft.onResume(PointManager.get().getPoint1());
+        qbTopRight.onResume(PointManager.get().getPoint2());
+        qbBottomLeft.onResume(PointManager.get().getPoint3());
+        qbBottomRight.onResume(PointManager.get().getPoint4());
     }
 
     private void goSetting() {

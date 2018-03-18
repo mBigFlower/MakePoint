@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.flowerfat.makepoint.Constants.PointColor;
-import com.flowerfat.makepoint.Constants.PointManager;
+import com.flowerfat.makepoint.entity.db.PointManager;
 import com.flowerfat.makepoint.MyApplication;
 import com.flowerfat.makepoint.entity.db.Point;
 
@@ -51,13 +51,13 @@ public class Utils {
 
     public static Point color2Point(int color){
         if(color == PointColor.COLOR_1) {
-            return PointManager.get().point1;
+            return PointManager.get().getPoint1();
         } else if(color == PointColor.COLOR_2) {
-            return PointManager.get().point2;
+            return PointManager.get().getPoint2();
         } else if(color == PointColor.COLOR_3) {
-            return PointManager.get().point3;
+            return PointManager.get().getPoint3();
         } else{
-            return PointManager.get().point4;
+            return PointManager.get().getPoint4();
         }
     }
 

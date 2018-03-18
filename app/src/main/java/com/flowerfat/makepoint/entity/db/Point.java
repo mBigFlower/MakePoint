@@ -1,39 +1,28 @@
 package com.flowerfat.makepoint.entity.db;
 
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ModelContainer;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
-
 /**
  * Created by 明明大美女 on 2016/3/20.
  */
-@ModelContainer
-@Table(database = MPDatabase.class)
-public class Point extends BaseModel {
+public class Point {
 
-    @PrimaryKey(autoincrement = true)
     int id;
-    @Column
+    int level;
     String title;
-    @Column
     String doneTime;
-    @Column
     String date;
-    @Column
     String imgPath;
 
     public Point(){
         title = "";
-        this.save();
     }
 
-    public Point(String date) {
-        this.date = date;
+    public Point(int level, String date) {
+        setLevel(level);
+        setDate(date);
         title = "";
-        this.save();
     }
+    public int getLevel(){return level;}
+    public void setLevel(int level){this.level = level;}
 
     public String getTitle() {
         return title;

@@ -3,7 +3,8 @@ package com.flowerfat.makepoint.fragment;
 import android.graphics.Color;
 
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.entity.db.Points;
+import com.flowerfat.makepoint.entity.db.OneDayPoints;
+import com.flowerfat.makepoint.entity.db.PointManager;
 import com.flowerfat.makepoint.fragment.base.BaseFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -13,7 +14,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,31 +44,32 @@ public class HistoryChartFragment extends BaseFragment {
     }
 
     private void initChartData() {
+        // TODO 这里注释了
         // 获取数据
-        List<Points> pointsLists = new Select().from(Points.class).queryList();
-        // list反向
-        Collections.reverse(pointsLists);
-        List<Entry> entries = new ArrayList<Entry>();
-//        for (Points points : pointsLists) {
-            entries.add(new Entry(1f, 5f));
-            entries.add(new Entry(2f, 15f));
-            entries.add(new Entry(3f, 53f));
-            entries.add(new Entry(4f, 45f));
-//        }
-
-        LineDataSet dataSet = new LineDataSet(entries, "1 2 3"); // add entries to dataset
-        dataSet.setColor(Color.WHITE);
-        dataSet.setValueTextColor(Color.WHITE);
-        dataSet.setLineWidth(6);
-        dataSet.setCircleRadius(6);
-        dataSet.setCircleColor(Color.WHITE);
-        dataSet.setValueTextColor(Color.TRANSPARENT);
-
-        LineData lineData = new LineData(dataSet);
-        mLineChart.setData(lineData);
-
-        setupChart(mLineChart, lineData, Color.rgb(137, 230, 81));
-        mLineChart.invalidate();
+//        List<OneDayPoints> pointsLists = PointManager.get().getAllPoints();
+//        // list反向
+//        Collections.reverse(pointsLists);
+//        List<Entry> entries = new ArrayList<Entry>();
+////        for (OneDayPoints points : pointsLists) {
+//            entries.add(new Entry(1f, 5f));
+//            entries.add(new Entry(2f, 15f));
+//            entries.add(new Entry(3f, 53f));
+//            entries.add(new Entry(4f, 45f));
+////        }
+//
+//        LineDataSet dataSet = new LineDataSet(entries, "1 2 3"); // add entries to dataset
+//        dataSet.setColor(Color.WHITE);
+//        dataSet.setValueTextColor(Color.WHITE);
+//        dataSet.setLineWidth(6);
+//        dataSet.setCircleRadius(6);
+//        dataSet.setCircleColor(Color.WHITE);
+//        dataSet.setValueTextColor(Color.TRANSPARENT);
+//
+//        LineData lineData = new LineData(dataSet);
+//        mLineChart.setData(lineData);
+//
+//        setupChart(mLineChart, lineData, Color.rgb(137, 230, 81));
+//        mLineChart.invalidate();
     }
 
     private void test(){

@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
-import com.flowerfat.makepoint.entity.db.Points;
+import com.flowerfat.makepoint.entity.db.OneDayPoints;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHolder> {
 
 
-    private List<Points> mDatas = new ArrayList<>();
+    private List<OneDayPoints> mDatas = new ArrayList<>();
     private Context context ;
 
     public PointsAdapter(Context context){
@@ -54,7 +54,7 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHo
         return mDatas.size();
     }
 
-    public void addItems(List<Points> mDatas){
+    public void addItems(List<OneDayPoints> mDatas){
         this.mDatas = mDatas ;
         notifyDataSetChanged();
     }

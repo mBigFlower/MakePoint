@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 //apply plugin: 'me.tatarka.retrolambda'
 
 def dbflow_version = "3.0.0-beta6"
@@ -12,8 +12,8 @@ android {
         applicationId "com.flowerfat.makepoint"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 84
-        versionName "0.84"
+        versionCode 99
+        versionName "0.99"
     }
     buildTypes {
         release {
@@ -30,6 +30,7 @@ android {
 //    }
 }
 
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:design:23.1.1'
@@ -42,12 +43,12 @@ dependencies {
     // RxJava 响应式编程
     //    compile 'io.reactivex:rxjava:1.0.14'
     //    compile 'io.reactivex:rxandroid:1.0.1'
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
     // 图表
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     // log
     compile 'com.jakewharton.timber:timber:4.1.2'
     compile project(':path')
+
+    compile 'org.apache.httpcomponents:httpcore:4.4.4'
 }

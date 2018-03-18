@@ -1,48 +1,34 @@
 package com.flowerfat.makepoint.entity.db;
 
 import com.flowerfat.makepoint.utils.DateUtil;
-import com.raizlabs.android.dbflow.annotation.Column;
-import com.raizlabs.android.dbflow.annotation.ForeignKey;
-import com.raizlabs.android.dbflow.annotation.ModelContainer;
-import com.raizlabs.android.dbflow.annotation.PrimaryKey;
-import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.structure.BaseModel;
 
 /**
  * Created by 明明大美女 on 2016/4/8.
  */
-@ModelContainer
-@Table(database = MPDatabase.class)
-public class Points extends BaseModel {
+public class OneDayPoints {
 
-    public Points() {
+    private int id;
+    private String date;
+    private Point point1;
+    private Point point2;
+    private Point point3;
+    private Point point4;
+
+    public OneDayPoints() {
         date = DateUtil.getDate(DateUtil.YMD);
+        this.point1 = new Point(1, date);
+        this.point2 = new Point(2, date);
+        this.point3 = new Point(3, date);
+        this.point4 = new Point(4, date);
     }
 
-    public Points(Point point1, Point point2, Point point3, Point point4) {
+    public OneDayPoints(Point point1, Point point2, Point point3, Point point4) {
         this.date = DateUtil.getDate(DateUtil.YMD);
         this.point1 = point1;
         this.point2 = point2;
         this.point3 = point3;
         this.point4 = point4;
     }
-
-    @PrimaryKey(autoincrement = true)
-    private int id;
-    @Column
-    private String date;
-    @Column
-    @ForeignKey(saveForeignKeyModel = false)
-    private Point point1;
-    @Column
-    @ForeignKey(saveForeignKeyModel = false)
-    private Point point2;
-    @Column
-    @ForeignKey(saveForeignKeyModel = false)
-    private Point point3;
-    @Column
-    @ForeignKey(saveForeignKeyModel = false)
-    private Point point4;
 
     public int getId() {
         return id;
@@ -90,5 +76,9 @@ public class Points extends BaseModel {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void onDestroy() {
+        point1 = point2 = point3 = point4 = null;
     }
 }

@@ -8,7 +8,7 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
-import com.flowerfat.makepoint.Constants.PointManager;
+import com.flowerfat.makepoint.entity.db.PointManager;
 import com.flowerfat.makepoint.MyApplication;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.activity.MainActivity;

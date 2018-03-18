@@ -10,12 +10,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.flowerfat.makepoint.Constants.PointManager;
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.activity.base.AnimActivity;
 import com.flowerfat.makepoint.entity.db.Point;
+import com.flowerfat.makepoint.entity.db.PointManager;
 import com.flowerfat.makepoint.utils.NotificationUtil;
 import com.flowerfat.makepoint.utils.ScreenUtil;
 import com.flowerfat.makepoint.utils.Utils;
@@ -43,6 +44,8 @@ public class TaskActivity extends AnimActivity {
     View viewHline;
     @Bind(R.id.task_board)
     DrawBoardView mBoardView;
+    @Bind(R.id.task_edit_parent)
+    RelativeLayout contentEtLayout;
 
     /**
      * 其他activity打开这个activity所调用的方法
@@ -168,11 +171,11 @@ public class TaskActivity extends AnimActivity {
     @Override
     public void onStateChange(int state) {
         if (RevealBackgroundView.STATE_FINISHED == state) {
-            contentEt.setVisibility(View.VISIBLE);
+            contentEtLayout.setVisibility(View.VISIBLE);
             viewHline.setVisibility(View.VISIBLE);
             mBoardView.setVisibility(View.VISIBLE);
         } else if (RevealBackgroundView.STATE_FINISHED > state) {
-            contentEt.setVisibility(View.INVISIBLE);
+            contentEtLayout.setVisibility(View.INVISIBLE);
             viewHline.setVisibility(View.INVISIBLE);
             mBoardView.setVisibility(View.INVISIBLE);
         }
@@ -197,12 +200,9 @@ public class TaskActivity extends AnimActivity {
      * @param text
      */
     private void savePoint(String text) {
-        if(PointManager.get().points == null) {
-            PointManager.get().createPoints();
-        }
         Point point = Utils.color2Point(fillColor);
         point.setTitle(text);
-        point.update();
+        PointManager.get().save();
         NotificationUtil.refresh();
     }
 

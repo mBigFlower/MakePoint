@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.adapter.PointsAdapter;
-import com.flowerfat.makepoint.entity.db.Points;
+import com.flowerfat.makepoint.entity.db.OneDayPoints;
+import com.flowerfat.makepoint.entity.db.PointManager;
 import com.flowerfat.makepoint.fragment.base.BaseFragment;
 import com.flowerfat.makepoint.view.DividerItemDecoration;
-import com.raizlabs.android.dbflow.sql.language.Select;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,9 +46,8 @@ public class HistoryListFragment extends BaseFragment {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(
                 getContext(), DividerItemDecoration.VERTICAL_LIST));
 
-
         // 获取数据
-        List<Points> pointsLists = new Select().from(Points.class).queryList();
+        List<OneDayPoints> pointsLists = PointManager.get().getAllPoints();
         // list反向
         Collections.reverse(pointsLists);
         mAdapter.addItems(pointsLists);

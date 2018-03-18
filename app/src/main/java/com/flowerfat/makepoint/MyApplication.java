@@ -2,8 +2,7 @@ package com.flowerfat.makepoint;
 
 import android.app.Application;
 
-import com.raizlabs.android.dbflow.config.FlowConfig;
-import com.raizlabs.android.dbflow.config.FlowManager;
+import com.flowerfat.makepoint.entity.db.PointManager;
 
 import timber.log.Timber;
 
@@ -20,8 +19,7 @@ public class MyApplication extends Application {
 
         myApplication = this; // 单例
 
-        //DBflow
-        FlowManager.init(new FlowConfig.Builder(this).build());
+        PointManager.get();
 
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());

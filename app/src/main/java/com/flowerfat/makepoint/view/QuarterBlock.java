@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.entity.db.Point;
+import com.flowerfat.makepoint.entity.db.PointManager;
 import com.flowerfat.makepoint.utils.DateUtil;
 import com.flowerfat.makepoint.utils.Utils;
 
@@ -114,7 +115,7 @@ public class QuarterBlock extends RelativeLayout {
         if("".equals(mPoint.getTitle()) && mPoint.getImgPath() == null)
             return ;
         mPoint.setDoneTime(doneTime);
-        mPoint.update();
+        PointManager.get().save();
         if (doneTime == null) {
             mDoneMaskTv.setVisibility(GONE);
         } else {

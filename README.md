@@ -25,4 +25,4 @@
 - path  自己写的一个画板库
 - GreenDao 数据库
 
-如果b不喜欢GreenDao，请移步light分支
+如果不喜欢GreenDao，请移步light分支，使用File替代

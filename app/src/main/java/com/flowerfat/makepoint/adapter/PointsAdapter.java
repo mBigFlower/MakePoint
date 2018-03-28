@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.flowerfat.makepoint.R;
 import com.flowerfat.makepoint.entity.db.OneDayPoints;
+import com.flowerfat.makepoint.entity.db.Point;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,10 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHo
 
     @Override
     public void onBindViewHolder(PointsAdapter.CardViewHolder holder, int position) {
-        holder.text1.setText(mDatas.get(position).getPoint1().getTitle());
-        holder.text2.setText(mDatas.get(position).getPoint2().getTitle());
-        holder.text3.setText(mDatas.get(position).getPoint3().getTitle());
-        holder.text4.setText(mDatas.get(position).getPoint4().getTitle());
+        holder.text1.setText(getPointText(mDatas.get(position).getPoint1()));
+        holder.text2.setText(getPointText(mDatas.get(position).getPoint2()));
+        holder.text3.setText(getPointText(mDatas.get(position).getPoint3()));
+        holder.text4.setText(getPointText(mDatas.get(position).getPoint4()));
 
         if(mDatas.get(position).getDate() != null){
             String today = mDatas.get(position).getDate().toString();
@@ -72,5 +73,17 @@ public class PointsAdapter extends RecyclerView.Adapter<PointsAdapter.CardViewHo
             text4 = (TextView)view.findViewById(R.id.item_block4);
         }
 
+    }
+
+
+    ///////////
+    // 其他
+    ///////////
+    private String getPointText(Point point){
+        boolean isDone = point.getDoneTime().isEmpty();
+        if(isDone)
+            return point.getTitle() + " √";
+        else
+            return point.getTitle();
     }
 }
